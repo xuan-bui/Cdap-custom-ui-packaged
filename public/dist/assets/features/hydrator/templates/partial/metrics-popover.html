@@ -1,0 +1,32 @@
+
+
+<div class="popover metrics-popover">
+  <div class="arrow"></div>
+  <div class="popover-title">
+    <h4>
+      <span>{{ data.node.name }}</span>
+    </h4>
+    <h5>{{ version }}</h5>
+  </div>
+  <div class="popover-content">
+    <div class="metrics-content">
+      <div class="metrics-records-out">
+        <span ng-if="data.node.type.indexOf('sink') === -1">
+          <h5>Records Out</h5>
+          <p ng-if="data.metrics.recordsOut">{{ data.metrics.recordsOut | commaSeparatedNumber }}</p>
+          <p ng-if="!data.metrics.recordsOut">0</p>
+        </span>
+        <span ng-if="data.node.type.indexOf('sink') !== -1">
+          <h5>Records In</h5>
+          <p ng-if="data.metrics.recordsIn">{{ data.metrics.recordsIn | commaSeparatedNumber }}</p>
+          <p ng-if="!data.metrics.recordsIn">0</p>
+        </span>
+      </div>
+      <div class="metrics-errors">
+        <h5>Errors</h5>
+        <p ng-if="data.metrics.recordsError">{{ data.metrics.recordsError | commaSeparatedNumber }}</p>
+        <p ng-if="!data.metrics.recordsError">0</p>
+      </div>
+    </div>
+  </div>
+</div>

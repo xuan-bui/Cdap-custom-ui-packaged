@@ -1,0 +1,51 @@
+
+
+<!DOCTYPE html>
+<html lang="en" ng-app="cdap-ui" ng-csp>
+
+<head>
+  
+  <title></title>
+
+  <link rel="icon" href="/cdap_assets/img/favicon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Cask Data Application Platform">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base href="/pipelines/">
+  
+
+  <link rel="stylesheet" type="text/css" href="/assets/bundle/lib-1165cff74d.css">
+  <link rel="stylesheet" type="text/css" href="/assets/bundle/app-2e3106c0cb.css">
+</head>
+
+<body ng-class="bodyClass" class="cdap-body-container" ng-controller="BodyCtrl as BodyCtrl" ng-keyup="onSearch($event)">
+  <my-global-navbar></my-global-navbar>
+  <main class="container" id="app-container">
+    <div ng-if="!BodyCtrl.pageLevelError" ui-view></div>
+    <page403 ng-if="BodyCtrl.pageLevelError && BodyCtrl.pageLevelError.errorCode === 403" message="BodyCtrl.pageLevelError.message"></page403>
+    <page404 ng-if="BodyCtrl.pageLevelError && BodyCtrl.pageLevelError.errorCode === 404" message="BodyCtrl.pageLevelError.message"></page404>
+    <page500 ng-if="BodyCtrl.pageLevelError && BodyCtrl.pageLevelError.errorCode === 500" message="BodyCtrl.pageLevelError.message"></page500>
+  </main>
+
+  <div class="alerts" id="alerts" data-cy="valium-banner-hydrator"></div>
+  <loading-icon></loading-icon>
+  <loading-indicator></loading-indicator>
+  <status-alert-message></status-alert-message>
+  <global-footer></global-footer>
+  <auth-refresher></auth-refresher>
+  <api-error-dialog ng-if="BodyCtrl.apiError"></api-error-dialog>
+
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/config.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/ui-config.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/ui-theme.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/assets/bundle/polyfill-3327cc736b.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/assets/bundle/lib-57fe411d6c.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/common_assets/common-lib-new.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/common_assets/common-new.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/assets/bundle/hydrator-11f6456a7a.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/assets/bundle/common-6a8335314d.es6.js"></script>
+  <script type="text/javascript" nonce="<_= nonceVal _>" src="/assets/bundle/tpl-5a5f718d08.js"></script>
+</body>
+
+</html>

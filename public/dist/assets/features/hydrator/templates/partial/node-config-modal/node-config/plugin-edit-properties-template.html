@@ -1,0 +1,19 @@
+
+
+<form class="form-horizontal">
+
+  <div class="label-input-container">
+    <widget-wrapper plugin-property="HydratorPlusPlusNodeConfigCtrl.labelConfig.pluginProperty" widget-property="HydratorPlusPlusNodeConfigCtrl.labelConfig.widgetProperty" value="HydratorPlusPlusNodeConfigCtrl.state.node.plugin.label" on-change="HydratorPlusPlusNodeConfigCtrl.handleLabelChange" disabled="isDisabled" hide-description="true"></widget-wrapper>
+    <small class="text-danger" ng-if="HydratorPlusPlusNodeConfigCtrl.state.nodeLabelError">{{HydratorPlusPlusNodeConfigCtrl.state.nodeLabelError}}</small>
+  </div>
+
+  <div class="text-danger empty-hidden-properties-message" ng-if="HydratorPlusPlusNodeConfigCtrl.emptyHiddenFields.length">
+    Plugin contains hidden propertie(s) {{HydratorPlusPlusNodeConfigCtrl.emptyHiddenFields.join(', ')}} that do not have
+    default values.
+    Please provide a default value in the 'widget-attributes' section of the widget JSON.
+  </div>
+</form>
+
+<div>
+  <configuration-group plugin-properties="HydratorPlusPlusNodeConfigCtrl.state.node._backendProperties" widget-json="HydratorPlusPlusNodeConfigCtrl.widgetJson" values="HydratorPlusPlusNodeConfigCtrl.state.node.plugin.properties" on-change="HydratorPlusPlusNodeConfigCtrl.onPropertiesChange" input-schema="HydratorPlusPlusNodeConfigCtrl.state.node.inputSchema" disabled="isDisabled" errors="HydratorPlusPlusNodeConfigCtrl.propertyErrors" validate-properties="HydratorPlusPlusNodeConfigCtrl.validatePluginProperties" locked-properties="HydratorPlusPlusNodeConfigCtrl.state.node.lock"></configuration-group>
+</div>

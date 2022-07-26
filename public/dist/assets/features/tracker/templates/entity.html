@@ -1,0 +1,30 @@
+
+<div class="tracker-entity-top-bar" ng-if="!$state.params.iframe">
+  <div class="back-button text-center" ng-click="EntityController.goBack()" ng-if="$state.params.searchTerm" uib-tooltip="Back to search results" tooltip-popup-delay="300" tooltip-placement="right">
+    <span class="fa fa-caret-left"></span>
+  </div>
+
+  <div class="entity-detail" ng-class="{ 'offset': !$state.params.searchTerm }">
+    <h3 uib-tooltip="{{ $state.params.entityId }}" tooltip-enable="$state.params.entityId.length > 50" tooltip-popup-delay="300">
+      {{ ::$state.params.entityId | myEllipsis: 50 }}
+    </h3>
+    <div class="entity-type">
+      <span class="{{EntityController.entityInfo.icon}}"></span>
+      <span>{{ ::EntityController.entityInfo.name }}</span>
+    </div>
+  </div>
+
+  <div class="tab-options">
+    <ul class="list-inline">
+      <li ng-class="{'active': $state.is('tracker.detail.entity.metadata')}">
+        <a ui-sref="tracker.detail.entity.metadata">Summary</a>
+      </li>
+      <li ng-class="{'active': $state.is('tracker.detail.entity.lineage')}" ng-if="EntityController.showLineage !== false">
+        <a ui-sref="tracker.detail.entity.lineage">Lineage</a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<ui-view></ui-view>

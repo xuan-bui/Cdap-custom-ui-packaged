@@ -1,0 +1,13 @@
+
+
+<div class="modal-body">
+  <div>
+    <span>The dataset '{{ datasetName }}' already exists. The schema of the sink '{{ sinkName }}' will be updated to the schema of '{{ datasetName }}'. Are you sure you want to continue?</span>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="pull-right">
+    <button class="btn btn-grey-cancel" ng-click="$close(false)">No</button>
+    <button class="btn btn-blue" ng-click="$close(true)">Yes</button>
+  </div>
+</div>
