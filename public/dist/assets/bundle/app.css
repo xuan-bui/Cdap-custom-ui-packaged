@@ -3640,119 +3640,6 @@ my-complex-schema my-embedded-schema-selector my-record-schema > my-complex-sche
 }
 
 /*
- * Copyright © 2019 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
- * Copyright © 2015-2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
-  New start. Define colors used throughout CDAP. Use these colors from now on.
-*/
-/*
- * Copyright © 2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-.dag-minimap {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: calc(250px + 5px * 2 + 2px * 2);
-  height: calc(150px + 5px * 2 + 2px * 2);
-  border: 2px solid #999999;
-  border-radius: 4px;
-  background-color: #dbdbdb;
-  padding: 5px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
-  z-index: 10;
-}
-.dag-minimap .nodes-container {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-.dag-minimap .node {
-  position: absolute;
-  background-color: #4586f3;
-  border: 1px solid #666666;
-}
-.dag-minimap .node.realtimesource,
-.dag-minimap .node.streamingsource,
-.dag-minimap .node.batchsource {
-  background-color: #48c038;
-}
-.dag-minimap .node.realtimesink,
-.dag-minimap .node.batchsink,
-.dag-minimap .node.sparksink {
-  background-color: #8367df;
-}
-.dag-minimap .node.transform {
-  background-color: #4586f3;
-}
-.dag-minimap .node.errortransform {
-  background-color: #d40001;
-}
-.dag-minimap .node.alertpublisher {
-  background-color: #ffba01;
-}
-.dag-minimap .node.action {
-  background-color: #988470;
-}
-.dag-minimap .node.sparkprogram {
-  background-color: #454a57;
-}
-.dag-minimap .node.condition {
-  background-color: #4e5568;
-}
-.dag-minimap .viewport-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-.dag-minimap .viewport-box {
-  position: absolute;
-  background-color: rgba(88, 183, 246, 0.3);
-  border: 2px solid #5a84e4;
-}
-
-/*
  * Copyright © 2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -4944,6 +4831,119 @@ my-datetime-picker input[type=range]:focus::-ms-fill-upper {
 }
 
 /*
+ * Copyright © 2019 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+ * Copyright © 2015-2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+  New start. Define colors used throughout CDAP. Use these colors from now on.
+*/
+/*
+ * Copyright © 2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+.dag-minimap {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: calc(250px + 5px * 2 + 2px * 2);
+  height: calc(150px + 5px * 2 + 2px * 2);
+  border: 2px solid #999999;
+  border-radius: 4px;
+  background-color: #dbdbdb;
+  padding: 5px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+.dag-minimap .nodes-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.dag-minimap .node {
+  position: absolute;
+  background-color: #4586f3;
+  border: 1px solid #666666;
+}
+.dag-minimap .node.realtimesource,
+.dag-minimap .node.streamingsource,
+.dag-minimap .node.batchsource {
+  background-color: #48c038;
+}
+.dag-minimap .node.realtimesink,
+.dag-minimap .node.batchsink,
+.dag-minimap .node.sparksink {
+  background-color: #8367df;
+}
+.dag-minimap .node.transform {
+  background-color: #4586f3;
+}
+.dag-minimap .node.errortransform {
+  background-color: #d40001;
+}
+.dag-minimap .node.alertpublisher {
+  background-color: #ffba01;
+}
+.dag-minimap .node.action {
+  background-color: #988470;
+}
+.dag-minimap .node.sparkprogram {
+  background-color: #454a57;
+}
+.dag-minimap .node.condition {
+  background-color: #4e5568;
+}
+.dag-minimap .viewport-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.dag-minimap .viewport-box {
+  position: absolute;
+  background-color: rgba(88, 183, 246, 0.3);
+  border: 2px solid #5a84e4;
+}
+
+/*
  * Copyright © 2016 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5720,6 +5720,61 @@ my-post-run-action-wizard .close-button {
 }
 
 /*
+ * Copyright © 2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+*/
+/*
+ * Copyright © 2015-2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+  New start. Define colors used throughout CDAP. Use these colors from now on.
+*/
+.metrics-content {
+  font-size: 11px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.metrics-content.disabled {
+  cursor: not-allowed;
+}
+.metrics-content.disabled .node-metrics-labels {
+  cursor: inherit;
+}
+.metrics-content .node-metrics-labels {
+  cursor: pointer;
+}
+.metrics-content .node-metrics-labels .metric-records-out {
+  color: #0099ff;
+}
+.metrics-content .node-metrics-labels .metric-errors {
+  color: #D15668;
+}
+
+/*
  * Copyright © 2016-2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5788,61 +5843,6 @@ my-post-run-actions .table.table-bordered td:nth-child(3) {
 my-post-run-actions .table.table-bordered th:last-child,
 my-post-run-actions .table.table-bordered td:last-child {
   width: 53px;
-}
-
-/*
- * Copyright © 2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
-*/
-/*
- * Copyright © 2015-2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
-  New start. Define colors used throughout CDAP. Use these colors from now on.
-*/
-.metrics-content {
-  font-size: 11px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.metrics-content.disabled {
-  cursor: not-allowed;
-}
-.metrics-content.disabled .node-metrics-labels {
-  cursor: inherit;
-}
-.metrics-content .node-metrics-labels {
-  cursor: pointer;
-}
-.metrics-content .node-metrics-labels .metric-records-out {
-  color: #0099ff;
-}
-.metrics-content .node-metrics-labels .metric-errors {
-  color: #D15668;
 }
 
 /*
@@ -7113,53 +7113,6 @@ my-sql-conditions .sql-conditions-container .rule-action-buttons .btn.btn-field-
 }
 
 /*
- * Copyright © 2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-.widget-textarea-validate .textarea-container {
-  position: relative;
-}
-.widget-textarea-validate .textarea-container textarea {
-  padding-right: 75px;
-  font-family: monospace;
-}
-.widget-textarea-validate .textarea-container .validate-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-/*
- * Copyright © 2018 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-toggle-switch {
-  height: 32px;
-}
-
-/*
  * Copyright © 2016 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -7272,6 +7225,53 @@ my-sql-selector .sql-select-fields-container .stage-container .table-container .
   z-index: 1050;
   margin-top: 0;
   border: 0;
+}
+
+/*
+ * Copyright © 2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+.widget-textarea-validate .textarea-container {
+  position: relative;
+}
+.widget-textarea-validate .textarea-container textarea {
+  padding-right: 75px;
+  font-family: monospace;
+}
+.widget-textarea-validate .textarea-container .validate-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/*
+ * Copyright © 2018 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+toggle-switch {
+  height: 32px;
 }
 
 /*
@@ -7553,31 +7553,6 @@ body.state-hydrator-create.state-hydrator .dataprep-parse-modal .dropdown-toggle
 }
 
 /*
- * Copyright © 2016 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-get-schema {
-  position: relative;
-}
-.modal.hydrator-modal.get-schema-modal [my-ace-editor] {
-  margin: 10px 0;
-}
-.modal.hydrator-modal.get-schema-modal .btn.btn-default {
-  margin: 0 0 10px 0;
-}
-
-/*
  * Copyright © 2016-2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -7611,6 +7586,31 @@ body.theme-cdap .modal.hydrator-modal.output-schema-modal .modal-dialog .modal-c
 body.theme-cdap .modal.hydrator-modal.output-schema-modal .modal-dialog .modal-content .modal-body .action-button-container {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+/*
+ * Copyright © 2016 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+get-schema {
+  position: relative;
+}
+.modal.hydrator-modal.get-schema-modal [my-ace-editor] {
+  margin: 10px 0;
+}
+.modal.hydrator-modal.get-schema-modal .btn.btn-default {
+  margin: 0 0 10px 0;
 }
 
 /*
