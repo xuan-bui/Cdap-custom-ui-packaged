@@ -2049,73 +2049,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   "name": "cdap-ui",
   "v": "6.2.0"
 });
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /cask-angular-eventpipe/eventpipe.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').service('EventPipe', function () {
-    var events = {};
-
-    this.on = function (event, cb) {
-      if (!events[event]) {
-        events[event] = [cb];
-      } else {
-        events[event].push(cb);
-      }
-
-      return function () {
-        if (!events[event]) {
-          return;
-        }
-
-        var index = events[event].indexOf(cb);
-
-        if (index !== -1) {
-          events[event].splice(index, 1);
-        }
-      };
-    };
-
-    this.emit = function (event) {
-      var args = Array.prototype.slice.call(arguments, 1);
-
-      if (!events[event]) {
-        return;
-      }
-
-      for (var i = 0; i < events[event].length; i++) {
-        events[event][i].apply(this, args);
-      }
-    };
-
-    this.cancelEvent = function (event) {
-      if (events[event]) {
-        delete events[event];
-      }
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
@@ -2331,6 +2264,73 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 
     this.$get = function () {
       return Promise;
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cask-angular-eventpipe/eventpipe.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').service('EventPipe', function () {
+    var events = {};
+
+    this.on = function (event, cb) {
+      if (!events[event]) {
+        events[event] = [cb];
+      } else {
+        events[event].push(cb);
+      }
+
+      return function () {
+        if (!events[event]) {
+          return;
+        }
+
+        var index = events[event].indexOf(cb);
+
+        if (index !== -1) {
+          events[event].splice(index, 1);
+        }
+      };
+    };
+
+    this.emit = function (event) {
+      var args = Array.prototype.slice.call(arguments, 1);
+
+      if (!events[event]) {
+        return;
+      }
+
+      for (var i = 0; i < events[event].length; i++) {
+        events[event][i].apply(this, args);
+      }
+    };
+
+    this.cancelEvent = function (event) {
+      if (events[event]) {
+        delete events[event];
+      }
     };
   });
 })({
@@ -3126,6 +3126,111 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /dashboard/dashboardhelper.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('DashboardHelper', ["MyCDAPDataSource", "MyChartHelpers", "MyMetricsQueryHelper", function (MyCDAPDataSource, MyChartHelpers, MyMetricsQueryHelper) {
+    var dataSrc = new MyCDAPDataSource();
+
+    function startPolling(widget) {
+      widget.pollId = dataSrc.poll({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        interval: widget.settings.interval,
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }, function (res) {
+        widget.formattedData = formatData(res, widget);
+      }).__pollId__;
+    }
+
+    function stopPolling(widget) {
+      dataSrc.stopPoll(widget.pollId);
+    }
+
+    function startPollDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        startPolling(widget);
+      });
+    }
+
+    function stopPollDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        stopPolling(widget);
+      });
+    }
+
+    function fetchData(widget) {
+      return dataSrc.request({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }).then(function (res) {
+        widget.formattedData = formatData(res, widget);
+      });
+    }
+
+    function pollData(widget) {
+      return dataSrc.poll({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }).then(function (res) {
+        widget.formattedData = formatData(res, widget);
+      });
+    }
+
+    function fetchDataDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        fetchData(widget);
+      });
+    }
+
+    function formatData(res, widget) {
+      var processedData = MyChartHelpers.processData(res, 'qid', widget.metric.names, widget.metric.resolution, widget.settings.aggregate);
+      processedData = MyChartHelpers.c3ifyData(processedData, widget.metric, widget.metricAlias);
+      var data = {
+        x: 'x',
+        columns: processedData.columns,
+        keys: {
+          x: 'x'
+        }
+      };
+      return data;
+    }
+
+    return {
+      startPolling: startPolling,
+      stopPolling: stopPolling,
+      startPollDashboard: startPollDashboard,
+      stopPollDashboard: stopPollDashboard,
+      fetchData: fetchData,
+      pollData: pollData,
+      fetchDataDashboard: fetchDataDashboard
+    };
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /data/cdap-url.js */
 
   /*
@@ -3260,111 +3365,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
     };
 
     return MyCDAPDataSource;
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /dashboard/dashboardhelper.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('DashboardHelper', ["MyCDAPDataSource", "MyChartHelpers", "MyMetricsQueryHelper", function (MyCDAPDataSource, MyChartHelpers, MyMetricsQueryHelper) {
-    var dataSrc = new MyCDAPDataSource();
-
-    function startPolling(widget) {
-      widget.pollId = dataSrc.poll({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        interval: widget.settings.interval,
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }, function (res) {
-        widget.formattedData = formatData(res, widget);
-      }).__pollId__;
-    }
-
-    function stopPolling(widget) {
-      dataSrc.stopPoll(widget.pollId);
-    }
-
-    function startPollDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        startPolling(widget);
-      });
-    }
-
-    function stopPollDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        stopPolling(widget);
-      });
-    }
-
-    function fetchData(widget) {
-      return dataSrc.request({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }).then(function (res) {
-        widget.formattedData = formatData(res, widget);
-      });
-    }
-
-    function pollData(widget) {
-      return dataSrc.poll({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }).then(function (res) {
-        widget.formattedData = formatData(res, widget);
-      });
-    }
-
-    function fetchDataDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        fetchData(widget);
-      });
-    }
-
-    function formatData(res, widget) {
-      var processedData = MyChartHelpers.processData(res, 'qid', widget.metric.names, widget.metric.resolution, widget.settings.aggregate);
-      processedData = MyChartHelpers.c3ifyData(processedData, widget.metric, widget.metricAlias);
-      var data = {
-        x: 'x',
-        columns: processedData.columns,
-        keys: {
-          x: 'x'
-        }
-      };
-      return data;
-    }
-
-    return {
-      startPolling: startPolling,
-      stopPolling: stopPolling,
-      startPollDashboard: startPollDashboard,
-      stopPollDashboard: stopPollDashboard,
-      fetchData: fetchData,
-      pollData: pollData,
-      fetchDataDashboard: fetchDataDashboard
-    };
   }]);
 })({
   "name": "cdap-ui",
@@ -6120,62 +6120,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cask-angular-password/password.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskPassword
-   *
-   * implements "click2show" behavior
-   *
-   * <cask-password data-value="password"></cask-password>
-   */
-  angular.module(PKG.name + '.commons').directive('caskPassword', ["caskFocusManager", function caskPasswordDirective(caskFocusManager) {
-    return {
-      restrict: 'E',
-      templateUrl: 'cask-angular-password/click2show.html',
-      replace: true,
-      scope: {
-        value: '='
-      },
-      link: function link(scope) {
-        scope.uid = ['caskPassword', Date.now(), Math.random().toString().substr(2)].join('_');
-
-        scope.doToggle = function () {
-          var show = !scope.show;
-          scope.show = show;
-
-          if (show) {
-            caskFocusManager.select(scope.uid);
-          }
-        };
-      }
-    };
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /cask-angular-json-edit/jsonedit.js */
 
   /*
@@ -6276,6 +6220,62 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cask-angular-password/password.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskPassword
+   *
+   * implements "click2show" behavior
+   *
+   * <cask-password data-value="password"></cask-password>
+   */
+  angular.module(PKG.name + '.commons').directive('caskPassword', ["caskFocusManager", function caskPasswordDirective(caskFocusManager) {
+    return {
+      restrict: 'E',
+      templateUrl: 'cask-angular-password/click2show.html',
+      replace: true,
+      scope: {
+        value: '='
+      },
+      link: function link(scope) {
+        scope.uid = ['caskPassword', Date.now(), Math.random().toString().substr(2)].join('_');
+
+        scope.doToggle = function () {
+          var show = !scope.show;
+          scope.show = show;
+
+          if (show) {
+            caskFocusManager.select(scope.uid);
+          }
+        };
+      }
+    };
+  }]);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -9072,71 +9072,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /splitter-popover/splitter-popover.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-  */
-  angular.module(PKG.name + '.commons').directive('mySplitterPopover', function () {
-    return {
-      restrict: 'A',
-      scope: {
-        node: '=',
-        ports: '=',
-        isDisabled: '=',
-        onMetricsClick: '=',
-        disableMetricsClick: '=',
-        metricsData: '='
-      },
-      templateUrl: 'splitter-popover/splitter-popover.html',
-      controller: ["$scope", function controller($scope) {
-        var vm = this;
-        vm.ports = $scope.ports;
-
-        var schemasAreDifferent = function schemasAreDifferent(newSchemas, oldSchemas) {
-          if (!newSchemas || !oldSchemas || newSchemas.length !== oldSchemas.length) {
-            return true;
-          }
-
-          for (var i = 0; i < newSchemas.length; i++) {
-            if (newSchemas[i].name !== oldSchemas[i].name) {
-              return true;
-            }
-          }
-
-          return false;
-        };
-
-        $scope.$watch('ports', function (newValue, oldValue) {
-          if (schemasAreDifferent(newValue, oldValue)) {
-            vm.ports = $scope.ports;
-          }
-        });
-      }],
-      controllerAs: 'SplitterPopoverCtrl'
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /react-components/index.js */
 
   /*
@@ -9271,6 +9206,71 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   }]).directive('sidePanel', ["reactDirective", function (reactDirective) {
     return reactDirective(window.CaskCommon.SidePanel);
   }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /splitter-popover/splitter-popover.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+  */
+  angular.module(PKG.name + '.commons').directive('mySplitterPopover', function () {
+    return {
+      restrict: 'A',
+      scope: {
+        node: '=',
+        ports: '=',
+        isDisabled: '=',
+        onMetricsClick: '=',
+        disableMetricsClick: '=',
+        metricsData: '='
+      },
+      templateUrl: 'splitter-popover/splitter-popover.html',
+      controller: ["$scope", function controller($scope) {
+        var vm = this;
+        vm.ports = $scope.ports;
+
+        var schemasAreDifferent = function schemasAreDifferent(newSchemas, oldSchemas) {
+          if (!newSchemas || !oldSchemas || newSchemas.length !== oldSchemas.length) {
+            return true;
+          }
+
+          for (var i = 0; i < newSchemas.length; i++) {
+            if (newSchemas[i].name !== oldSchemas[i].name) {
+              return true;
+            }
+          }
+
+          return false;
+        };
+
+        $scope.$watch('ports', function (newValue, oldValue) {
+          if (schemasAreDifferent(newValue, oldValue)) {
+            vm.ports = $scope.ports;
+          }
+        });
+      }],
+      controllerAs: 'SplitterPopoverCtrl'
+    };
+  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"

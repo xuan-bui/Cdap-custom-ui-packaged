@@ -2532,6 +2532,75 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /services/dispatchers/nodes-dispatcher.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var DAGPlusPlusNodesDispatcher = /*#__PURE__*/function () {
+    DAGPlusPlusNodesDispatcher.$inject = ["CaskAngularDispatcher"];
+    function DAGPlusPlusNodesDispatcher(CaskAngularDispatcher) {
+      _classCallCheck(this, DAGPlusPlusNodesDispatcher);
+
+      this.baseDispatcher = CaskAngularDispatcher;
+      this.__dispatcher__ = null;
+    }
+
+    _createClass(DAGPlusPlusNodesDispatcher, [{
+      key: "getDispatcher",
+      value: function getDispatcher() {
+        if (!this.__dispatcher__) {
+          this.__dispatcher__ = new this.baseDispatcher();
+        }
+
+        return this.__dispatcher__;
+      }
+    }, {
+      key: "destroyDispatcher",
+      value: function destroyDispatcher() {
+        delete this.__dispatcher__;
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return DAGPlusPlusNodesDispatcher;
+  }();
+
+  DAGPlusPlusNodesDispatcher.$inject = ['CaskAngularDispatcher'];
+  angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesDispatcher', DAGPlusPlusNodesDispatcher);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /services/actions/nodes-actions.js */
 
   /*
@@ -2707,75 +2776,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 
   DAGPlusPlusNodesActionsFactory.$inject = ['DAGPlusPlusNodesDispatcher', 'GLOBALS', 'DAGPlusPlusFactory', 'DAGPlusPlusNodesStore'];
   angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesActionsFactory', DAGPlusPlusNodesActionsFactory);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /services/dispatchers/nodes-dispatcher.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var DAGPlusPlusNodesDispatcher = /*#__PURE__*/function () {
-    DAGPlusPlusNodesDispatcher.$inject = ["CaskAngularDispatcher"];
-    function DAGPlusPlusNodesDispatcher(CaskAngularDispatcher) {
-      _classCallCheck(this, DAGPlusPlusNodesDispatcher);
-
-      this.baseDispatcher = CaskAngularDispatcher;
-      this.__dispatcher__ = null;
-    }
-
-    _createClass(DAGPlusPlusNodesDispatcher, [{
-      key: "getDispatcher",
-      value: function getDispatcher() {
-        if (!this.__dispatcher__) {
-          this.__dispatcher__ = new this.baseDispatcher();
-        }
-
-        return this.__dispatcher__;
-      }
-    }, {
-      key: "destroyDispatcher",
-      value: function destroyDispatcher() {
-        delete this.__dispatcher__;
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return DAGPlusPlusNodesDispatcher;
-  }();
-
-  DAGPlusPlusNodesDispatcher.$inject = ['CaskAngularDispatcher'];
-  angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesDispatcher', DAGPlusPlusNodesDispatcher);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -7768,111 +7768,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /widget-input-schema/widget-input-schema-ctrl.js */
-
-  /*
-   * Copyright © 2016-2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-  */
-  angular.module(PKG.name + '.commons').controller('MyInputSchemaCtrl', ["$scope", "HydratorPlusPlusHydratorService", function ($scope, HydratorPlusPlusHydratorService) {
-    this.multipleInputs = $scope.multipleInputs === 'true' ? true : false;
-
-    try {
-      this.inputSchemas = JSON.parse($scope.inputSchema);
-    } catch (e) {
-      this.inputSchemas = [];
-    }
-
-    this.inputSchemas = this.inputSchemas.map(function (node) {
-      if (typeof node.schema === 'string' && HydratorPlusPlusHydratorService.containsMacro(node.schema)) {
-        return {
-          name: node.name,
-          schema: node.schema,
-          isMacro: true
-        };
-      }
-
-      var schema;
-
-      try {
-        schema = JSON.parse(node.schema);
-      } catch (e) {
-        schema = {
-          'name': 'etlSchemaBody',
-          'type': 'record',
-          'fields': []
-        };
-      }
-
-      return {
-        name: node.name,
-        schema: schema,
-        isMacro: false
-      };
-    });
-    this.currentIndex = 0;
-    this.isInStudio = $scope.isInStudio;
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /widget-input-schema/widget-input-schema.js */
-
-  /*
-   * Copyright © 2016-2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.commons').directive('myInputSchema', function () {
-    return {
-      restrict: 'EA',
-      scope: {
-        inputSchema: '@',
-        multipleInputs: '@',
-        isInStudio: '=',
-        errors: '='
-      },
-      templateUrl: 'widget-container/widget-input-schema/widget-input-schema.html',
-      controller: 'MyInputSchemaCtrl',
-      controllerAs: 'MyInputSchemaCtrl'
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /widget-join-types/widget-join-types.js */
 
   /*
@@ -7970,6 +7865,111 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       },
       controller: JoinTypesController,
       controllerAs: 'JoinTypes'
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-input-schema/widget-input-schema-ctrl.js */
+
+  /*
+   * Copyright © 2016-2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+  */
+  angular.module(PKG.name + '.commons').controller('MyInputSchemaCtrl', ["$scope", "HydratorPlusPlusHydratorService", function ($scope, HydratorPlusPlusHydratorService) {
+    this.multipleInputs = $scope.multipleInputs === 'true' ? true : false;
+
+    try {
+      this.inputSchemas = JSON.parse($scope.inputSchema);
+    } catch (e) {
+      this.inputSchemas = [];
+    }
+
+    this.inputSchemas = this.inputSchemas.map(function (node) {
+      if (typeof node.schema === 'string' && HydratorPlusPlusHydratorService.containsMacro(node.schema)) {
+        return {
+          name: node.name,
+          schema: node.schema,
+          isMacro: true
+        };
+      }
+
+      var schema;
+
+      try {
+        schema = JSON.parse(node.schema);
+      } catch (e) {
+        schema = {
+          'name': 'etlSchemaBody',
+          'type': 'record',
+          'fields': []
+        };
+      }
+
+      return {
+        name: node.name,
+        schema: schema,
+        isMacro: false
+      };
+    });
+    this.currentIndex = 0;
+    this.isInStudio = $scope.isInStudio;
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-input-schema/widget-input-schema.js */
+
+  /*
+   * Copyright © 2016-2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('myInputSchema', function () {
+    return {
+      restrict: 'EA',
+      scope: {
+        inputSchema: '@',
+        multipleInputs: '@',
+        isInStudio: '=',
+        errors: '='
+      },
+      templateUrl: 'widget-container/widget-input-schema/widget-input-schema.html',
+      controller: 'MyInputSchemaCtrl',
+      controllerAs: 'MyInputSchemaCtrl'
     };
   });
 })({
