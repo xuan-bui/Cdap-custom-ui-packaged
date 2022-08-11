@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{2278:function(e,n,t){"use strict";t.r(n);var o=t(0);n.default=function(){return o.createElement("div",{style:{height:"50px"}}," Sub TSX Component ")}}}]);

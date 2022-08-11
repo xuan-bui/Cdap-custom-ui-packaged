@@ -2924,71 +2924,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cask-angular-theme/theme.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskTheme
-   */
-  angular.module(PKG.name + '.services').constant('CASK_THEME_EVENT', {
-    changed: 'cask-theme-changed'
-  }).provider('caskTheme', function CaskThemeProvider() {
-    var THEME_LIST = ['default'];
-
-    this.setThemes = function (t) {
-      if (angular.isArray(t) && t.length) {
-        THEME_LIST = t;
-      }
-    };
-
-    this.$get = ["$localStorage", "$rootScope", "CASK_THEME_EVENT", function ($localStorage, $rootScope, CASK_THEME_EVENT) {
-      function Factory() {
-        this.current = $localStorage.theme || THEME_LIST[0];
-
-        this.set = function (theme) {
-          if (THEME_LIST.indexOf(theme) !== -1) {
-            this.current = theme;
-            $localStorage.theme = theme;
-            $rootScope.$broadcast(CASK_THEME_EVENT.changed, this.getClassName());
-          }
-        };
-
-        this.list = function () {
-          return THEME_LIST;
-        };
-
-        this.getClassName = function () {
-          return 'theme-' + this.current;
-        };
-      }
-
-      return new Factory();
-    }];
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /cask-angular-window-manager/wm.js */
 
   /*
@@ -3092,6 +3027,71 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cask-angular-theme/theme.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskTheme
+   */
+  angular.module(PKG.name + '.services').constant('CASK_THEME_EVENT', {
+    changed: 'cask-theme-changed'
+  }).provider('caskTheme', function CaskThemeProvider() {
+    var THEME_LIST = ['default'];
+
+    this.setThemes = function (t) {
+      if (angular.isArray(t) && t.length) {
+        THEME_LIST = t;
+      }
+    };
+
+    this.$get = ["$localStorage", "$rootScope", "CASK_THEME_EVENT", function ($localStorage, $rootScope, CASK_THEME_EVENT) {
+      function Factory() {
+        this.current = $localStorage.theme || THEME_LIST[0];
+
+        this.set = function (theme) {
+          if (THEME_LIST.indexOf(theme) !== -1) {
+            this.current = theme;
+            $localStorage.theme = theme;
+            $rootScope.$broadcast(CASK_THEME_EVENT.changed, this.getClassName());
+          }
+        };
+
+        this.list = function () {
+          return THEME_LIST;
+        };
+
+        this.getClassName = function () {
+          return 'theme-' + this.current;
+        };
+      }
+
+      return new Factory();
+    }];
+  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -3390,6 +3390,49 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /datasets/my-dataset-api.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myDatasetApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        listPath = '/namespaces/:namespace/data/datasets',
+        basepath = '/namespaces/:namespace/data/datasets/:datasetId';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      datasetId: '@datasetId'
+    }, {
+      list: myHelpers.getConfig('GET', 'REQUEST', listPath, true),
+      get: myHelpers.getConfig('GET', 'REQUEST', basepath),
+      "delete": myHelpers.getConfig('DELETE', 'REQUEST', basepath),
+      truncate: myHelpers.getConfig('POST', 'REQUEST', basepath + '/admin/truncate'),
+      programsList: myHelpers.getConfig('GET', 'REQUEST', basepath + '/programs', true)
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /explore/my-explore-api.js */
 
   /*
@@ -3439,49 +3482,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /datasets/my-dataset-api.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myDatasetApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        listPath = '/namespaces/:namespace/data/datasets',
-        basepath = '/namespaces/:namespace/data/datasets/:datasetId';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      datasetId: '@datasetId'
-    }, {
-      list: myHelpers.getConfig('GET', 'REQUEST', listPath, true),
-      get: myHelpers.getConfig('GET', 'REQUEST', basepath),
-      "delete": myHelpers.getConfig('DELETE', 'REQUEST', basepath),
-      truncate: myHelpers.getConfig('POST', 'REQUEST', basepath + '/admin/truncate'),
-      programsList: myHelpers.getConfig('GET', 'REQUEST', basepath + '/programs', true)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /flows/my-flows-api.js */
 
   /*
@@ -3518,6 +3518,126 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       getFlowletInstance: myHelpers.getConfig('GET', 'REQUEST', basepath + '/flowlets/:flowletId/instances'),
       pollFlowletInstance: myHelpers.getConfig('GET', 'POLL', basepath + '/flowlets/:flowletId/instances'),
       setFlowletInstance: myHelpers.getConfig('PUT', 'REQUEST', basepath + '/flowlets/:flowletId/instances')
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /logsApi/my-logs-api.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basepath = '/namespaces/:namespace/apps/:appId/:programType/:programId',
+        logsPath = basepath + '/runs/:runId/logs?';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      appId: '@appId',
+      programType: '@programType',
+      programId: '@flowId',
+      runId: '@runId',
+      start: '@start',
+      stop: '@stop',
+      fromOffset: '@fromOffset'
+    }, {
+      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs', true),
+      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
+      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
+        interceptor: {
+          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
+          // Thank you angular, $resource
+          response: function response(data) {
+            return data.data;
+          }
+        }
+      }),
+      getLogsMetadata: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/', false),
+      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
+      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json', true),
+      nextProgramLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
+      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
+      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
+      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true)
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /logsApi/my-preview-logs-api.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myPreviewLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basepath = '/namespaces/:namespace/previews/:previewId',
+        logsPath = basepath + '/logs?';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      previewId: '@previewId',
+      start: '@start',
+      stop: '@stop',
+      fromOffset: '@fromOffset'
+    }, {
+      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs', true),
+      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
+      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
+        interceptor: {
+          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
+          // Thank you angular, $resource
+          response: function response(data) {
+            return data.data;
+          }
+        }
+      }),
+      getLogsStatus: myHelpers.getConfig('GET', 'REQUEST', basepath + '/status', false),
+      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next', true),
+      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
+      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
+      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev', true),
+      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev?format=json', true)
     });
   }]);
 })({
@@ -3800,126 +3920,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         url: '/predefinedapps/:apptype/:appname',
         method: 'GET'
       }
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /logsApi/my-logs-api.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basepath = '/namespaces/:namespace/apps/:appId/:programType/:programId',
-        logsPath = basepath + '/runs/:runId/logs?';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      appId: '@appId',
-      programType: '@programType',
-      programId: '@flowId',
-      runId: '@runId',
-      start: '@start',
-      stop: '@stop',
-      fromOffset: '@fromOffset'
-    }, {
-      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs', true),
-      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
-      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
-        interceptor: {
-          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
-          // Thank you angular, $resource
-          response: function response(data) {
-            return data.data;
-          }
-        }
-      }),
-      getLogsMetadata: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/', false),
-      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
-      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json', true),
-      nextProgramLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
-      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
-      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
-      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /logsApi/my-preview-logs-api.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myPreviewLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basepath = '/namespaces/:namespace/previews/:previewId',
-        logsPath = basepath + '/logs?';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      previewId: '@previewId',
-      start: '@start',
-      stop: '@stop',
-      fromOffset: '@fromOffset'
-    }, {
-      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs', true),
-      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
-      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
-        interceptor: {
-          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
-          // Thank you angular, $resource
-          response: function response(data) {
-            return data.data;
-          }
-        }
-      }),
-      getLogsStatus: myHelpers.getConfig('GET', 'REQUEST', basepath + '/status', false),
-      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next', true),
-      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
-      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
-      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev', true),
-      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev?format=json', true)
     });
   }]);
 })({
@@ -6260,82 +6260,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cask-angular-progress/progress.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskProgress
-   *
-   *  <cask-progress
-   *      data-type="bar"
-   *      data-add-cls="success striped"
-   *      data-value="model.progress.stepscompleted"
-   *      data-max="model.progress.stepstotal"
-   *    ></cask-progress>
-   */
-  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
-    return {
-      restrict: 'E',
-      templateUrl: 'cask-angular-progress/bar.html',
-      replace: true,
-      scope: {
-        addCls: '@',
-        value: '=',
-        max: '='
-      },
-      link: function link(scope, element, attrs) {
-        scope.$watch('value', function (newVal) {
-          var max = parseInt(scope.max, 10) || 100;
-          scope.percent = Math.floor(newVal / max * 100);
-          var cls = {
-            'active': newVal < max,
-            'progress-bar': true
-          };
-
-          if (scope.addCls) {
-            angular.forEach(scope.addCls.split(' '), function (add) {
-              if (add) {
-                switch (attrs.type) {
-                  case 'bar':
-                  /* falls through */
-
-                  default:
-                    cls['progress-bar-' + add] = true;
-                    break;
-                }
-              }
-            });
-          }
-
-          scope.cls = cls;
-        });
-      }
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /cask-angular-promptable/prompt.js */
 
   /*
@@ -6411,6 +6335,82 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cask-angular-progress/progress.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskProgress
+   *
+   *  <cask-progress
+   *      data-type="bar"
+   *      data-add-cls="success striped"
+   *      data-value="model.progress.stepscompleted"
+   *      data-max="model.progress.stepstotal"
+   *    ></cask-progress>
+   */
+  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
+    return {
+      restrict: 'E',
+      templateUrl: 'cask-angular-progress/bar.html',
+      replace: true,
+      scope: {
+        addCls: '@',
+        value: '=',
+        max: '='
+      },
+      link: function link(scope, element, attrs) {
+        scope.$watch('value', function (newVal) {
+          var max = parseInt(scope.max, 10) || 100;
+          scope.percent = Math.floor(newVal / max * 100);
+          var cls = {
+            'active': newVal < max,
+            'progress-bar': true
+          };
+
+          if (scope.addCls) {
+            angular.forEach(scope.addCls.split(' '), function (add) {
+              if (add) {
+                switch (attrs.type) {
+                  case 'bar':
+                  /* falls through */
+
+                  default:
+                    cls['progress-bar-' + add] = true;
+                    break;
+                }
+              }
+            });
+          }
+
+          scope.cls = cls;
+        });
+      }
+    };
+  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"

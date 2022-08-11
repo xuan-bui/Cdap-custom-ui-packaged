@@ -3753,306 +3753,6 @@ my-complex-schema my-embedded-schema-selector my-record-schema > my-complex-sche
 }
 
 /*
- * Copyright © 2016 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
- * Copyright © 2015-2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
-  New start. Define colors used throughout CDAP. Use these colors from now on.
-*/
-my-datetime-picker {
-  /**
-   * Slider Styling
-   * Source: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
-   **/
-  /* END OF SLIDER STYLES */
-}
-my-datetime-picker .datetime-range {
-  width: 400px;
-}
-my-datetime-picker .datetime-range .time-picker {
-  padding: 15px;
-  background-color: #eeeeee;
-}
-my-datetime-picker .datetime-range .time-picker .time-text,
-my-datetime-picker .datetime-range .time-picker .time-slider {
-  width: 49%;
-  display: inline-block;
-  vertical-align: middle;
-}
-my-datetime-picker .datetime-range .time-picker input::-webkit-outer-spin-button,
-my-datetime-picker .datetime-range .time-picker input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-my-datetime-picker .datetime-range .time-picker input[type=number] {
-  -moz-appearance: textfield;
-}
-my-datetime-picker .datetime-range .time-picker label {
-  margin-bottom: 0;
-}
-my-datetime-picker .datetime-range .time-picker .colon {
-  font-size: 30px;
-  font-weight: 400;
-}
-my-datetime-picker .datetime-range .time-input {
-  height: 50px;
-  width: 70px;
-  font-size: 30px;
-  background-color: #464a56;
-  color: white;
-  border: 0;
-  border-radius: 4px;
-  text-align: center;
-}
-my-datetime-picker .datetime-range .minutes-slider {
-  margin-top: 15px;
-}
-my-datetime-picker .datetime-range .uib-yearpicker,
-my-datetime-picker .datetime-range .uib-monthpicker,
-my-datetime-picker .datetime-range .uib-daypicker {
-  width: 100%;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default {
-  border: 0;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default.btn-info,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default.btn-info,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default.btn-info {
-  background-color: #35c853;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default.btn-info span,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default.btn-info span,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default.btn-info span {
-  color: white;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default.active {
-  background-color: white;
-  box-shadow: none;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active.btn-info,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active.btn-info,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default.active.btn-info {
-  background-color: #35c853;
-}
-my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active.btn-info span,
-my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active.btn-info span,
-my-datetime-picker .datetime-range .uib-daypicker .btn-default.active.btn-info span {
-  color: white;
-}
-my-datetime-picker input[type=range] {
-  -webkit-appearance: none;
-  margin: 5px 0;
-  width: 100%;
-}
-my-datetime-picker input[type=range]:focus {
-  outline: none;
-}
-my-datetime-picker input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
-  background: #464a56;
-  border-radius: 5px;
-  border: 0 solid black;
-}
-my-datetime-picker input[type=range]::-webkit-slider-thumb {
-  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
-  border: 0 solid white;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background: white;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -5px;
-}
-my-datetime-picker input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #464a56;
-}
-my-datetime-picker input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
-  background: #464a56;
-  border-radius: 5px;
-  border: 0 solid black;
-}
-my-datetime-picker input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
-  border: 0 solid white;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background: white;
-  cursor: pointer;
-}
-my-datetime-picker input[type=range]::-ms-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  border-width: 15px 0;
-  color: transparent;
-}
-my-datetime-picker input[type=range]::-ms-fill-lower {
-  background: #464a56;
-  border: 0 solid black;
-  border-radius: 10px;
-  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
-}
-my-datetime-picker input[type=range]::-ms-fill-upper {
-  background: #464a56;
-  border: 0 solid black;
-  border-radius: 10px;
-  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
-}
-my-datetime-picker input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
-  border: 0 solid white;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background: white;
-  cursor: pointer;
-}
-my-datetime-picker input[type=range]:focus::-ms-fill-lower {
-  background: #464a56;
-}
-my-datetime-picker input[type=range]:focus::-ms-fill-upper {
-  background: #464a56;
-}
-
-/*
- * Copyright © 2016 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
- * Copyright © 2015-2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-/*
-  New start. Define colors used throughout CDAP. Use these colors from now on.
-*/
-/*
- * Copyright © 2015 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-my-datetime-range .date-text-input {
-  margin-bottom: 10px;
-}
-my-datetime-range .datetime-range {
-  width: 400px;
-  padding-top: 10px;
-  margin-top: -11px;
-  z-index: 900;
-  display: inline-block;
-}
-my-datetime-range .datetime-range.open {
-  background-color: white;
-  position: absolute;
-  border-radius: 4px;
-  box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.4);
-}
-my-datetime-range .datetime-input {
-  width: 45%;
-  display: inline-block;
-}
-my-datetime-range .datetime-input > span {
-  display: block;
-  width: 100%;
-  height: 32px;
-  padding: 6px 12px;
-  background-color: white;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  cursor: pointer;
-}
-my-datetime-range .datetime-input > span.active {
-  border: 2px solid #35c853;
-}
-my-datetime-range .done-button {
-  font-weight: 500;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 0;
-  color: #464a56;
-  border-bottom: 0;
-  border-right: 0;
-  border-left: 0;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-
-/*
  * Copyright © 2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5038,6 +4738,306 @@ my-dag-plus .metric-label {
 }
 
 /*
+ * Copyright © 2016 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+ * Copyright © 2015-2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+  New start. Define colors used throughout CDAP. Use these colors from now on.
+*/
+my-datetime-picker {
+  /**
+   * Slider Styling
+   * Source: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+   **/
+  /* END OF SLIDER STYLES */
+}
+my-datetime-picker .datetime-range {
+  width: 400px;
+}
+my-datetime-picker .datetime-range .time-picker {
+  padding: 15px;
+  background-color: #eeeeee;
+}
+my-datetime-picker .datetime-range .time-picker .time-text,
+my-datetime-picker .datetime-range .time-picker .time-slider {
+  width: 49%;
+  display: inline-block;
+  vertical-align: middle;
+}
+my-datetime-picker .datetime-range .time-picker input::-webkit-outer-spin-button,
+my-datetime-picker .datetime-range .time-picker input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+my-datetime-picker .datetime-range .time-picker input[type=number] {
+  -moz-appearance: textfield;
+}
+my-datetime-picker .datetime-range .time-picker label {
+  margin-bottom: 0;
+}
+my-datetime-picker .datetime-range .time-picker .colon {
+  font-size: 30px;
+  font-weight: 400;
+}
+my-datetime-picker .datetime-range .time-input {
+  height: 50px;
+  width: 70px;
+  font-size: 30px;
+  background-color: #464a56;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  text-align: center;
+}
+my-datetime-picker .datetime-range .minutes-slider {
+  margin-top: 15px;
+}
+my-datetime-picker .datetime-range .uib-yearpicker,
+my-datetime-picker .datetime-range .uib-monthpicker,
+my-datetime-picker .datetime-range .uib-daypicker {
+  width: 100%;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default {
+  border: 0;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default.btn-info,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default.btn-info,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default.btn-info {
+  background-color: #35c853;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default.btn-info span,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default.btn-info span,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default.btn-info span {
+  color: white;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default.active {
+  background-color: white;
+  box-shadow: none;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active.btn-info,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active.btn-info,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default.active.btn-info {
+  background-color: #35c853;
+}
+my-datetime-picker .datetime-range .uib-yearpicker .btn-default.active.btn-info span,
+my-datetime-picker .datetime-range .uib-monthpicker .btn-default.active.btn-info span,
+my-datetime-picker .datetime-range .uib-daypicker .btn-default.active.btn-info span {
+  color: white;
+}
+my-datetime-picker input[type=range] {
+  -webkit-appearance: none;
+  margin: 5px 0;
+  width: 100%;
+}
+my-datetime-picker input[type=range]:focus {
+  outline: none;
+}
+my-datetime-picker input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
+  background: #464a56;
+  border-radius: 5px;
+  border: 0 solid black;
+}
+my-datetime-picker input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
+  border: 0 solid white;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5px;
+}
+my-datetime-picker input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #464a56;
+}
+my-datetime-picker input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
+  background: #464a56;
+  border-radius: 5px;
+  border: 0 solid black;
+}
+my-datetime-picker input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
+  border: 0 solid white;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+my-datetime-picker input[type=range]::-ms-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 15px 0;
+  color: transparent;
+}
+my-datetime-picker input[type=range]::-ms-fill-lower {
+  background: #464a56;
+  border: 0 solid black;
+  border-radius: 10px;
+  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
+}
+my-datetime-picker input[type=range]::-ms-fill-upper {
+  background: #464a56;
+  border: 0 solid black;
+  border-radius: 10px;
+  box-shadow: 0 0 0 #222222, 0 0 0 #2f2f2f;
+}
+my-datetime-picker input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 3px #111111, 0 0 1px #1e1e1e;
+  border: 0 solid white;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+my-datetime-picker input[type=range]:focus::-ms-fill-lower {
+  background: #464a56;
+}
+my-datetime-picker input[type=range]:focus::-ms-fill-upper {
+  background: #464a56;
+}
+
+/*
+ * Copyright © 2016 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+ * Copyright © 2015-2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+/*
+  New start. Define colors used throughout CDAP. Use these colors from now on.
+*/
+/*
+ * Copyright © 2015 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+my-datetime-range .date-text-input {
+  margin-bottom: 10px;
+}
+my-datetime-range .datetime-range {
+  width: 400px;
+  padding-top: 10px;
+  margin-top: -11px;
+  z-index: 900;
+  display: inline-block;
+}
+my-datetime-range .datetime-range.open {
+  background-color: white;
+  position: absolute;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.4);
+}
+my-datetime-range .datetime-input {
+  width: 45%;
+  display: inline-block;
+}
+my-datetime-range .datetime-input > span {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 6px 12px;
+  background-color: white;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+my-datetime-range .datetime-input > span.active {
+  border: 2px solid #35c853;
+}
+my-datetime-range .done-button {
+  font-weight: 500;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0;
+  color: #464a56;
+  border-bottom: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+/*
  * Copyright © 2015 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5308,6 +5308,25 @@ my-side-panel .side-panel .hydrator-filter > *:first-child,
 }
 
 /*
+ * Copyright © 2019 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+*/
+.my-link-button fieldset:disabled {
+  cursor: not-allowed;
+}
+
+/*
  * Copyright © 2018 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5443,25 +5462,6 @@ my-sql-pipeline-config .pipeline-configurations-content .configuration-content .
 }
 
 /*
- * Copyright © 2019 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
-*/
-.my-link-button fieldset:disabled {
-  cursor: not-allowed;
-}
-
-/*
  * Copyright © 2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -5537,11 +5537,8 @@ my-pipeline-runtime-args .runtime-arguments-values .key-value-pair-preference in
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-body.theme-cdap .my-cdap-popover .popover-content ul.list-group li.list-group-item h5 {
+[pipeline-summary] {
   width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /*
@@ -5559,8 +5556,11 @@ body.theme-cdap .my-cdap-popover .popover-content ul.list-group li.list-group-it
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-[pipeline-summary] {
+body.theme-cdap .my-cdap-popover .popover-content ul.list-group li.list-group-item h5 {
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /*
@@ -6536,43 +6536,6 @@ my-input-schema .content {
 }
 
 /*
- * Copyright © 2015-2017 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-[my-ace-editor] {
-  width: 100%;
-  margin-right: 5px;
-  display: inline-block;
-  vertical-align: top;
-}
-[my-ace-editor] .ace_gutter {
-  border: 1px solid #bbbbbb;
-  border-right: 0;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-[my-ace-editor] .ace_scroller {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border: 1px solid #bbbbbb;
-  border-left: 0;
-}
-[my-ace-editor] .ace_print-margin-layer .ace_print-margin {
-  display: none;
-}
-
-/*
  * Copyright © 2016 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -6617,6 +6580,43 @@ my-join-types .multi-checkboxes-container .checkboxes-group .checkboxes > .col-x
 }
 my-join-types .multi-checkboxes-container .checkboxes-group .checkboxes input[type="checkbox"] {
   margin-top: 3px;
+}
+
+/*
+ * Copyright © 2015-2017 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+[my-ace-editor] {
+  width: 100%;
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: top;
+}
+[my-ace-editor] .ace_gutter {
+  border: 1px solid #bbbbbb;
+  border-right: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+[my-ace-editor] .ace_scroller {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #bbbbbb;
+  border-left: 0;
+}
+[my-ace-editor] .ace_print-margin-layer .ace_print-margin {
+  display: none;
 }
 
 /*
@@ -6890,6 +6890,41 @@ my-password .password-text-wrapper i {
 }
 
 /*
+ * Copyright © 2018 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+*/
+.widget-radio-group.widget-radio-group-inline {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.widget-radio-group.widget-radio-group-inline .radio-inline {
+  margin: 0 5px;
+  font-weight: normal;
+}
+.widget-radio-group.widget-radio-group-inline .radio-inline > label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.widget-radio-group.widget-radio-group-inline .radio-inline > label > input[type="radio"] {
+  margin-top: 2px;
+}
+.widget-radio-group .radio > label > input[type="radio"] {
+  margin-top: 2px;
+}
+
+/*
  * Copyright © 2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -6940,41 +6975,6 @@ body.state-hydrator-create.state-hydrator .modal.rules-engine-modal .modal-dialo
 }
 my-rules-engine-editor .rules-engine-button {
   margin-bottom: 5px;
-}
-
-/*
- * Copyright © 2018 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
-*/
-.widget-radio-group.widget-radio-group-inline {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-.widget-radio-group.widget-radio-group-inline .radio-inline {
-  margin: 0 5px;
-  font-weight: normal;
-}
-.widget-radio-group.widget-radio-group-inline .radio-inline > label {
-  font-weight: normal;
-  margin-bottom: 0;
-}
-.widget-radio-group.widget-radio-group-inline .radio-inline > label > input[type="radio"] {
-  margin-top: 2px;
-}
-.widget-radio-group .radio > label > input[type="radio"] {
-  margin-top: 2px;
 }
 
 /*
@@ -7228,25 +7228,6 @@ my-sql-selector .sql-select-fields-container .stage-container .table-container .
 }
 
 /*
- * Copyright © 2018 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-toggle-switch {
-  height: 32px;
-}
-
-/*
  * Copyright © 2017 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -7272,6 +7253,25 @@ toggle-switch {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+/*
+ * Copyright © 2018 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+toggle-switch {
+  height: 32px;
 }
 
 /*
@@ -7533,6 +7533,26 @@ body.state-hydrator-create.state-hydrator .dataprep-parse-modal .dropdown-toggle
 }
 
 /*
+ * Copyright © 2018 Cask Data, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+.modal.hydrator-modal.get-property-value-modal .modal-dialog > .modal-content .modal-body > fieldset > my-json-textbox textarea {
+  height: 200px;
+  resize: vertical;
+}
+
+/*
  * Copyright © 2016 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -7555,26 +7575,6 @@ get-schema {
 }
 .modal.hydrator-modal.get-schema-modal .btn.btn-default {
   margin: 0 0 10px 0;
-}
-
-/*
- * Copyright © 2018 Cask Data, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-.modal.hydrator-modal.get-property-value-modal .modal-dialog > .modal-content .modal-body > fieldset > my-json-textbox textarea {
-  height: 200px;
-  resize: vertical;
 }
 
 /*
