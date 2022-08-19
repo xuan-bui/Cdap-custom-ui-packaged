@@ -2924,6 +2924,71 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /cask-angular-theme/theme.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskTheme
+   */
+  angular.module(PKG.name + '.services').constant('CASK_THEME_EVENT', {
+    changed: 'cask-theme-changed'
+  }).provider('caskTheme', function CaskThemeProvider() {
+    var THEME_LIST = ['default'];
+
+    this.setThemes = function (t) {
+      if (angular.isArray(t) && t.length) {
+        THEME_LIST = t;
+      }
+    };
+
+    this.$get = ["$localStorage", "$rootScope", "CASK_THEME_EVENT", function ($localStorage, $rootScope, CASK_THEME_EVENT) {
+      function Factory() {
+        this.current = $localStorage.theme || THEME_LIST[0];
+
+        this.set = function (theme) {
+          if (THEME_LIST.indexOf(theme) !== -1) {
+            this.current = theme;
+            $localStorage.theme = theme;
+            $rootScope.$broadcast(CASK_THEME_EVENT.changed, this.getClassName());
+          }
+        };
+
+        this.list = function () {
+          return THEME_LIST;
+        };
+
+        this.getClassName = function () {
+          return 'theme-' + this.current;
+        };
+      }
+
+      return new Factory();
+    }];
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /cask-angular-window-manager/wm.js */
 
   /*
@@ -3027,71 +3092,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /cask-angular-theme/theme.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskTheme
-   */
-  angular.module(PKG.name + '.services').constant('CASK_THEME_EVENT', {
-    changed: 'cask-theme-changed'
-  }).provider('caskTheme', function CaskThemeProvider() {
-    var THEME_LIST = ['default'];
-
-    this.setThemes = function (t) {
-      if (angular.isArray(t) && t.length) {
-        THEME_LIST = t;
-      }
-    };
-
-    this.$get = ["$localStorage", "$rootScope", "CASK_THEME_EVENT", function ($localStorage, $rootScope, CASK_THEME_EVENT) {
-      function Factory() {
-        this.current = $localStorage.theme || THEME_LIST[0];
-
-        this.set = function (theme) {
-          if (THEME_LIST.indexOf(theme) !== -1) {
-            this.current = theme;
-            $localStorage.theme = theme;
-            $rootScope.$broadcast(CASK_THEME_EVENT.changed, this.getClassName());
-          }
-        };
-
-        this.list = function () {
-          return THEME_LIST;
-        };
-
-        this.getClassName = function () {
-          return 'theme-' + this.current;
-        };
-      }
-
-      return new Factory();
-    }];
-  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -3529,126 +3529,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /logsApi/my-logs-api.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basepath = '/namespaces/:namespace/apps/:appId/:programType/:programId',
-        logsPath = basepath + '/runs/:runId/logs?';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      appId: '@appId',
-      programType: '@programType',
-      programId: '@flowId',
-      runId: '@runId',
-      start: '@start',
-      stop: '@stop',
-      fromOffset: '@fromOffset'
-    }, {
-      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs', true),
-      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
-      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
-        interceptor: {
-          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
-          // Thank you angular, $resource
-          response: function response(data) {
-            return data.data;
-          }
-        }
-      }),
-      getLogsMetadata: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/', false),
-      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
-      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json', true),
-      nextProgramLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
-      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
-      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
-      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /logsApi/my-preview-logs-api.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myPreviewLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basepath = '/namespaces/:namespace/previews/:previewId',
-        logsPath = basepath + '/logs?';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      previewId: '@previewId',
-      start: '@start',
-      stop: '@stop',
-      fromOffset: '@fromOffset'
-    }, {
-      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs', true),
-      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
-      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
-        interceptor: {
-          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
-          // Thank you angular, $resource
-          response: function response(data) {
-            return data.data;
-          }
-        }
-      }),
-      getLogsStatus: myHelpers.getConfig('GET', 'REQUEST', basepath + '/status', false),
-      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next', true),
-      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
-      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
-      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev', true),
-      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev?format=json', true)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /hydrator/my-hydrator-factory.js */
 
   /*
@@ -3920,6 +3800,126 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         url: '/predefinedapps/:apptype/:appname',
         method: 'GET'
       }
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /logsApi/my-logs-api.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basepath = '/namespaces/:namespace/apps/:appId/:programType/:programId',
+        logsPath = basepath + '/runs/:runId/logs?';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      appId: '@appId',
+      programType: '@programType',
+      programId: '@flowId',
+      runId: '@runId',
+      start: '@start',
+      stop: '@stop',
+      fromOffset: '@fromOffset'
+    }, {
+      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs', true),
+      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
+      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
+        interceptor: {
+          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
+          // Thank you angular, $resource
+          response: function response(data) {
+            return data.data;
+          }
+        }
+      }),
+      getLogsMetadata: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/', false),
+      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
+      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json', true),
+      nextProgramLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
+      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
+      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
+      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true)
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /logsApi/my-preview-logs-api.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myPreviewLogsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basepath = '/namespaces/:namespace/previews/:previewId',
+        logsPath = basepath + '/logs?';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      previewId: '@previewId',
+      start: '@start',
+      stop: '@stop',
+      fromOffset: '@fromOffset'
+    }, {
+      getLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs', true),
+      getLogsStartAsJson: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'format=json&max=100&start=:start', true),
+      getLogsStartAsRaw: myHelpers.getConfig('GET', 'REQUEST', logsPath + 'start=:start', false, {
+        interceptor: {
+          // This is very lame. ngResource by default considers EVERYTHING as json and converts plain string to JSON
+          // Thank you angular, $resource
+          response: function response(data) {
+            return data.data;
+          }
+        }
+      }),
+      getLogsStatus: myHelpers.getConfig('GET', 'REQUEST', basepath + '/status', false),
+      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next', true),
+      nextLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json', true),
+      nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
+      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev', true),
+      prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev?format=json', true)
     });
   }]);
 })({
@@ -5013,6 +5013,334 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config-ctrl.js */
+
+  /*
+  * Copyright © 2019 Cask Data, Inc.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  * use this file except in compliance with the License. You may obtain a copy of
+  * the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  * License for the specific language governing permissions and limitations under
+  * the License.
+  */
+  var MySqlPipelineConfigCtrl = /*#__PURE__*/function () {
+    MySqlPipelineConfigCtrl.$inject = ["uuid", "HydratorPlusPlusHydratorService", "HydratorPlusPlusPreviewStore", "HydratorPlusPlusPreviewActions", "myPipelineApi", "$state", "myAlertOnValium"];
+    function MySqlPipelineConfigCtrl(uuid, HydratorPlusPlusHydratorService, HydratorPlusPlusPreviewStore, HydratorPlusPlusPreviewActions, myPipelineApi, $state, myAlertOnValium) {
+      _classCallCheck(this, MySqlPipelineConfigCtrl);
+
+      this.uuid = uuid;
+      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
+      this.previewStore = HydratorPlusPlusPreviewStore;
+      this.previewActions = HydratorPlusPlusPreviewActions;
+      this.myPipelineApi = myPipelineApi;
+      this.$state = $state;
+      this.myAlertOnValium = myAlertOnValium;
+      this.serviceAccountPath = this.store.getServiceAccountPath();
+      this.instrumentation = this.store.getInstrumentation();
+      this.stageLogging = this.store.getStageLogging();
+      this.startingPipeline = false;
+      this.updatingPipeline = false;
+      this.activeTab = 'runtimeArgs'; // studio config, but not in preview mode
+
+      if (!this.isDeployed && !this.showPreviewConfig) {
+        this.activeTab = 'pipelineConfig';
+      }
+
+      this.enablePipelineUpdate = false;
+      this.onDriverMemoryChange = this.onDriverMemoryChange.bind(this);
+      this.onDriverCoreChange = this.onDriverCoreChange.bind(this);
+      this.onExecutorCoreChange = this.onExecutorCoreChange.bind(this);
+      this.onExecutorMemoryChange = this.onExecutorMemoryChange.bind(this);
+      this.onClientCoreChange = this.onClientCoreChange.bind(this);
+      this.onClientMemoryChange = this.onClientMemoryChange.bind(this);
+      this.onServiceAccountChange = this.onServiceAccountChange.bind(this);
+      this.onInstrumentationChange = this.onInstrumentationChange.bind(this);
+      this.onStageLoggingChange = this.onStageLoggingChange.bind(this);
+      this.driverResources = {
+        memoryMB: this.store.getDriverMemoryMB(),
+        virtualCores: this.store.getDriverVirtualCores()
+      };
+      this.executorResources = {
+        memoryMB: this.store.getMemoryMB(),
+        virtualCores: this.store.getVirtualCores()
+      };
+      this.clientResources = {
+        memoryMB: this.store.getClientMemoryMB(),
+        virtualCores: this.store.getClientVirtualCores()
+      };
+      this.containsMacros = HydratorPlusPlusHydratorService.runtimeArgsContainsMacros(this.runtimeArguments);
+    }
+
+    _createClass(MySqlPipelineConfigCtrl, [{
+      key: "applyConfig",
+      value: function applyConfig() {
+        this.applyRuntimeArguments();
+        this.store.setClientVirtualCores(this.clientResources.virtualCores);
+        this.store.setClientMemoryMB(this.clientResources.memoryMB);
+        this.store.setDriverVirtualCores(this.driverResources.virtualCores);
+        this.store.setDriverMemoryMB(this.driverResources.memoryMB);
+        this.store.setMemoryMB(this.executorResources.memoryMB);
+        this.store.setVirtualCores(this.executorResources.virtualCores);
+        this.store.setInstrumentation(this.instrumentation);
+        this.store.setStageLogging(this.stageLogging);
+        this.store.setServiceAccountPath(this.serviceAccountPath);
+      }
+    }, {
+      key: "applyAndRunPipeline",
+      value: function applyAndRunPipeline() {
+        var _this = this;
+
+        var applyAndRun = function applyAndRun() {
+          _this.startingPipeline = false;
+
+          _this.applyConfig();
+
+          _this.runPipeline();
+        };
+
+        this.startingPipeline = true;
+
+        if (this.enablePipelineUpdate) {
+          this.updatePipeline(false).then(applyAndRun.bind(this), function (err) {
+            _this.startingPipeline = false;
+
+            _this.myAlertOnValium.show({
+              type: 'danger',
+              content: _typeof(err) === 'object' ? JSON.stringify(err) : 'Updating pipeline failed: ' + err
+            });
+          });
+        } else {
+          applyAndRun.call(this);
+        }
+      }
+    }, {
+      key: "applyAndClose",
+      value: function applyAndClose() {
+        this.applyConfig();
+        this.onClose();
+      }
+    }, {
+      key: "updateAndClose",
+      value: function updateAndClose() {
+        var _this2 = this;
+
+        this.updatePipeline().then(function () {
+          _this2.applyConfig();
+
+          _this2.onClose();
+        });
+      }
+    }, {
+      key: "buttonsAreDisabled",
+      value: function buttonsAreDisabled() {
+        var runtimeArgsMissingValues = false;
+
+        if (this.isDeployed || this.showPreviewConfig) {
+          runtimeArgsMissingValues = this.HydratorPlusPlusHydratorService.keyValuePairsHaveMissingValues(this.runtimeArguments);
+        }
+
+        return runtimeArgsMissingValues;
+      }
+    }, {
+      key: "onServiceAccountChange",
+      value: function onServiceAccountChange(value) {
+        this.serviceAccountPath = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onInstrumentationChange",
+      value: function onInstrumentationChange() {
+        this.instrumentation = !this.instrumentation;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onStageLoggingChange",
+      value: function onStageLoggingChange() {
+        this.stageLogging = !this.stageLogging;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onDriverMemoryChange",
+      value: function onDriverMemoryChange(value) {
+        this.driverResources.memoryMB = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onDriverCoreChange",
+      value: function onDriverCoreChange(value) {
+        this.driverResources.virtualCores = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onExecutorCoreChange",
+      value: function onExecutorCoreChange(value) {
+        this.executorResources.virtualCores = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onExecutorMemoryChange",
+      value: function onExecutorMemoryChange(value) {
+        this.executorResources.memoryMB = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onClientCoreChange",
+      value: function onClientCoreChange(value) {
+        this.clientResources.virtualCores = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "onClientMemoryChange",
+      value: function onClientMemoryChange(value) {
+        this.clientResources.memoryMB = value;
+        this.updatePipelineEditStatus();
+      }
+    }, {
+      key: "getUpdatedPipelineConfig",
+      value: function getUpdatedPipelineConfig() {
+        var pipelineconfig = _.cloneDeep(this.store.getCloneConfig());
+
+        delete pipelineconfig.__ui__;
+
+        if (this.instrumentation) {
+          pipelineconfig.config.stageLoggingEnabled = this.instrumentation;
+        }
+
+        pipelineconfig.config.resources = this.executorResources;
+        pipelineconfig.config.driverResources = this.driverResources;
+        pipelineconfig.config.clientResources = this.clientResources;
+        pipelineconfig.config.serviceAccountPath = this.serviceAccountPath;
+        pipelineconfig.config.processTimingEnabled = this.instrumentation;
+        pipelineconfig.config.stageLoggingEnabled = this.stageLogging; // Have to do this, because unlike others we aren't actually directly modifying pipelineconfig.config.properties
+
+        pipelineconfig.config.properties = this.store.getProperties();
+        return pipelineconfig;
+      }
+    }, {
+      key: "updatePipelineEditStatus",
+      value: function updatePipelineEditStatus() {
+        var isResourcesEqual = function isResourcesEqual(oldvalue, newvalue) {
+          return oldvalue.memoryMB === newvalue.memoryMB && oldvalue.virtualCores === newvalue.virtualCores;
+        };
+
+        var oldConfig = this.store.getCloneConfig();
+        var updatedConfig = this.getUpdatedPipelineConfig();
+        var isResourceModified = !isResourcesEqual(oldConfig.config.resources, updatedConfig.config.resources);
+        var isDriverResourceModidified = !isResourcesEqual(oldConfig.config.driverResources, updatedConfig.config.driverResources);
+        var isClientResourceModified = !isResourcesEqual(oldConfig.config.clientResources, updatedConfig.config.clientResources);
+        var isServiceAccountPathModified = oldConfig.config.serviceAccountPath !== updatedConfig.config.serviceAccountPath;
+        var isProcessTimingModified = oldConfig.config.processTimingEnabled !== updatedConfig.config.processTimingEnabled;
+        var isStageLoggingModified = oldConfig.config.stageLoggingEnabled !== updatedConfig.config.stageLoggingEnabled; // Pipeline update is only necessary in Detail view (i.e. after pipeline has been deployed)
+
+        this.enablePipelineUpdate = this.isDeployed && (isResourceModified || isDriverResourceModidified || isClientResourceModified || isServiceAccountPathModified || isProcessTimingModified || isStageLoggingModified);
+      }
+    }, {
+      key: "updatePipeline",
+      value: function updatePipeline() {
+        var _this3 = this;
+
+        var updatingPipeline = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+        var pipelineConfig = this.getUpdatedPipelineConfig();
+        this.updatingPipeline = updatingPipeline;
+        return this.myPipelineApi.save({
+          namespace: this.$state.params.namespace,
+          pipeline: pipelineConfig.name
+        }, pipelineConfig).$promise.then(function () {
+          _this3.updatingPipeline = false;
+        }, function (err) {
+          _this3.updatingPipeline = false;
+
+          _this3.myAlertOnValium.show({
+            type: 'danger',
+            content: _typeof(err) === 'object' ? JSON.stringify(err) : 'Updating pipeline failed: ' + err
+          });
+        });
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return MySqlPipelineConfigCtrl;
+  }();
+
+  angular.module(PKG.name + '.commons').controller('MySqlPipelineConfigCtrl', MySqlPipelineConfigCtrl);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config.js */
+
+  /*
+   * Copyright © 2019 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('mySqlPipelineConfig', function () {
+    return {
+      restrict: 'E',
+      scope: {
+        runtimeArguments: '=',
+        resolvedMacros: '=',
+        applyRuntimeArguments: '&',
+        pipelineName: '@',
+        runPipeline: '&',
+        onClose: '&',
+        namespace: '@',
+        store: '=',
+        actionCreator: '=',
+        isDeployed: '=',
+        showPreviewConfig: '='
+      },
+      bindToController: true,
+      controller: 'MySqlPipelineConfigCtrl',
+      controllerAs: 'SqlPipelineConfigCtrl',
+      templateUrl: 'my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config.html'
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /my-pipeline-configurations/my-realtime-pipeline-config/my-realtime-pipeline-config-ctrl.js */
 
   /*
@@ -5396,334 +5724,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       controller: 'MyRealtimePipelineConfigCtrl',
       controllerAs: 'RealtimePipelineConfigCtrl',
       templateUrl: 'my-pipeline-configurations/my-realtime-pipeline-config/my-realtime-pipeline-config.html'
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config-ctrl.js */
-
-  /*
-  * Copyright © 2019 Cask Data, Inc.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  * use this file except in compliance with the License. You may obtain a copy of
-  * the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-  * License for the specific language governing permissions and limitations under
-  * the License.
-  */
-  var MySqlPipelineConfigCtrl = /*#__PURE__*/function () {
-    MySqlPipelineConfigCtrl.$inject = ["uuid", "HydratorPlusPlusHydratorService", "HydratorPlusPlusPreviewStore", "HydratorPlusPlusPreviewActions", "myPipelineApi", "$state", "myAlertOnValium"];
-    function MySqlPipelineConfigCtrl(uuid, HydratorPlusPlusHydratorService, HydratorPlusPlusPreviewStore, HydratorPlusPlusPreviewActions, myPipelineApi, $state, myAlertOnValium) {
-      _classCallCheck(this, MySqlPipelineConfigCtrl);
-
-      this.uuid = uuid;
-      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
-      this.previewStore = HydratorPlusPlusPreviewStore;
-      this.previewActions = HydratorPlusPlusPreviewActions;
-      this.myPipelineApi = myPipelineApi;
-      this.$state = $state;
-      this.myAlertOnValium = myAlertOnValium;
-      this.serviceAccountPath = this.store.getServiceAccountPath();
-      this.instrumentation = this.store.getInstrumentation();
-      this.stageLogging = this.store.getStageLogging();
-      this.startingPipeline = false;
-      this.updatingPipeline = false;
-      this.activeTab = 'runtimeArgs'; // studio config, but not in preview mode
-
-      if (!this.isDeployed && !this.showPreviewConfig) {
-        this.activeTab = 'pipelineConfig';
-      }
-
-      this.enablePipelineUpdate = false;
-      this.onDriverMemoryChange = this.onDriverMemoryChange.bind(this);
-      this.onDriverCoreChange = this.onDriverCoreChange.bind(this);
-      this.onExecutorCoreChange = this.onExecutorCoreChange.bind(this);
-      this.onExecutorMemoryChange = this.onExecutorMemoryChange.bind(this);
-      this.onClientCoreChange = this.onClientCoreChange.bind(this);
-      this.onClientMemoryChange = this.onClientMemoryChange.bind(this);
-      this.onServiceAccountChange = this.onServiceAccountChange.bind(this);
-      this.onInstrumentationChange = this.onInstrumentationChange.bind(this);
-      this.onStageLoggingChange = this.onStageLoggingChange.bind(this);
-      this.driverResources = {
-        memoryMB: this.store.getDriverMemoryMB(),
-        virtualCores: this.store.getDriverVirtualCores()
-      };
-      this.executorResources = {
-        memoryMB: this.store.getMemoryMB(),
-        virtualCores: this.store.getVirtualCores()
-      };
-      this.clientResources = {
-        memoryMB: this.store.getClientMemoryMB(),
-        virtualCores: this.store.getClientVirtualCores()
-      };
-      this.containsMacros = HydratorPlusPlusHydratorService.runtimeArgsContainsMacros(this.runtimeArguments);
-    }
-
-    _createClass(MySqlPipelineConfigCtrl, [{
-      key: "applyConfig",
-      value: function applyConfig() {
-        this.applyRuntimeArguments();
-        this.store.setClientVirtualCores(this.clientResources.virtualCores);
-        this.store.setClientMemoryMB(this.clientResources.memoryMB);
-        this.store.setDriverVirtualCores(this.driverResources.virtualCores);
-        this.store.setDriverMemoryMB(this.driverResources.memoryMB);
-        this.store.setMemoryMB(this.executorResources.memoryMB);
-        this.store.setVirtualCores(this.executorResources.virtualCores);
-        this.store.setInstrumentation(this.instrumentation);
-        this.store.setStageLogging(this.stageLogging);
-        this.store.setServiceAccountPath(this.serviceAccountPath);
-      }
-    }, {
-      key: "applyAndRunPipeline",
-      value: function applyAndRunPipeline() {
-        var _this = this;
-
-        var applyAndRun = function applyAndRun() {
-          _this.startingPipeline = false;
-
-          _this.applyConfig();
-
-          _this.runPipeline();
-        };
-
-        this.startingPipeline = true;
-
-        if (this.enablePipelineUpdate) {
-          this.updatePipeline(false).then(applyAndRun.bind(this), function (err) {
-            _this.startingPipeline = false;
-
-            _this.myAlertOnValium.show({
-              type: 'danger',
-              content: _typeof(err) === 'object' ? JSON.stringify(err) : 'Updating pipeline failed: ' + err
-            });
-          });
-        } else {
-          applyAndRun.call(this);
-        }
-      }
-    }, {
-      key: "applyAndClose",
-      value: function applyAndClose() {
-        this.applyConfig();
-        this.onClose();
-      }
-    }, {
-      key: "updateAndClose",
-      value: function updateAndClose() {
-        var _this2 = this;
-
-        this.updatePipeline().then(function () {
-          _this2.applyConfig();
-
-          _this2.onClose();
-        });
-      }
-    }, {
-      key: "buttonsAreDisabled",
-      value: function buttonsAreDisabled() {
-        var runtimeArgsMissingValues = false;
-
-        if (this.isDeployed || this.showPreviewConfig) {
-          runtimeArgsMissingValues = this.HydratorPlusPlusHydratorService.keyValuePairsHaveMissingValues(this.runtimeArguments);
-        }
-
-        return runtimeArgsMissingValues;
-      }
-    }, {
-      key: "onServiceAccountChange",
-      value: function onServiceAccountChange(value) {
-        this.serviceAccountPath = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onInstrumentationChange",
-      value: function onInstrumentationChange() {
-        this.instrumentation = !this.instrumentation;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onStageLoggingChange",
-      value: function onStageLoggingChange() {
-        this.stageLogging = !this.stageLogging;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onDriverMemoryChange",
-      value: function onDriverMemoryChange(value) {
-        this.driverResources.memoryMB = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onDriverCoreChange",
-      value: function onDriverCoreChange(value) {
-        this.driverResources.virtualCores = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onExecutorCoreChange",
-      value: function onExecutorCoreChange(value) {
-        this.executorResources.virtualCores = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onExecutorMemoryChange",
-      value: function onExecutorMemoryChange(value) {
-        this.executorResources.memoryMB = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onClientCoreChange",
-      value: function onClientCoreChange(value) {
-        this.clientResources.virtualCores = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "onClientMemoryChange",
-      value: function onClientMemoryChange(value) {
-        this.clientResources.memoryMB = value;
-        this.updatePipelineEditStatus();
-      }
-    }, {
-      key: "getUpdatedPipelineConfig",
-      value: function getUpdatedPipelineConfig() {
-        var pipelineconfig = _.cloneDeep(this.store.getCloneConfig());
-
-        delete pipelineconfig.__ui__;
-
-        if (this.instrumentation) {
-          pipelineconfig.config.stageLoggingEnabled = this.instrumentation;
-        }
-
-        pipelineconfig.config.resources = this.executorResources;
-        pipelineconfig.config.driverResources = this.driverResources;
-        pipelineconfig.config.clientResources = this.clientResources;
-        pipelineconfig.config.serviceAccountPath = this.serviceAccountPath;
-        pipelineconfig.config.processTimingEnabled = this.instrumentation;
-        pipelineconfig.config.stageLoggingEnabled = this.stageLogging; // Have to do this, because unlike others we aren't actually directly modifying pipelineconfig.config.properties
-
-        pipelineconfig.config.properties = this.store.getProperties();
-        return pipelineconfig;
-      }
-    }, {
-      key: "updatePipelineEditStatus",
-      value: function updatePipelineEditStatus() {
-        var isResourcesEqual = function isResourcesEqual(oldvalue, newvalue) {
-          return oldvalue.memoryMB === newvalue.memoryMB && oldvalue.virtualCores === newvalue.virtualCores;
-        };
-
-        var oldConfig = this.store.getCloneConfig();
-        var updatedConfig = this.getUpdatedPipelineConfig();
-        var isResourceModified = !isResourcesEqual(oldConfig.config.resources, updatedConfig.config.resources);
-        var isDriverResourceModidified = !isResourcesEqual(oldConfig.config.driverResources, updatedConfig.config.driverResources);
-        var isClientResourceModified = !isResourcesEqual(oldConfig.config.clientResources, updatedConfig.config.clientResources);
-        var isServiceAccountPathModified = oldConfig.config.serviceAccountPath !== updatedConfig.config.serviceAccountPath;
-        var isProcessTimingModified = oldConfig.config.processTimingEnabled !== updatedConfig.config.processTimingEnabled;
-        var isStageLoggingModified = oldConfig.config.stageLoggingEnabled !== updatedConfig.config.stageLoggingEnabled; // Pipeline update is only necessary in Detail view (i.e. after pipeline has been deployed)
-
-        this.enablePipelineUpdate = this.isDeployed && (isResourceModified || isDriverResourceModidified || isClientResourceModified || isServiceAccountPathModified || isProcessTimingModified || isStageLoggingModified);
-      }
-    }, {
-      key: "updatePipeline",
-      value: function updatePipeline() {
-        var _this3 = this;
-
-        var updatingPipeline = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-        var pipelineConfig = this.getUpdatedPipelineConfig();
-        this.updatingPipeline = updatingPipeline;
-        return this.myPipelineApi.save({
-          namespace: this.$state.params.namespace,
-          pipeline: pipelineConfig.name
-        }, pipelineConfig).$promise.then(function () {
-          _this3.updatingPipeline = false;
-        }, function (err) {
-          _this3.updatingPipeline = false;
-
-          _this3.myAlertOnValium.show({
-            type: 'danger',
-            content: _typeof(err) === 'object' ? JSON.stringify(err) : 'Updating pipeline failed: ' + err
-          });
-        });
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return MySqlPipelineConfigCtrl;
-  }();
-
-  angular.module(PKG.name + '.commons').controller('MySqlPipelineConfigCtrl', MySqlPipelineConfigCtrl);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config.js */
-
-  /*
-   * Copyright © 2019 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.commons').directive('mySqlPipelineConfig', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        runtimeArguments: '=',
-        resolvedMacros: '=',
-        applyRuntimeArguments: '&',
-        pipelineName: '@',
-        runPipeline: '&',
-        onClose: '&',
-        namespace: '@',
-        store: '=',
-        actionCreator: '=',
-        isDeployed: '=',
-        showPreviewConfig: '='
-      },
-      bindToController: true,
-      controller: 'MySqlPipelineConfigCtrl',
-      controllerAs: 'SqlPipelineConfigCtrl',
-      templateUrl: 'my-pipeline-configurations/my-sql-pipeline-config/my-sql-pipeline-config.html'
     };
   });
 })({
@@ -6260,6 +6260,82 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /cask-angular-progress/progress.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskProgress
+   *
+   *  <cask-progress
+   *      data-type="bar"
+   *      data-add-cls="success striped"
+   *      data-value="model.progress.stepscompleted"
+   *      data-max="model.progress.stepstotal"
+   *    ></cask-progress>
+   */
+  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
+    return {
+      restrict: 'E',
+      templateUrl: 'cask-angular-progress/bar.html',
+      replace: true,
+      scope: {
+        addCls: '@',
+        value: '=',
+        max: '='
+      },
+      link: function link(scope, element, attrs) {
+        scope.$watch('value', function (newVal) {
+          var max = parseInt(scope.max, 10) || 100;
+          scope.percent = Math.floor(newVal / max * 100);
+          var cls = {
+            'active': newVal < max,
+            'progress-bar': true
+          };
+
+          if (scope.addCls) {
+            angular.forEach(scope.addCls.split(' '), function (add) {
+              if (add) {
+                switch (attrs.type) {
+                  case 'bar':
+                  /* falls through */
+
+                  default:
+                    cls['progress-bar-' + add] = true;
+                    break;
+                }
+              }
+            });
+          }
+
+          scope.cls = cls;
+        });
+      }
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /cask-angular-promptable/prompt.js */
 
   /*
@@ -6335,82 +6411,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /cask-angular-progress/progress.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskProgress
-   *
-   *  <cask-progress
-   *      data-type="bar"
-   *      data-add-cls="success striped"
-   *      data-value="model.progress.stepscompleted"
-   *      data-max="model.progress.stepstotal"
-   *    ></cask-progress>
-   */
-  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
-    return {
-      restrict: 'E',
-      templateUrl: 'cask-angular-progress/bar.html',
-      replace: true,
-      scope: {
-        addCls: '@',
-        value: '=',
-        max: '='
-      },
-      link: function link(scope, element, attrs) {
-        scope.$watch('value', function (newVal) {
-          var max = parseInt(scope.max, 10) || 100;
-          scope.percent = Math.floor(newVal / max * 100);
-          var cls = {
-            'active': newVal < max,
-            'progress-bar': true
-          };
-
-          if (scope.addCls) {
-            angular.forEach(scope.addCls.split(' '), function (add) {
-              if (add) {
-                switch (attrs.type) {
-                  case 'bar':
-                  /* falls through */
-
-                  default:
-                    cls['progress-bar-' + add] = true;
-                    break;
-                }
-              }
-            });
-          }
-
-          scope.cls = cls;
-        });
-      }
-    };
-  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
