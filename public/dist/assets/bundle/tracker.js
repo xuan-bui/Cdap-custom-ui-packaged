@@ -1917,47 +1917,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /apps/my-apps-api.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myAppsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basePath = '/namespaces/:namespace/apps',
-        listPath = basePath,
-        detailPath = basePath + '/:appId';
-    return $resource(url({
-      _cdapPath: basePath
-    }), {
-      appId: '@appId'
-    }, {
-      "delete": myHelpers.getConfig('DELETE', 'REQUEST', detailPath),
-      list: myHelpers.getConfig('GET', 'REQUEST', listPath, true),
-      get: myHelpers.getConfig('GET', 'REQUEST', detailPath)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /cask-angular-dispatcher/dispatcher.js */
 
   /*
@@ -2019,6 +1978,47 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
     };
 
     return Dispatcher;
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /apps/my-apps-api.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myAppsApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basePath = '/namespaces/:namespace/apps',
+        listPath = basePath,
+        detailPath = basePath + '/:appId';
+    return $resource(url({
+      _cdapPath: basePath
+    }), {
+      appId: '@appId'
+    }, {
+      "delete": myHelpers.getConfig('DELETE', 'REQUEST', detailPath),
+      list: myHelpers.getConfig('GET', 'REQUEST', listPath, true),
+      get: myHelpers.getConfig('GET', 'REQUEST', detailPath)
+    });
   }]);
 })({
   "name": "cdap-ui",
@@ -2989,6 +2989,111 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /dashboard/dashboardhelper.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('DashboardHelper', ["MyCDAPDataSource", "MyChartHelpers", "MyMetricsQueryHelper", function (MyCDAPDataSource, MyChartHelpers, MyMetricsQueryHelper) {
+    var dataSrc = new MyCDAPDataSource();
+
+    function startPolling(widget) {
+      widget.pollId = dataSrc.poll({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        interval: widget.settings.interval,
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }, function (res) {
+        widget.formattedData = formatData(res, widget);
+      }).__pollId__;
+    }
+
+    function stopPolling(widget) {
+      dataSrc.stopPoll(widget.pollId);
+    }
+
+    function startPollDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        startPolling(widget);
+      });
+    }
+
+    function stopPollDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        stopPolling(widget);
+      });
+    }
+
+    function fetchData(widget) {
+      return dataSrc.request({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }).then(function (res) {
+        widget.formattedData = formatData(res, widget);
+      });
+    }
+
+    function pollData(widget) {
+      return dataSrc.poll({
+        _cdapPath: '/metrics/query',
+        method: 'POST',
+        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
+      }).then(function (res) {
+        widget.formattedData = formatData(res, widget);
+      });
+    }
+
+    function fetchDataDashboard(dashboard) {
+      angular.forEach(dashboard.columns, function (widget) {
+        fetchData(widget);
+      });
+    }
+
+    function formatData(res, widget) {
+      var processedData = MyChartHelpers.processData(res, 'qid', widget.metric.names, widget.metric.resolution, widget.settings.aggregate);
+      processedData = MyChartHelpers.c3ifyData(processedData, widget.metric, widget.metricAlias);
+      var data = {
+        x: 'x',
+        columns: processedData.columns,
+        keys: {
+          x: 'x'
+        }
+      };
+      return data;
+    }
+
+    return {
+      startPolling: startPolling,
+      stopPolling: stopPolling,
+      startPollDashboard: startPollDashboard,
+      stopPollDashboard: stopPollDashboard,
+      fetchData: fetchData,
+      pollData: pollData,
+      fetchDataDashboard: fetchDataDashboard
+    };
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /cask-angular-window-manager/wm.js */
 
   /*
@@ -3090,111 +3195,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
           });
         };
       }
-    };
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /dashboard/dashboardhelper.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('DashboardHelper', ["MyCDAPDataSource", "MyChartHelpers", "MyMetricsQueryHelper", function (MyCDAPDataSource, MyChartHelpers, MyMetricsQueryHelper) {
-    var dataSrc = new MyCDAPDataSource();
-
-    function startPolling(widget) {
-      widget.pollId = dataSrc.poll({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        interval: widget.settings.interval,
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }, function (res) {
-        widget.formattedData = formatData(res, widget);
-      }).__pollId__;
-    }
-
-    function stopPolling(widget) {
-      dataSrc.stopPoll(widget.pollId);
-    }
-
-    function startPollDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        startPolling(widget);
-      });
-    }
-
-    function stopPollDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        stopPolling(widget);
-      });
-    }
-
-    function fetchData(widget) {
-      return dataSrc.request({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }).then(function (res) {
-        widget.formattedData = formatData(res, widget);
-      });
-    }
-
-    function pollData(widget) {
-      return dataSrc.poll({
-        _cdapPath: '/metrics/query',
-        method: 'POST',
-        body: MyMetricsQueryHelper.constructQuery('qid', MyMetricsQueryHelper.contextToTags(widget.metric.context), widget.metric)
-      }).then(function (res) {
-        widget.formattedData = formatData(res, widget);
-      });
-    }
-
-    function fetchDataDashboard(dashboard) {
-      angular.forEach(dashboard.columns, function (widget) {
-        fetchData(widget);
-      });
-    }
-
-    function formatData(res, widget) {
-      var processedData = MyChartHelpers.processData(res, 'qid', widget.metric.names, widget.metric.resolution, widget.settings.aggregate);
-      processedData = MyChartHelpers.c3ifyData(processedData, widget.metric, widget.metricAlias);
-      var data = {
-        x: 'x',
-        columns: processedData.columns,
-        keys: {
-          x: 'x'
-        }
-      };
-      return data;
-    }
-
-    return {
-      startPolling: startPolling,
-      stopPolling: stopPolling,
-      startPollDashboard: startPollDashboard,
-      stopPollDashboard: stopPollDashboard,
-      fetchData: fetchData,
-      pollData: pollData,
-      fetchDataDashboard: fetchDataDashboard
     };
   }]);
 })({
@@ -5966,6 +5966,115 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /cask-angular-json-edit/jsonedit.js */
+
+  /*
+   * Copyright © 2015-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+
+  /**
+   * caskJsonEdit
+   *
+   * adapted from https://gist.github.com/maxbates/11002270
+   *
+   * <textarea cask-json-edit="myObject" rows="8" class="form-control"></textarea>
+   */
+  angular.module(PKG.name + '.commons').directive('caskJsonEdit', function myJsonEditDirective() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      template: '<textarea ng-model="jsonEditing"></textarea>',
+      replace: true,
+      scope: {
+        model: '=caskJsonEdit'
+      },
+      link: function link(scope, element, attrs, ngModelCtrl) {
+        //init
+        setEditing(scope.model); //check for changes going out
+
+        scope.$watch('jsonEditing', function (newval, oldval) {
+          if (newval !== oldval) {
+            if (isValidJson(newval)) {
+              setValid();
+              updateModel(newval);
+            } else {
+              setInvalid();
+            }
+          }
+        }, true); //check for changes coming in
+
+        scope.$watch('model', function (newval, oldval) {
+          if (newval !== oldval) {
+            setEditing(newval);
+          }
+        }, true);
+
+        function setEditing(value) {
+          scope.jsonEditing = angular.copy(json2string(value));
+        }
+
+        function updateModel(value) {
+          scope.model = string2json(value);
+        }
+
+        function setValid() {
+          ngModelCtrl.$setValidity('json', true);
+        }
+
+        function setInvalid() {
+          ngModelCtrl.$setValidity('json', false);
+        }
+
+        function string2json(text) {
+          try {
+            return angular.fromJson(text);
+          } catch (err) {
+            setInvalid();
+            return text;
+          }
+        }
+
+        function json2string(obj) {
+          // better than JSON.stringify(), because it formats + filters $$hashKey etc.
+          // NOTE that this will remove all $-prefixed values
+          return angular.toJson(obj, true);
+        }
+
+        function isValidJson(model) {
+          var flag = true;
+
+          try {
+            angular.fromJson(model);
+          } catch (err) {
+            flag = false;
+          }
+
+          return flag;
+        }
+      }
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /cask-angular-focus/focus-service.js */
 
   /*
@@ -6086,115 +6195,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       }
     };
   }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /cask-angular-json-edit/jsonedit.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskJsonEdit
-   *
-   * adapted from https://gist.github.com/maxbates/11002270
-   *
-   * <textarea cask-json-edit="myObject" rows="8" class="form-control"></textarea>
-   */
-  angular.module(PKG.name + '.commons').directive('caskJsonEdit', function myJsonEditDirective() {
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      template: '<textarea ng-model="jsonEditing"></textarea>',
-      replace: true,
-      scope: {
-        model: '=caskJsonEdit'
-      },
-      link: function link(scope, element, attrs, ngModelCtrl) {
-        //init
-        setEditing(scope.model); //check for changes going out
-
-        scope.$watch('jsonEditing', function (newval, oldval) {
-          if (newval !== oldval) {
-            if (isValidJson(newval)) {
-              setValid();
-              updateModel(newval);
-            } else {
-              setInvalid();
-            }
-          }
-        }, true); //check for changes coming in
-
-        scope.$watch('model', function (newval, oldval) {
-          if (newval !== oldval) {
-            setEditing(newval);
-          }
-        }, true);
-
-        function setEditing(value) {
-          scope.jsonEditing = angular.copy(json2string(value));
-        }
-
-        function updateModel(value) {
-          scope.model = string2json(value);
-        }
-
-        function setValid() {
-          ngModelCtrl.$setValidity('json', true);
-        }
-
-        function setInvalid() {
-          ngModelCtrl.$setValidity('json', false);
-        }
-
-        function string2json(text) {
-          try {
-            return angular.fromJson(text);
-          } catch (err) {
-            setInvalid();
-            return text;
-          }
-        }
-
-        function json2string(obj) {
-          // better than JSON.stringify(), because it formats + filters $$hashKey etc.
-          // NOTE that this will remove all $-prefixed values
-          return angular.toJson(obj, true);
-        }
-
-        function isValidJson(model) {
-          var flag = true;
-
-          try {
-            angular.fromJson(model);
-          } catch (err) {
-            flag = false;
-          }
-
-          return flag;
-        }
-      }
-    };
-  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"

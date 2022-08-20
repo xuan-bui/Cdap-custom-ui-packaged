@@ -3836,6 +3836,54 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /mapreduce/my-mapreduce-api.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.services').factory('myMapreduceApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
+    var url = myCdapUrl.constructUrl,
+        basepath = '/namespaces/:namespace/apps/:appId/mapreduce/:mapreduceId';
+    return $resource(url({
+      _cdapPath: basepath
+    }), {
+      namespace: '@namespace',
+      appId: '@appId',
+      mapreduceId: '@mapreduceId',
+      runId: '@runId'
+    }, {
+      get: myHelpers.getConfig('GET', 'REQUEST', basepath),
+      runs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs', true),
+      pollLatestRun: myHelpers.getConfig('GET', 'POLL', basepath + '/runs?limit=1', true, {
+        interval: 2000
+      }),
+      stopPollLatestRun: myHelpers.getConfig('GET', 'POLL-STOP', basepath + '/runs?limit=1', true),
+      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
+      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
+      runDetail: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId')
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /logsApi/my-logs-api.js */
 
   /*
@@ -3945,54 +3993,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       nextLogsJsonOffset: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/next?format=json&max=100&fromOffset=:fromOffset', true),
       prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev', true),
       prevLogsJson: myHelpers.getConfig('GET', 'REQUEST', basepath + '/logs/prev?format=json', true)
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /mapreduce/my-mapreduce-api.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.services').factory('myMapreduceApi', ["myCdapUrl", "$resource", "myAuth", "myHelpers", function (myCdapUrl, $resource, myAuth, myHelpers) {
-    var url = myCdapUrl.constructUrl,
-        basepath = '/namespaces/:namespace/apps/:appId/mapreduce/:mapreduceId';
-    return $resource(url({
-      _cdapPath: basepath
-    }), {
-      namespace: '@namespace',
-      appId: '@appId',
-      mapreduceId: '@mapreduceId',
-      runId: '@runId'
-    }, {
-      get: myHelpers.getConfig('GET', 'REQUEST', basepath),
-      runs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs', true),
-      pollLatestRun: myHelpers.getConfig('GET', 'POLL', basepath + '/runs?limit=1', true, {
-        interval: 2000
-      }),
-      stopPollLatestRun: myHelpers.getConfig('GET', 'POLL-STOP', basepath + '/runs?limit=1', true),
-      nextLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/next', true),
-      prevLogs: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId/logs/prev', true),
-      runDetail: myHelpers.getConfig('GET', 'REQUEST', basepath + '/runs/:runId')
     });
   }]);
 })({
@@ -6120,62 +6120,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cask-angular-password/password.js */
-
-  /*
-   * Copyright © 2015-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-
-  /**
-   * caskPassword
-   *
-   * implements "click2show" behavior
-   *
-   * <cask-password data-value="password"></cask-password>
-   */
-  angular.module(PKG.name + '.commons').directive('caskPassword', ["caskFocusManager", function caskPasswordDirective(caskFocusManager) {
-    return {
-      restrict: 'E',
-      templateUrl: 'cask-angular-password/click2show.html',
-      replace: true,
-      scope: {
-        value: '='
-      },
-      link: function link(scope) {
-        scope.uid = ['caskPassword', Date.now(), Math.random().toString().substr(2)].join('_');
-
-        scope.doToggle = function () {
-          var show = !scope.show;
-          scope.show = show;
-
-          if (show) {
-            caskFocusManager.select(scope.uid);
-          }
-        };
-      }
-    };
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /cask-angular-json-edit/jsonedit.js */
 
   /*
@@ -6285,7 +6229,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cask-angular-progress/progress.js */
+  /* /cask-angular-password/password.js */
 
   /*
    * Copyright © 2015-2018 Cask Data, Inc.
@@ -6304,54 +6248,34 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
    */
 
   /**
-   * caskProgress
+   * caskPassword
    *
-   *  <cask-progress
-   *      data-type="bar"
-   *      data-add-cls="success striped"
-   *      data-value="model.progress.stepscompleted"
-   *      data-max="model.progress.stepstotal"
-   *    ></cask-progress>
+   * implements "click2show" behavior
+   *
+   * <cask-password data-value="password"></cask-password>
    */
-  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
+  angular.module(PKG.name + '.commons').directive('caskPassword', ["caskFocusManager", function caskPasswordDirective(caskFocusManager) {
     return {
       restrict: 'E',
-      templateUrl: 'cask-angular-progress/bar.html',
+      templateUrl: 'cask-angular-password/click2show.html',
       replace: true,
       scope: {
-        addCls: '@',
-        value: '=',
-        max: '='
+        value: '='
       },
-      link: function link(scope, element, attrs) {
-        scope.$watch('value', function (newVal) {
-          var max = parseInt(scope.max, 10) || 100;
-          scope.percent = Math.floor(newVal / max * 100);
-          var cls = {
-            'active': newVal < max,
-            'progress-bar': true
-          };
+      link: function link(scope) {
+        scope.uid = ['caskPassword', Date.now(), Math.random().toString().substr(2)].join('_');
 
-          if (scope.addCls) {
-            angular.forEach(scope.addCls.split(' '), function (add) {
-              if (add) {
-                switch (attrs.type) {
-                  case 'bar':
-                  /* falls through */
+        scope.doToggle = function () {
+          var show = !scope.show;
+          scope.show = show;
 
-                  default:
-                    cls['progress-bar-' + add] = true;
-                    break;
-                }
-              }
-            });
+          if (show) {
+            caskFocusManager.select(scope.uid);
           }
-
-          scope.cls = cls;
-        });
+        };
       }
     };
-  });
+  }]);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -6445,10 +6369,10 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /cron-schedule-view/cron-schedule-ctrl.js */
+  /* /cask-angular-progress/progress.js */
 
   /*
-   * Copyright © 2015 Cask Data, Inc.
+   * Copyright © 2015-2018 Cask Data, Inc.
    *
    * Licensed under the Apache License, Version 2.0 (the "License"); you may not
    * use this file except in compliance with the License. You may obtain a copy of
@@ -6462,51 +6386,54 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
    * License for the specific language governing permissions and limitations under
    * the License.
    */
-  angular.module(PKG.name + '.commons').controller('CronScheduleViewController', ["$scope", function ($scope) {
-    var cronExpression = $scope.model.split(' ');
-    $scope.schedule = {
-      time: {}
-    };
-    $scope.schedule.time.min = cronExpression[0];
-    $scope.schedule.time.hour = cronExpression[1];
-    $scope.schedule.time.day = cronExpression[2];
-    $scope.schedule.time.month = cronExpression[3];
-    $scope.schedule.time.week = cronExpression[4];
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
 
-(function (PKG) {
-  /* /cron-schedule-view/cron-schedule-view.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
+  /**
+   * caskProgress
    *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
+   *  <cask-progress
+   *      data-type="bar"
+   *      data-add-cls="success striped"
+   *      data-value="model.progress.stepscompleted"
+   *      data-max="model.progress.stepstotal"
+   *    ></cask-progress>
    */
-  angular.module(PKG.name + '.commons').directive('myCronScheduleView', function () {
+  angular.module(PKG.name + '.commons').directive('caskProgress', function caskProgressDirective() {
     return {
-      restrict: 'EA',
+      restrict: 'E',
+      templateUrl: 'cask-angular-progress/bar.html',
+      replace: true,
       scope: {
-        model: '=ngModel'
+        addCls: '@',
+        value: '=',
+        max: '='
       },
-      templateUrl: 'cron-schedule-view/cron-schedule-view.html',
-      controller: 'CronScheduleViewController'
+      link: function link(scope, element, attrs) {
+        scope.$watch('value', function (newVal) {
+          var max = parseInt(scope.max, 10) || 100;
+          scope.percent = Math.floor(newVal / max * 100);
+          var cls = {
+            'active': newVal < max,
+            'progress-bar': true
+          };
+
+          if (scope.addCls) {
+            angular.forEach(scope.addCls.split(' '), function (add) {
+              if (add) {
+                switch (attrs.type) {
+                  case 'bar':
+                  /* falls through */
+
+                  default:
+                    cls['progress-bar-' + add] = true;
+                    break;
+                }
+              }
+            });
+          }
+
+          scope.cls = cls;
+        });
+      }
     };
   });
 })({
@@ -6631,6 +6558,79 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       return node.attr('data-predicate') || node.text();
     }
   }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cron-schedule-view/cron-schedule-ctrl.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').controller('CronScheduleViewController', ["$scope", function ($scope) {
+    var cronExpression = $scope.model.split(' ');
+    $scope.schedule = {
+      time: {}
+    };
+    $scope.schedule.time.min = cronExpression[0];
+    $scope.schedule.time.hour = cronExpression[1];
+    $scope.schedule.time.day = cronExpression[2];
+    $scope.schedule.time.month = cronExpression[3];
+    $scope.schedule.time.week = cronExpression[4];
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /cron-schedule-view/cron-schedule-view.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('myCronScheduleView', function () {
+    return {
+      restrict: 'EA',
+      scope: {
+        model: '=ngModel'
+      },
+      templateUrl: 'cron-schedule-view/cron-schedule-view.html',
+      controller: 'CronScheduleViewController'
+    };
+  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -10741,6 +10741,216 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   "name": "cdap-ui",
   "v": "6.2.0"
 });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/detail-ctrl.js */
+
+  /*
+   * Copyright © 2016-2018 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusDetailCtrl', ["rPipelineDetail", "$scope", "$stateParams", "PipelineAvailablePluginsActions", "GLOBALS", "myHelpers", function (rPipelineDetail, $scope, $stateParams, PipelineAvailablePluginsActions, GLOBALS, myHelpers) {
+    var _this = this;
+
+    // FIXME: This should essentially be moved to a scaffolding service that will do stuff for a state/view
+    var pipelineDetailsActionCreator = window.CaskCommon.PipelineDetailActionCreator;
+    var pipelineMetricsActionCreator = window.CaskCommon.PipelineMetricsActionCreator;
+    var pipelineConfigurationsActionCreator = window.CaskCommon.PipelineConfigurationsActionCreator;
+    this.pipelineType = rPipelineDetail.artifact.name;
+    var programType = GLOBALS.programType[this.pipelineType];
+    var programTypeForRunsCount = GLOBALS.programTypeForRunsCount[this.pipelineType];
+    var programName = GLOBALS.programId[this.pipelineType];
+    var scheduleId = GLOBALS.defaultScheduleId;
+    var currentRun, metricsObservable, runsPoll, runsCountPoll;
+    var pluginsFetched = false;
+    pipelineDetailsActionCreator.init(rPipelineDetail);
+    var runid = $stateParams.runid;
+    this.eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
+    this.pageLevelError = null;
+    var globalEvents = window.CaskCommon.globalEvents;
+    this.eventEmitter.on(globalEvents.PAGE_LEVEL_ERROR, function (error) {
+      if (error.reset === true) {
+        _this.pageLevelError = null;
+      } else {
+        _this.pageLevelError = myHelpers.handlePageLevelError(error);
+      }
+    });
+    var runsFetch = pipelineDetailsActionCreator.getRuns({
+      namespace: $stateParams.namespace,
+      appId: rPipelineDetail.name,
+      programType: programType,
+      programName: programName
+    });
+    runsFetch.subscribe(function () {
+      var _window$CaskCommon$Pi = window.CaskCommon.PipelineDetailStore.getState(),
+          runs = _window$CaskCommon$Pi.runs;
+
+      var doesCurrentRunExists = _.find(runs, function (run) {
+        return run.runid === runid;
+      });
+      /**
+       * We do this here because of this usecase,
+       *
+       * 1. User goes to pipeline which has 130 runs
+       * 2. Opens up summary and clicks on the 30th run from the runs history graph
+       * 3. User is now at 30 of 130 runs
+       * 4. User starts more new runs
+       * 5. At later point when the user refreshes the UI, the current run id in the url won't be in the latest 100 runs
+       *
+       * So instead of having a runid in the url and showing the information of latest run (which is incorrect) we fetch
+       * the run detail and add it to the runs.
+       *
+       * This will render the run number incorrect but its ok compared to the whole run information being incorrect.
+       */
+
+
+      if (runid && !doesCurrentRunExists) {
+        pipelineDetailsActionCreator.getRunDetails({
+          namespace: $stateParams.namespace,
+          appId: rPipelineDetail.name,
+          programType: programType,
+          programName: programName,
+          runid: runid
+        }).subscribe(function (runDetails) {
+          var _window$CaskCommon$Pi2 = window.CaskCommon.PipelineDetailStore.getState(),
+              runs = _window$CaskCommon$Pi2.runs;
+
+          runs.push(runDetails);
+          pipelineDetailsActionCreator.setCurrentRunId(runid);
+          pipelineDetailsActionCreator.setRuns(runs);
+        });
+      } else if (runid) {
+        pipelineDetailsActionCreator.setCurrentRunId(runid);
+      }
+
+      pollRuns();
+    });
+    pollRunsCount();
+
+    function pollRuns() {
+      runsPoll = pipelineDetailsActionCreator.pollRuns({
+        namespace: $stateParams.namespace,
+        appId: rPipelineDetail.name,
+        programType: programType,
+        programName: programName
+      });
+    }
+
+    function pollRunsCount() {
+      runsCountPoll = pipelineDetailsActionCreator.pollRunsCount({
+        namespace: $stateParams.namespace,
+        appId: rPipelineDetail.name,
+        programType: programTypeForRunsCount,
+        programName: programName
+      });
+    }
+
+    pipelineDetailsActionCreator.fetchScheduleStatus({
+      namespace: $stateParams.namespace,
+      appId: rPipelineDetail.name,
+      scheduleId: scheduleId
+    });
+    var pipelineDetailStoreSubscription = window.CaskCommon.PipelineDetailStore.subscribe(function () {
+      var pipelineDetailStoreState = window.CaskCommon.PipelineDetailStore.getState();
+
+      if (!pluginsFetched) {
+        var pluginsToFetchDetailsFor = pipelineDetailStoreState.config.stages.concat(pipelineDetailStoreState.config.postActions || []);
+        PipelineAvailablePluginsActions.fetchPluginsForDetails($stateParams.namespace, pluginsToFetchDetailsFor);
+        pluginsFetched = true;
+      }
+
+      var latestRun = pipelineDetailStoreState.currentRun;
+
+      if (!latestRun || !latestRun.runid) {
+        return;
+      } // let latestRunId = latestRun.runid;
+
+
+      if (currentRun && currentRun.runid === latestRun.runid && currentRun.status === latestRun.status && currentRun.status !== 'RUNNING') {
+        return;
+      } // When current run id changes reset the metrics in the DAG.
+
+
+      if (currentRun && currentRun.runid !== latestRun.runid) {
+        pipelineMetricsActionCreator.reset();
+      }
+
+      currentRun = latestRun;
+      var metricProgramType = programType === 'workflows' ? 'workflow' : programType;
+
+      var metricParams = _defineProperty({
+        namespace: $stateParams.namespace,
+        app: rPipelineDetail.name,
+        run: latestRun.runid
+      }, metricProgramType, programName);
+
+      if (metricsObservable) {
+        metricsObservable.unsubscribe();
+      }
+
+      if (latestRun.status !== 'RUNNING') {
+        pipelineMetricsActionCreator.getMetrics(metricParams);
+      } else {
+        metricsObservable = pipelineMetricsActionCreator.pollForMetrics(metricParams);
+      }
+    });
+    this.eventEmitter.on(window.CaskCommon.WINDOW_ON_FOCUS, function () {
+      pollRuns();
+      pollRunsCount();
+    });
+    this.eventEmitter.on(window.CaskCommon.WINDOW_ON_BLUR, function () {
+      if (metricsObservable) {
+        metricsObservable.unsubscribe();
+      }
+
+      if (runsPoll) {
+        runsPoll.unsubscribe();
+      }
+
+      if (runsCountPoll) {
+        runsCountPoll.unsubscribe();
+      }
+    });
+    $scope.$on('$destroy', function () {
+      // FIXME: This should essentially be moved to a scaffolding service that will do stuff for a state/view
+      if (runsPoll) {
+        runsPoll.unsubscribe();
+      }
+
+      if (runsCountPoll) {
+        runsCountPoll.unsubscribe();
+      }
+
+      if (metricsObservable) {
+        metricsObservable.unsubscribe();
+      }
+
+      pipelineConfigurationsActionCreator.reset();
+      pipelineDetailsActionCreator.reset();
+      pipelineDetailStoreSubscription();
+      pipelineMetricsActionCreator.reset();
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
 var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
   return a;
 };
@@ -12918,216 +13128,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   "name": "cdap-ui",
   "v": "6.2.0"
 });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/detail-ctrl.js */
-
-  /*
-   * Copyright © 2016-2018 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusDetailCtrl', ["rPipelineDetail", "$scope", "$stateParams", "PipelineAvailablePluginsActions", "GLOBALS", "myHelpers", function (rPipelineDetail, $scope, $stateParams, PipelineAvailablePluginsActions, GLOBALS, myHelpers) {
-    var _this = this;
-
-    // FIXME: This should essentially be moved to a scaffolding service that will do stuff for a state/view
-    var pipelineDetailsActionCreator = window.CaskCommon.PipelineDetailActionCreator;
-    var pipelineMetricsActionCreator = window.CaskCommon.PipelineMetricsActionCreator;
-    var pipelineConfigurationsActionCreator = window.CaskCommon.PipelineConfigurationsActionCreator;
-    this.pipelineType = rPipelineDetail.artifact.name;
-    var programType = GLOBALS.programType[this.pipelineType];
-    var programTypeForRunsCount = GLOBALS.programTypeForRunsCount[this.pipelineType];
-    var programName = GLOBALS.programId[this.pipelineType];
-    var scheduleId = GLOBALS.defaultScheduleId;
-    var currentRun, metricsObservable, runsPoll, runsCountPoll;
-    var pluginsFetched = false;
-    pipelineDetailsActionCreator.init(rPipelineDetail);
-    var runid = $stateParams.runid;
-    this.eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
-    this.pageLevelError = null;
-    var globalEvents = window.CaskCommon.globalEvents;
-    this.eventEmitter.on(globalEvents.PAGE_LEVEL_ERROR, function (error) {
-      if (error.reset === true) {
-        _this.pageLevelError = null;
-      } else {
-        _this.pageLevelError = myHelpers.handlePageLevelError(error);
-      }
-    });
-    var runsFetch = pipelineDetailsActionCreator.getRuns({
-      namespace: $stateParams.namespace,
-      appId: rPipelineDetail.name,
-      programType: programType,
-      programName: programName
-    });
-    runsFetch.subscribe(function () {
-      var _window$CaskCommon$Pi = window.CaskCommon.PipelineDetailStore.getState(),
-          runs = _window$CaskCommon$Pi.runs;
-
-      var doesCurrentRunExists = _.find(runs, function (run) {
-        return run.runid === runid;
-      });
-      /**
-       * We do this here because of this usecase,
-       *
-       * 1. User goes to pipeline which has 130 runs
-       * 2. Opens up summary and clicks on the 30th run from the runs history graph
-       * 3. User is now at 30 of 130 runs
-       * 4. User starts more new runs
-       * 5. At later point when the user refreshes the UI, the current run id in the url won't be in the latest 100 runs
-       *
-       * So instead of having a runid in the url and showing the information of latest run (which is incorrect) we fetch
-       * the run detail and add it to the runs.
-       *
-       * This will render the run number incorrect but its ok compared to the whole run information being incorrect.
-       */
-
-
-      if (runid && !doesCurrentRunExists) {
-        pipelineDetailsActionCreator.getRunDetails({
-          namespace: $stateParams.namespace,
-          appId: rPipelineDetail.name,
-          programType: programType,
-          programName: programName,
-          runid: runid
-        }).subscribe(function (runDetails) {
-          var _window$CaskCommon$Pi2 = window.CaskCommon.PipelineDetailStore.getState(),
-              runs = _window$CaskCommon$Pi2.runs;
-
-          runs.push(runDetails);
-          pipelineDetailsActionCreator.setCurrentRunId(runid);
-          pipelineDetailsActionCreator.setRuns(runs);
-        });
-      } else if (runid) {
-        pipelineDetailsActionCreator.setCurrentRunId(runid);
-      }
-
-      pollRuns();
-    });
-    pollRunsCount();
-
-    function pollRuns() {
-      runsPoll = pipelineDetailsActionCreator.pollRuns({
-        namespace: $stateParams.namespace,
-        appId: rPipelineDetail.name,
-        programType: programType,
-        programName: programName
-      });
-    }
-
-    function pollRunsCount() {
-      runsCountPoll = pipelineDetailsActionCreator.pollRunsCount({
-        namespace: $stateParams.namespace,
-        appId: rPipelineDetail.name,
-        programType: programTypeForRunsCount,
-        programName: programName
-      });
-    }
-
-    pipelineDetailsActionCreator.fetchScheduleStatus({
-      namespace: $stateParams.namespace,
-      appId: rPipelineDetail.name,
-      scheduleId: scheduleId
-    });
-    var pipelineDetailStoreSubscription = window.CaskCommon.PipelineDetailStore.subscribe(function () {
-      var pipelineDetailStoreState = window.CaskCommon.PipelineDetailStore.getState();
-
-      if (!pluginsFetched) {
-        var pluginsToFetchDetailsFor = pipelineDetailStoreState.config.stages.concat(pipelineDetailStoreState.config.postActions || []);
-        PipelineAvailablePluginsActions.fetchPluginsForDetails($stateParams.namespace, pluginsToFetchDetailsFor);
-        pluginsFetched = true;
-      }
-
-      var latestRun = pipelineDetailStoreState.currentRun;
-
-      if (!latestRun || !latestRun.runid) {
-        return;
-      } // let latestRunId = latestRun.runid;
-
-
-      if (currentRun && currentRun.runid === latestRun.runid && currentRun.status === latestRun.status && currentRun.status !== 'RUNNING') {
-        return;
-      } // When current run id changes reset the metrics in the DAG.
-
-
-      if (currentRun && currentRun.runid !== latestRun.runid) {
-        pipelineMetricsActionCreator.reset();
-      }
-
-      currentRun = latestRun;
-      var metricProgramType = programType === 'workflows' ? 'workflow' : programType;
-
-      var metricParams = _defineProperty({
-        namespace: $stateParams.namespace,
-        app: rPipelineDetail.name,
-        run: latestRun.runid
-      }, metricProgramType, programName);
-
-      if (metricsObservable) {
-        metricsObservable.unsubscribe();
-      }
-
-      if (latestRun.status !== 'RUNNING') {
-        pipelineMetricsActionCreator.getMetrics(metricParams);
-      } else {
-        metricsObservable = pipelineMetricsActionCreator.pollForMetrics(metricParams);
-      }
-    });
-    this.eventEmitter.on(window.CaskCommon.WINDOW_ON_FOCUS, function () {
-      pollRuns();
-      pollRunsCount();
-    });
-    this.eventEmitter.on(window.CaskCommon.WINDOW_ON_BLUR, function () {
-      if (metricsObservable) {
-        metricsObservable.unsubscribe();
-      }
-
-      if (runsPoll) {
-        runsPoll.unsubscribe();
-      }
-
-      if (runsCountPoll) {
-        runsCountPoll.unsubscribe();
-      }
-    });
-    $scope.$on('$destroy', function () {
-      // FIXME: This should essentially be moved to a scaffolding service that will do stuff for a state/view
-      if (runsPoll) {
-        runsPoll.unsubscribe();
-      }
-
-      if (runsCountPoll) {
-        runsCountPoll.unsubscribe();
-      }
-
-      if (metricsObservable) {
-        metricsObservable.unsubscribe();
-      }
-
-      pipelineConfigurationsActionCreator.reset();
-      pipelineDetailsActionCreator.reset();
-      pipelineDetailStoreSubscription();
-      pipelineMetricsActionCreator.reset();
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -15166,6 +15166,1672 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       _this.pipelineDetailStoreSubscription();
     });
   }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/partials/console-tab-ctrl.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var HydratorPlusPlusConsoleTabService = /*#__PURE__*/function () {
+    HydratorPlusPlusConsoleTabService.$inject = ["HydratorPlusPlusConsoleStore", "myAlertOnValium"];
+    function HydratorPlusPlusConsoleTabService(HydratorPlusPlusConsoleStore, myAlertOnValium) {
+      _classCallCheck(this, HydratorPlusPlusConsoleTabService);
+
+      this.HydratorPlusPlusConsoleStore = HydratorPlusPlusConsoleStore;
+      this.myAlertOnValium = myAlertOnValium;
+      this.setMessages();
+    }
+
+    _createClass(HydratorPlusPlusConsoleTabService, [{
+      key: "listen",
+      value: function listen() {
+        this.unsub = this.HydratorPlusPlusConsoleStore.registerOnChangeListener(this.setMessages.bind(this));
+      }
+    }, {
+      key: "unsubscribe",
+      value: function unsubscribe() {
+        this.unsub();
+      }
+    }, {
+      key: "setMessages",
+      value: function setMessages() {
+        var messages = this.HydratorPlusPlusConsoleStore.getMessages();
+
+        if (Array.isArray(messages) && !messages.length) {
+          return;
+        }
+
+        var missingNodesList = [];
+        var errorMessage = [];
+        var successMessage = [];
+        messages.forEach(function (message) {
+          switch (message.type) {
+            case 'NO-SINK-FOUND':
+              missingNodesList.push('sinks(s)');
+              break;
+
+            case 'NO-SOURCE-FOUND':
+              missingNodesList.push('source(s)');
+              break;
+
+            case 'STRAY-NODES':
+              errorMessage.push(message.payload.nodes.map(function (node) {
+                return node.plugin.label;
+              }).join(', ') + ' - nodes missing connections');
+              break;
+
+            case 'INVALID-CONNECTIONS':
+              errorMessage.push(message.payload.connections.join(', ') + ' - invalid connection');
+              break;
+
+            case 'NO-BACKEND-PROPS':
+              {
+                var multiplePlugins = message.payload.nodes.length > 1;
+                var suffix = multiplePlugins ? 's' : '';
+                var pluginNames = message.payload.nodes.join(', ');
+                var messageStr = "Artifact".concat(suffix, " ").concat(pluginNames, " ").concat(multiplePlugins ? 'are' : 'is', " not available.");
+                errorMessage.push(messageStr);
+                break;
+              }
+
+            case 'success':
+              successMessage.push(message.content);
+              break;
+
+            case 'error':
+              errorMessage.push(message.content);
+              break;
+          }
+        });
+
+        if (missingNodesList.length === 2) {
+          errorMessage.push("Missing ".concat(missingNodesList.join(', '), " or actions in the pipeline."));
+        } else if (missingNodesList.length) {
+          errorMessage.push("Missing ".concat(missingNodesList.join(', '), " in the pipeline."));
+        }
+
+        if (successMessage.length) {
+          this.myAlertOnValium.show({
+            type: 'success',
+            content: successMessage.join(', ')
+          });
+        } else if (errorMessage.length) {
+          this.myAlertOnValium.show({
+            type: 'danger',
+            templateUrl: '/assets/features/hydrator/templates/partial/error-template.html',
+            templateScope: {
+              content: errorMessage,
+              currentIndex: 0,
+              moveToNextIndex: function moveToNextIndex() {
+                if (errorMessage.length > this.currentIndex) {
+                  this.currentIndex += 1;
+                }
+              },
+              moveToPrevIndex: function moveToPrevIndex() {
+                if (this.currentIndex > 0) {
+                  this.currentIndex -= 1;
+                }
+              }
+            }
+          });
+        }
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return HydratorPlusPlusConsoleTabService;
+  }();
+
+  HydratorPlusPlusConsoleTabService.$inject = ['HydratorPlusPlusConsoleStore', 'myAlertOnValium'];
+  angular.module(PKG.name + '.feature.hydrator').service('HydratorPlusPlusConsoleTabService', HydratorPlusPlusConsoleTabService);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/partials/nodeconfig-ctrl.js */
+
+  /*
+   * Copyright © 2015-2019 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var HydratorPlusPlusNodeConfigCtrl = /*#__PURE__*/function () {
+    HydratorPlusPlusNodeConfigCtrl.$inject = ["$scope", "$timeout", "$state", "HydratorPlusPlusPluginConfigFactory", "EventPipe", "GLOBALS", "HydratorPlusPlusConfigActions", "myHelpers", "NonStorePipelineErrorFactory", "$uibModal", "HydratorPlusPlusConfigStore", "rPlugin", "rDisabled", "HydratorPlusPlusHydratorService", "myPipelineApi", "HydratorPlusPlusPreviewStore", "rIsStudioMode", "HydratorPlusPlusOrderingFactory", "avsc", "DAGPlusPlusNodesActionsFactory", "rNodeMetricsContext", "HydratorPlusPlusNodeService", "HydratorPlusPlusPreviewActions", "myAlertOnValium", "HydratorPlusPlusCanvasFactory"];
+    function HydratorPlusPlusNodeConfigCtrl($scope, $timeout, $state, HydratorPlusPlusPluginConfigFactory, EventPipe, GLOBALS, HydratorPlusPlusConfigActions, myHelpers, NonStorePipelineErrorFactory, $uibModal, HydratorPlusPlusConfigStore, rPlugin, rDisabled, HydratorPlusPlusHydratorService, myPipelineApi, HydratorPlusPlusPreviewStore, rIsStudioMode, HydratorPlusPlusOrderingFactory, avsc, DAGPlusPlusNodesActionsFactory, rNodeMetricsContext, HydratorPlusPlusNodeService, HydratorPlusPlusPreviewActions, myAlertOnValium, HydratorPlusPlusCanvasFactory) {
+      'ngInject';
+
+      var _this = this;
+
+      _classCallCheck(this, HydratorPlusPlusNodeConfigCtrl);
+
+      this.$scope = $scope;
+      this.$timeout = $timeout;
+      this.$state = $state;
+      this.EventPipe = EventPipe;
+      this.HydratorPlusPlusPluginConfigFactory = HydratorPlusPlusPluginConfigFactory;
+      this.GLOBALS = GLOBALS;
+      this.myHelpers = myHelpers;
+      this.HydratorPlusPlusConfigActions = HydratorPlusPlusConfigActions;
+      this.NonStorePipelineErrorFactory = NonStorePipelineErrorFactory;
+      this.requiredPropertyError = this.GLOBALS.en.hydrator.studio.error['GENERIC-MISSING-REQUIRED-FIELDS'];
+      this.showPropagateConfirm = false; // confirmation dialog in node config for schema propagation.
+
+      this.$uibModal = $uibModal;
+      this.ConfigStore = HydratorPlusPlusConfigStore;
+      this.$scope.isDisabled = rDisabled;
+      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
+      this.myPipelineApi = myPipelineApi;
+      this.previewStore = HydratorPlusPlusPreviewStore;
+      this.HydratorPlusPlusPreviewActions = HydratorPlusPlusPreviewActions;
+      this.HydratorPlusPlusOrderingFactory = HydratorPlusPlusOrderingFactory;
+      this.DAGPlusPlusNodesActionsFactory = DAGPlusPlusNodesActionsFactory;
+      this.avsc = avsc;
+      this.PipelineMetricsStore = window.CaskCommon.PipelineMetricsStore;
+      this.HydratorPlusPlusNodeService = HydratorPlusPlusNodeService;
+      this.eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
+      this.configurationGroupUtilities = window.CaskCommon.ConfigurationGroupUtilities;
+      this.dynamicFiltersUtilities = window.CaskCommon.DynamicFiltersUtilities;
+      this.showNewSchemaEditor = window.localStorage['schema-editor'] === 'true';
+      this.myAlertOnValium = myAlertOnValium;
+      this.metricsContext = rNodeMetricsContext;
+      this.isStudioMode = rIsStudioMode;
+      this.rPlugin = rPlugin;
+      this.HydratorPlusPlusCanvasFactory = HydratorPlusPlusCanvasFactory;
+      this.validatePluginProperties = this.validatePluginProperties.bind(this);
+      this.getPreviewId = this.getPreviewId.bind(this);
+      this.previewId = this.getPreviewId();
+      this.previewStatus = null;
+      this.getStagesAndConnections = this.getStagesAndConnections.bind(this);
+      this.getIsMacroEnabled = this.getIsMacroEnabled.bind(this);
+      this.onImportSchema = this.onImportSchema.bind(this);
+      this.onClearSchema = this.onClearSchema.bind(this);
+      this.onPropagateSchema = this.onPropagateSchema.bind(this);
+      this.onMacroEnabled = this.onMacroEnabled.bind(this);
+      this.onSchemaChange = this.onSchemaChange.bind(this);
+      this.onSchemaImportLinkClick = this.onSchemaImportLinkClick.bind(this);
+      this.isSchemaMacro = this.isSchemaMacro.bind(this);
+      this.onPropertiesChange = this.onPropertiesChange.bind(this);
+      this.handleLabelChange = this.handleLabelChange.bind(this);
+      this.initializeMetrics = this.initializeMetrics.bind(this);
+      this.showContents = this.showContents.bind(this);
+      this.initializePreview = this.initializePreview.bind(this);
+      this.setComments = this.setComments.bind(this);
+      this.tabs = [{
+        label: 'Properties',
+        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/configuration-tab.html'
+      }, {
+        label: 'Preview',
+        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/preview-tab.html'
+      }, {
+        label: 'Documentation',
+        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/reference-tab.html'
+      }, {
+        label: 'Metrics',
+        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/metrics-tab.html'
+      }];
+      this.setDefaults();
+      this.fetchPluginInfo(rPlugin).then(this.initializeMetrics).then(this.showContents).then(this.initializePreview);
+      this.portMetricsToShow = this.PipelineMetricsStore.getState().portsToShow;
+      this.$scope.$on('modal.closing', function () {
+        _this.updateNodeStateIfDirty();
+
+        _this.previewStore.dispatch(_this.HydratorPlusPlusPreviewActions.resetPreviewData());
+      }); // Timeouts
+
+      this.setStateTimeout = null;
+      this.eventEmitter.on('dataset.selected', this.handleDatasetSelected.bind(this));
+      this.$scope.$on('$destroy', function () {
+        _this.$timeout.cancel(_this.setStateTimeout);
+
+        _this.eventEmitter.off('dataset.selected', _this.handleDatasetSelected.bind(_this));
+      });
+      this.labelConfig = {
+        widgetProperty: {
+          label: 'Label',
+          'widget-type': 'textbox'
+        },
+        pluginProperty: {
+          required: true
+        }
+      };
+    }
+
+    _createClass(HydratorPlusPlusNodeConfigCtrl, [{
+      key: "fetchPluginInfo",
+      value: function fetchPluginInfo(rPlugin) {
+        var _this2 = this;
+
+        var pluginNode = rPlugin.pluginNode;
+        var appType = rPlugin.appType;
+        var sourceConnections = rPlugin.sourceConnections;
+        var sourceNodes = rPlugin.sourceNodes;
+        var artifactVersion = rPlugin.artifactVersion;
+        return this.HydratorPlusPlusNodeService.getPluginInfo(pluginNode, appType, sourceConnections, sourceNodes, artifactVersion).then(function (nodeWithInfo) {
+          var pluginType = nodeWithInfo.type || nodeWithInfo.plugin.type;
+          return _this2.setDefaults({
+            node: nodeWithInfo,
+            isValidPlugin: true,
+            type: appType,
+            isSource: _this2.GLOBALS.pluginConvert[pluginType] === 'source',
+            isSink: _this2.GLOBALS.pluginConvert[pluginType] === 'sink',
+            isTransform: _this2.GLOBALS.pluginConvert[pluginType] === 'transform',
+            isAction: _this2.GLOBALS.pluginConvert[pluginType] === 'action',
+            isCondition: _this2.GLOBALS.pluginConvert[pluginType] === 'condition'
+          });
+        }, function (err) {
+          if (err && err.statusCode === 404) {
+            // This is when plugin artifact is unavailable. Show appropriate message.
+            _this2.state.configfetched = true;
+            _this2.state.noproperty = 0;
+            _this2.state.isValidPlugin = false;
+          }
+        });
+      }
+    }, {
+      key: "setDefaults",
+      value: function setDefaults() {
+        var _this3 = this;
+
+        var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        this.state = {
+          configfetched: false,
+          properties: [],
+          noconfig: null,
+          noproperty: true,
+          config: {},
+          groupsConfig: {},
+          isValidPlugin: config.isValidPlugin || false,
+          node: angular.copy(config.node) || {},
+          isSource: config.isSource || false,
+          isSink: config.isSink || false,
+          isTransform: config.isTransform || false,
+          isAction: config.isAction || false,
+          isCondition: config.isCondition || false,
+          type: config.appType || null,
+          watchers: [],
+          outputSchemaUpdate: 0,
+          schemaAdvance: false
+        };
+        this.isPreviewMode = this.previewStore.getState().preview.isPreviewModeEnabled;
+        this.isPreviewData = this.previewStore.getState().preview.previewData;
+        this.activeTab = 1;
+
+        if (this.isPreviewMode && this.isPreviewData && !this.rPlugin.isAction) {
+          this.activeTab = 2;
+        } else if (this.PipelineMetricsStore.getState().metricsTabActive) {
+          this.activeTab = 4;
+        }
+
+        this.defaultState = angular.copy(this.state);
+        var propertiesSchema = this.myHelpers.objectQuery(this.state.node, 'plugin', 'properties', 'schema');
+        var schemaArr = propertiesSchema || this.state.node.outputSchema;
+
+        if (schemaArr) {
+          if (Array.isArray(schemaArr)) {
+            angular.forEach(schemaArr, function (schemaObj) {
+              if (schemaObj.schema) {
+                try {
+                  _this3.avsc.parse(schemaObj.schema, {
+                    wrapUnions: true
+                  });
+                } catch (e) {
+                  // If its old schema editor by default set it to advance
+                  if (!_this3.showNewSchemaEditor) {
+                    _this3.state.schemaAdvance = true;
+                  } else {
+                    // else if its a new schema editor set advance only if the schema is a macro.
+                    if (schemaArr.indexOf('${') !== -1) {
+                      _this3.state.schemaAdvance = true;
+                    }
+                  }
+                }
+              }
+            });
+          } else {
+            try {
+              this.avsc.parse(schemaArr, {
+                wrapUnions: true
+              });
+            } catch (e) {
+              // If its old schema editor by default set it to advance
+              if (!this.showNewSchemaEditor) {
+                this.state.schemaAdvance = true;
+              } else {
+                // else if its a new schema editor set advance only if the schema is a macro.
+                if (schemaArr.indexOf('${') !== -1) {
+                  this.state.schemaAdvance = true;
+                }
+              }
+            }
+          }
+        }
+
+        this.showPropagateConfirm = false;
+      }
+    }, {
+      key: "initializeMetrics",
+      value: function initializeMetrics() {
+        var _this4 = this;
+
+        this.isMetricsEnabled = this.$scope.isDisabled && Array.isArray(this.metricsContext.runs) && this.metricsContext.runs.length;
+
+        if (this.metricsContext) {
+          this.nodeMetrics = ["user.".concat(this.state.node.name, ".records.in"), "user.".concat(this.state.node.name, ".records.error"), "user.".concat(this.state.node.name, ".process.time.total"), "user.".concat(this.state.node.name, ".process.time.avg"), "user.".concat(this.state.node.name, ".process.time.max"), "user.".concat(this.state.node.name, ".process.time.min"), "user.".concat(this.state.node.name, ".process.time.stddev")];
+          var nodeType = this.state.node.type || this.state.node.plugin.type;
+
+          if (nodeType === 'splittertransform') {
+            if (this.state.node.outputSchema && Array.isArray(this.state.node.outputSchema)) {
+              angular.forEach(this.state.node.outputSchema, function (port) {
+                _this4.nodeMetrics.push("user.".concat(_this4.state.node.name, ".records.out.").concat(port.name));
+              });
+            }
+          } else {
+            this.nodeMetrics.push("user.".concat(this.state.node.name, ".records.out"));
+          }
+        } else {
+          this.nodeMetrics = [];
+        }
+      }
+    }, {
+      key: "initializePreview",
+      value: function initializePreview() {
+        if (this.isStudioMode && this.isPreviewMode && this.previewId) {
+          this.previewData = null;
+          this.updatePreviewStatus();
+          this.selectedNode = {
+            nodeType: this.state.node.type,
+            name: this.state.node.plugin.label,
+            plugin: this.state.node.plugin,
+            isSource: this.state.isSource,
+            isSink: this.state.isSink,
+            isCondition: this.state.isCondition
+          };
+        }
+      }
+    }, {
+      key: "handleDatasetSelected",
+      value: function handleDatasetSelected(schema, format, datasetAlreadyExists, datasetId) {
+        if (datasetAlreadyExists) {
+          this.datasetAlreadyExists = datasetAlreadyExists;
+        } else {
+          this.datasetAlreadyExists = false;
+        } // if this plugin is having an existing dataset with a macro, then don't change anything.
+        // else if the user is changing to another existing dataset, then show basic mode.
+
+
+        if (this.myHelpers.objectQuery(this, 'defaultState', 'node', 'plugin', 'properties', 'name') && this.defaultState.node.plugin.properties.name !== datasetId) {
+          this.state.schemaAdvance = false;
+        }
+
+        if (datasetId) {
+          this.datasetId = datasetId;
+        }
+      }
+    }, {
+      key: "onPropertiesChange",
+      value: function onPropertiesChange() {
+        var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        this.state.node.plugin.properties = values;
+      }
+    }, {
+      key: "handleLabelChange",
+      value: function handleLabelChange(value) {
+        this.state.node.plugin.label = value;
+      }
+    }, {
+      key: "showContents",
+      value: function showContents() {
+        var _this5 = this;
+
+        if (angular.isArray(this.state.watchers)) {
+          this.state.watchers.forEach(function (watcher) {
+            return watcher();
+          });
+          this.state.watchers = [];
+        }
+
+        if (Object.keys(this.state.node).length) {
+          this.configfetched = false;
+          this.$timeout.cancel(this.setStateTimeout);
+          this.setStateTimeout = this.$timeout(function () {
+            _this5.loadNewPlugin();
+
+            _this5.validateNodeLabel();
+          });
+        }
+      }
+    }, {
+      key: "validateNodeLabel",
+      value: function validateNodeLabel() {
+        var _this6 = this;
+
+        var nodes = this.ConfigStore.getNodes();
+        var nodeName = this.myHelpers.objectQuery(this.state, 'node', 'plugin', 'label');
+
+        if (!nodeName) {
+          return;
+        }
+
+        this.NonStorePipelineErrorFactory.isNodeNameUnique(nodeName, nodes, function (err) {
+          if (err) {
+            _this6.state.nodeLabelError = _this6.GLOBALS.en.hydrator.studio.error[err];
+          } else {
+            _this6.state.nodeLabelError = '';
+          }
+        });
+      }
+    }, {
+      key: "propagateSchemaDownStream",
+      value: function propagateSchemaDownStream() {
+        this.HydratorPlusPlusConfigActions.propagateSchemaDownStream(this.state.node.name);
+      }
+    }, {
+      key: "loadNewPlugin",
+      value: function loadNewPlugin() {
+        var _this7 = this;
+
+        var noJsonErrorHandler = function noJsonErrorHandler(err) {
+          var propertiesFromBackend = Object.keys(_this7.state.node._backendProperties); // Didn't receive a configuration from the backend. Fallback to all textboxes.
+
+          switch (err) {
+            case 'NO_JSON_FOUND':
+              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.info['NO-CONFIG'];
+              break;
+
+            case 'CONFIG_SYNTAX_JSON_ERROR':
+              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.error['SYNTAX-CONFIG-JSON'];
+              break;
+
+            case 'CONFIG_SEMANTICS_JSON_ERROR':
+              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.error['SEMANTIC-CONFIG-JSON'];
+              break;
+          }
+
+          _this7.state.noconfig = true;
+          _this7.state.configfetched = true;
+          propertiesFromBackend.forEach(function (property) {
+            _this7.state.node.plugin.properties[property] = _this7.state.node.plugin.properties[property] || '';
+          });
+          _this7.defaultState = angular.copy(_this7.state);
+
+          _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node', function () {
+            _this7.validateNodeLabel(_this7);
+
+            _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
+          }, true));
+        };
+
+        this.state.noproperty = Object.keys(this.state.node._backendProperties || {}).length;
+
+        if (this.state.noproperty) {
+          var artifactName = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'name');
+          var artifactVersion = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'version');
+          var artifactScope = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'scope');
+          this.HydratorPlusPlusPluginConfigFactory.fetchWidgetJson(artifactName, artifactVersion, artifactScope, "widgets.".concat(this.state.node.plugin.name, "-").concat(this.state.node.type || this.state.node.plugin.type)).then(function (res) {
+            _this7.widgetJson = res; // Not going to eliminate the groupsConfig just yet, because there are still other things depending on it
+            // such as output schema.
+
+            try {
+              _this7.state.groupsConfig = _this7.HydratorPlusPlusPluginConfigFactory.generateNodeConfig(_this7.state.node._backendProperties, res);
+            } catch (e) {
+              noJsonErrorHandler();
+              return;
+            }
+
+            var generateJumpConfig = function generateJumpConfig(jumpConfig, properties) {
+              var datasets = [];
+              var jumpConfigDatasets = jumpConfig.datasets || [];
+              datasets = jumpConfigDatasets.map(function (dataset) {
+                return {
+                  datasetId: properties[dataset['ref-property-name']],
+                  entityType: 'datasets'
+                };
+              });
+              return {
+                datasets: datasets
+              };
+            };
+
+            if (res.errorDataset || _this7.state.node.errorDatasetName) {
+              _this7.state.showErrorDataset = true;
+              _this7.state.errorDatasetTooltip = res.errorDataset && res.errorDataset.errorDatasetTooltip || false;
+              _this7.state.node.errorDatasetName = _this7.state.node.errorDatasetName || '';
+            }
+
+            if (_this7.$scope.isDisabled && _this7.state.groupsConfig.jumpConfig && Object.keys(_this7.state.groupsConfig.jumpConfig).length) {
+              var _generateJumpConfig = generateJumpConfig(_this7.state.groupsConfig.jumpConfig, _this7.state.node.plugin.properties),
+                  datasets = _generateJumpConfig.datasets;
+
+              _this7.state.groupsConfig.jumpConfig.datasets = datasets;
+            } else {
+              // If we isDisabled is set to false then we are in studio mode & hence remove jump config.
+              // Jumpconfig is only for published view where everything is disabled.
+              delete _this7.state.groupsConfig.jumpConfig;
+            }
+
+            var configOutputSchema = _this7.state.groupsConfig.outputSchema; // If its an implicit schema, set the output schema to the implicit schema and inform ConfigActionFactory
+
+            if (configOutputSchema.implicitSchema) {
+              _this7.state.node.outputSchema = [_this7.HydratorPlusPlusNodeService.getOutputSchemaObj(_this7.HydratorPlusPlusHydratorService.formatSchemaToAvro(configOutputSchema.implicitSchema))];
+
+              _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
+            } else {
+              // If not an implcit schema check if a schema property exists in the node config.
+              // What this means is, has the plugin developer specified a plugin property in 'outputs' array of node config.
+              // If yes then set it as output schema and everytime when a user edits the output schema the value has to
+              // be transitioned to the respective plugin property.
+              if (configOutputSchema.isOutputSchemaExists) {
+                var schemaProperty = configOutputSchema.outputSchemaProperty[0];
+                var pluginProperties = _this7.state.node.plugin.properties;
+
+                if (pluginProperties[schemaProperty]) {
+                  _this7.state.node.outputSchema = pluginProperties[schemaProperty];
+                } else if (pluginProperties[schemaProperty] !== _this7.state.node.outputSchema) {
+                  _this7.state.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = _this7.state.node.outputSchema[0].schema;
+                }
+
+                _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node.outputSchema', function () {
+                  if (_this7.validateSchema()) {
+                    _this7.state.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = _this7.state.node.outputSchema[0].schema;
+                  }
+                }));
+              }
+            }
+
+            if (!_this7.$scope.isDisabled) {
+              _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node', function () {
+                _this7.validateNodeLabel(_this7);
+
+                _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
+              }, true));
+            }
+
+            if (!_this7.state.node.outputSchema || _this7.state.node.type === 'condition') {
+              var inputSchema = _this7.myHelpers.objectQuery(_this7.state.node, 'inputSchema', 0, 'schema') || '';
+
+              if (typeof inputSchema !== 'string') {
+                inputSchema = JSON.stringify(inputSchema);
+              }
+
+              _this7.state.node.outputSchema = [_this7.HydratorPlusPlusNodeService.getOutputSchemaObj(inputSchema)];
+            }
+
+            if (!_this7.state.node.plugin.label) {
+              _this7.state.node.plugin.label = _this7.state.node.name;
+            } // Mark the configfetched to show that configurations have been received.
+
+
+            _this7.state.configfetched = true;
+            _this7.state.config = res;
+            _this7.state.noconfig = false;
+            _this7.defaultState = angular.copy(_this7.state);
+          }, noJsonErrorHandler);
+        } else {
+          this.state.configfetched = true;
+        }
+      }
+    }, {
+      key: "schemaClear",
+      value: function schemaClear() {
+        this.eventEmitter.emit('schema.clear');
+      }
+    }, {
+      key: "importFiles",
+      value: function importFiles(files) {
+        var _this8 = this;
+
+        var reader = new FileReader();
+        reader.readAsText(files[0], 'UTF-8');
+
+        reader.onload = function (evt) {
+          var data = evt.target.result;
+
+          _this8.eventEmitter.emit('schema.import', data);
+        };
+      }
+    }, {
+      key: "onSchemaImportLinkClick",
+      value: function onSchemaImportLinkClick() {
+        this.$timeout(function () {
+          return document.getElementById('schema-import-link').click();
+        });
+      }
+    }, {
+      key: "exportSchema",
+      value: function exportSchema() {
+        this.eventEmitter.emit('schema.export');
+      }
+    }, {
+      key: "validateSchema",
+      value: function validateSchema() {
+        var _this9 = this;
+
+        this.state.errors = [];
+
+        if (!Array.isArray(this.state.node.outputSchema)) {
+          this.state.node.outputSchema = [this.HydratorPlusPlusNodeService.getOutputSchemaObj(this.state.node.outputSchema)];
+        }
+
+        angular.forEach(this.state.node.outputSchema, function (schemaObj) {
+          var schema;
+
+          try {
+            schema = JSON.parse(schemaObj.schema);
+            schema = schema.fields;
+          } catch (e) {
+            schema = null;
+          }
+
+          var validationRules = [_this9.hasUniqueFields];
+          var error = [];
+          validationRules.forEach(function (rule) {
+            rule.call(this, schema, error);
+          });
+
+          if (error.length > 0) {
+            _this9.state.errors.push(error);
+          }
+        });
+
+        if (this.state.errors.length) {
+          return false;
+        }
+
+        return true;
+      }
+    }, {
+      key: "validatePluginProperties",
+      value: function validatePluginProperties(callback, validationFromGetSchema) {
+        var nodeInfo = this.HydratorPlusPlusCanvasFactory.pruneProperties({
+          stages: [angular.copy(this.state.node)]
+        }).stages[0];
+        var vm = this;
+        vm.propertyErrors = {};
+        vm.inputSchemaErrors = {};
+        vm.outputSchemaErrors = {};
+
+        if (!validationFromGetSchema) {
+          vm.validating = true;
+          vm.errorCount = undefined;
+        }
+
+        var errorCb = function errorCb(_ref) {
+          var errorCount = _ref.errorCount,
+              propertyErrors = _ref.propertyErrors,
+              inputSchemaErrors = _ref.inputSchemaErrors,
+              outputSchemaErrors = _ref.outputSchemaErrors;
+          // errorCount can be 0, a positive integer, or undefined (in case of an error thrown)
+          vm.validating = false;
+          vm.errorCount = errorCount;
+
+          if (errorCount > 0) {
+            vm.propertyErrors = propertyErrors;
+            vm.inputSchemaErrors = inputSchemaErrors;
+            vm.outputSchemaErrors = outputSchemaErrors;
+          } else if (errorCount === 0) {
+            // Empty existing errors
+            vm.propertyErrors = {};
+            vm.inputSchemaErrors = {};
+            vm.outputSchemaErrors = {}; // Do not show success validation message for validation via get schema.
+
+            if (validationFromGetSchema === true) {
+              vm.errorCount = undefined;
+            }
+          } else {
+            vm.propertyErrors = propertyErrors;
+          }
+
+          if (callback && typeof callback === 'function') {
+            callback();
+          }
+        };
+
+        this.HydratorPlusPlusPluginConfigFactory.validatePluginProperties(nodeInfo, this.state.config, errorCb, validationFromGetSchema);
+      } // MACRO ENABLED SCHEMA
+
+    }, {
+      key: "toggleAdvance",
+      value: function toggleAdvance() {
+        if (this.state.node.outputSchema.length > 0) {
+          try {
+            this.avsc.parse(this.state.node.outputSchema[0].schema, {
+              wrapUnions: true
+            });
+          } catch (e) {
+            this.state.node.outputSchema = [this.HydratorPlusPlusNodeService.getOutputSchemaObj('')];
+          }
+        }
+
+        this.state.schemaAdvance = !this.state.schemaAdvance;
+      }
+    }, {
+      key: "hasUniqueFields",
+      value: function hasUniqueFields(schema, error) {
+        if (!schema) {
+          return true;
+        }
+
+        var fields = schema.map(function (field) {
+          return field.name;
+        });
+
+        var unique = _.uniq(fields);
+
+        if (fields.length !== unique.length) {
+          error.push('There are two or more fields with the same name.');
+        }
+      }
+    }, {
+      key: "updateNodeStateIfDirty",
+      value: function updateNodeStateIfDirty() {
+        var stateIsDirty = this.stateIsDirty(); // because we are adding state to history before we open a node config, so if the config wasn't changed at all,
+        // then we should remove that state from history
+
+        if (!stateIsDirty) {
+          this.DAGPlusPlusNodesActionsFactory.removePreviousState(); // if it was changed, then reset future states so user can't redo
+        } else {
+          this.DAGPlusPlusNodesActionsFactory.resetFutureStates();
+        }
+      }
+    }, {
+      key: "stateIsDirty",
+      value: function stateIsDirty() {
+        var defaults = this.defaultState.node;
+        var state = this.state.node;
+        return !angular.equals(defaults, state);
+      }
+    }, {
+      key: "updateDefaultOutputSchema",
+      value: function updateDefaultOutputSchema(outputSchema) {
+        if (typeof outputSchema !== 'string') {
+          outputSchema = JSON.stringify(outputSchema);
+        }
+
+        var configOutputSchema = this.state.groupsConfig.outputSchema;
+
+        if (!configOutputSchema.implicitSchema && configOutputSchema.isOutputSchemaExists) {
+          this.defaultState.node.outputSchema = outputSchema;
+          this.defaultState.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = this.defaultState.node.outputSchema;
+        }
+      }
+    }, {
+      key: "updatePreviewDataAndStatus",
+      value: function updatePreviewDataAndStatus(newPreviewData) {
+        this.updatePreviewStatus();
+        this.previewData = newPreviewData;
+      }
+    }, {
+      key: "updatePreviewStatus",
+      value: function updatePreviewStatus() {
+        var previewState = this.previewStore.getState().preview;
+
+        if (previewState.status) {
+          this.previewStatus = previewState.status;
+        }
+      }
+    }, {
+      key: "getPreviewId",
+      value: function getPreviewId() {
+        return this.previewStore.getState().preview.previewId;
+      }
+    }, {
+      key: "getStagesAndConnections",
+      value: function getStagesAndConnections() {
+        return this.ConfigStore.getConfigForExport().config;
+      } // TOOLTIPS FOR DISABLED SCHEMA ACTIONS
+
+    }, {
+      key: "getImportDisabledTooltip",
+      value: function getImportDisabledTooltip() {
+        if (this.datasetAlreadyExists) {
+          return "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be modified.");
+        } else if (this.state.schemaAdvance) {
+          return 'Importing a schema in Advanced mode is not supported';
+        }
+
+        return '';
+      }
+    }, {
+      key: "getPropagateDisabledTooltip",
+      value: function getPropagateDisabledTooltip() {
+        if (this.state.node.type === 'splittertransform') {
+          return 'Propagating a schema with Splitter plugins is currently not supported';
+        } else if (this.state.schemaAdvance) {
+          return 'Propagating a schema in Advanced mode is not supported';
+        }
+
+        return '';
+      }
+    }, {
+      key: "getClearDisabledTooltip",
+      value: function getClearDisabledTooltip() {
+        if (this.datasetAlreadyExists) {
+          return "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be cleared.");
+        } else if (this.state.schemaAdvance) {
+          return 'Clearing a schema in Advanced mode is not supported';
+        }
+
+        return '';
+      }
+    }, {
+      key: "getIsMacroEnabled",
+      value: function getIsMacroEnabled() {
+        return !this.$scope.isDisabled && this.state.node._backendProperties['schema'] && this.state.node._backendProperties['schema'].macroSupported;
+      }
+    }, {
+      key: "onClearSchema",
+      value: function onClearSchema() {
+        this.state.node['outputSchema'] = [{
+          name: 'etlSchemaBody',
+          schema: ''
+        }];
+        this.updateAngularPostSchemaUpdate();
+      }
+    }, {
+      key: "onPropagateSchema",
+      value: function onPropagateSchema() {
+        this.showPropagateConfirm = true;
+        this.updateAngularPostSchemaUpdate();
+      }
+    }, {
+      key: "onMacroEnabled",
+      value: function onMacroEnabled() {
+        this.state.schemaAdvance = !this.state.schemaAdvance;
+        this.updateAngularPostSchemaUpdate();
+      }
+    }, {
+      key: "onSchemaChange",
+      value: function onSchemaChange(outputSchemas) {
+        this.state.node.outputSchema = outputSchemas;
+        this.updateAngularPostSchemaUpdate();
+      }
+    }, {
+      key: "onImportSchema",
+      value: function onImportSchema(stringifiedSchema) {
+        try {
+          this.state.node.outputSchema = JSON.parse(stringifiedSchema);
+
+          if (!Array.isArray(this.state.node.outputSchema)) {
+            this.state.node.outputSchema = [this.state.node.outputSchema];
+            this.updateAngularPostSchemaUpdate();
+          }
+        } catch (e) {
+          this.state.node.outputSchema = [{
+            name: 'etlSchemaBody',
+            schema: ''
+          }];
+          this.updateAngularPostSchemaUpdate();
+        }
+      }
+    }, {
+      key: "updateAngularPostSchemaUpdate",
+      value: function updateAngularPostSchemaUpdate() {
+        try {
+          this.$scope.$digest();
+        } catch (e) {
+          return;
+        }
+      }
+    }, {
+      key: "isSchemaMacro",
+      value: function isSchemaMacro() {
+        return this.state.schemaAdvance;
+      }
+    }, {
+      key: "getActionsDropdownMap",
+      value: function getActionsDropdownMap(isInputSchema) {
+        var actionsMap = {};
+
+        if (isInputSchema) {
+          return {};
+        }
+
+        if (this.$scope.isDisabled) {
+          return {
+            "export": {
+              value: 'export',
+              label: 'Export',
+              disabled: this.state.schemaAdvance,
+              tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
+              onClick: this.exportSchema.bind(this)
+            }
+          };
+        }
+
+        if (this.state.groupsConfig.outputSchema.implicitSchema) {
+          return {
+            "export": {
+              value: 'export',
+              label: 'Export',
+              disabled: this.state.schemaAdvance,
+              tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
+              onClick: this.exportSchema.bind(this)
+            },
+            propagate: {
+              value: 'propagate',
+              label: 'Propagate',
+              disabled: this.state.schemaAdvance || this.state.node.type === 'splittertransform',
+              tooltip: this.getPropagateDisabledTooltip(),
+              onClick: this.onPropagateSchema.bind(this)
+            }
+          };
+        }
+
+        if (this.getIsMacroEnabled()) {
+          actionsMap['macro'] = {
+            value: 'macro',
+            label: this.state.schemaAdvance ? 'Editor' : 'Macro',
+            disabled: this.datasetAlreadyExists,
+            tooltip: this.datasetAlreadyExists ? "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be modified.") : '',
+            onClick: this.onMacroEnabled.bind(this)
+          };
+        }
+
+        actionsMap = Object.assign({}, actionsMap, {
+          "import": {
+            value: 'import',
+            label: 'Import',
+            disabled: this.datasetAlreadyExists || this.state.schemaAdvance,
+            tooltip: this.getImportDisabledTooltip(),
+            onClick: this.onSchemaImportLinkClick.bind(this)
+          },
+          "export": {
+            value: 'export',
+            label: 'Export',
+            disabled: this.state.schemaAdvance,
+            tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
+            onClick: this.exportSchema.bind(this)
+          },
+          propagate: {
+            value: 'propagate',
+            label: 'Propagate',
+            disabled: this.state.schemaAdvance || this.state.node.type === 'splittertransform',
+            tooltip: this.getPropagateDisabledTooltip(),
+            onClick: this.onPropagateSchema.bind(this)
+          },
+          clear: {
+            value: 'clear',
+            label: 'Clear',
+            disabled: this.datasetAlreadyExists || this.state.schemaAdvance,
+            tooltip: this.getClearDisabledTooltip(),
+            onClick: this.onClearSchema.bind(this)
+          }
+        });
+        return actionsMap;
+      }
+    }, {
+      key: "setComments",
+      value: function setComments(nodeId, comments) {
+        this.state.node.information = this.state.node.information || {};
+        this.state.node.information.comments = {
+          list: comments
+        };
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return HydratorPlusPlusNodeConfigCtrl;
+  }();
+
+  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusNodeConfigCtrl', HydratorPlusPlusNodeConfigCtrl);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/partials/pipelineupgrade-modal-ctrl.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.feature.hydrator').controller('PipelineUpgradeModalController', ["$scope", "rPipelineConfig", "HydratorUpgradeService", "$rootScope", "HydratorPlusPlusConfigStore", "$state", "DAGPlusPlusFactory", "GLOBALS", "HydratorPlusPlusLeftPanelStore", "rIsImport", function ($scope, rPipelineConfig, HydratorUpgradeService, $rootScope, HydratorPlusPlusConfigStore, $state, DAGPlusPlusFactory, GLOBALS, HydratorPlusPlusLeftPanelStore, rIsImport) {
+    var _this = this;
+
+    var eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
+    var globalEvents = window.CaskCommon.globalEvents;
+    this.pipelineConfig = rPipelineConfig;
+    this.cdapVersion = $rootScope.cdapVersion;
+    this.pipelineArtifact = HydratorUpgradeService.checkPipelineArtifactVersion(rPipelineConfig);
+    this.problematicStages = [];
+    this.canUpgradeStages = [];
+    var allStages = [];
+    var allPostActions = [];
+    this.problematicPostRunActions = [];
+    this.fixAllDisabled = true;
+    this.isImport = rIsImport; // missing artifacts map
+
+    this.missingArtifactsMap = {};
+    this.loading = false;
+
+    var checkStages = function checkStages() {
+      if (_this.loading) {
+        return;
+      }
+
+      _this.loading = true;
+      HydratorUpgradeService.getErrorStages(rPipelineConfig).then(function (transformedStages) {
+        allStages = transformedStages.stages.map(function (stage) {
+          stage.icon = DAGPlusPlusFactory.getIcon(stage.stageInfo.plugin.name.toLowerCase());
+          stage.type = GLOBALS.pluginConvert[stage.stageInfo.plugin.type];
+          return stage;
+        });
+        allPostActions = transformedStages.postActions.map(function (stage) {
+          stage.icon = DAGPlusPlusFactory.getIcon(stage.stageInfo.plugin.name.toLowerCase());
+          stage.type = 'postaction';
+          return stage;
+        });
+        _this.problematicStages = [];
+        _this.canUpgradeStages = [];
+        _this.problematicPostRunActions = [];
+        _this.missingArtifactsMap = {};
+        transformedStages.stages.forEach(function (artifact) {
+          if (artifact.error === 'NOTFOUND') {
+            var plugin = artifact.stageInfo.plugin;
+            var mapKey = "".concat(plugin.name, "-").concat(plugin.type, "-").concat(plugin.artifact.name, "-").concat(plugin.artifact.version);
+            _this.missingArtifactsMap[mapKey] = artifact;
+          } else if (artifact.error === 'CAN_UPGRADE') {
+            artifact.upgrade = true;
+
+            _this.canUpgradeStages.push(artifact);
+          } else if (artifact.error) {
+            _this.problematicStages.push(artifact);
+          }
+        });
+        transformedStages.postActions.forEach(function (artifact) {
+          if (artifact.error === 'NOTFOUND') {
+            var plugin = artifact.stageInfo.plugin;
+            var mapKey = "".concat(plugin.name, "-").concat(plugin.type, "-").concat(plugin.artifact.name, "-").concat(plugin.artifact.version);
+            _this.missingArtifactsMap[mapKey] = artifact;
+          } else if (artifact.error) {
+            _this.problematicPostRunActions.push(artifact);
+          }
+        });
+        _this.fixAllDisabled = Object.keys(_this.missingArtifactsMap).length > 0;
+
+        if (_this.problematicStages.length === 0 && _this.pipelineArtifact && _this.canUpgradeStages.length === 0 && _this.problematicPostRunActions.length === 0 && !_this.fixAllDisabled) {
+          HydratorPlusPlusConfigStore.setState(HydratorPlusPlusConfigStore.getDefaults());
+          var sanitize = window.CaskCommon.CDAPHelpers.santizeStringForHTMLID;
+          rPipelineConfig.config.stages = rPipelineConfig.config.stages.map(function (stage) {
+            return Object.assign({}, stage, {
+              id: sanitize(stage.name)
+            });
+          });
+          $state.go('hydrator.create', {
+            data: rPipelineConfig
+          });
+        } else {
+          _this.loading = false;
+        }
+      });
+    };
+
+    checkStages(); // This store subscription can cause the fetching of the plugins list to happen twice.
+    // The reason is because in LeftPanelController, we fetch the default version map
+    // with a 10 seconds timeout. So if user import before 10 seconds, it will make another
+    // call to fetch list of plugins
+
+    var sub = HydratorPlusPlusLeftPanelStore.subscribe(checkStages);
+
+    this.openMarket = function () {
+      eventEmitter.emit(globalEvents.OPENMARKET);
+    };
+
+    var fix = function fix(stagesList) {
+      return stagesList.map(function (stage) {
+        var updatedStageInfo = stage.stageInfo;
+
+        if (stage.error && stage.error === 'NOTFOUND') {
+          updatedStageInfo.error = true;
+          updatedStageInfo.errorCount = 1;
+          updatedStageInfo.errorMessage = 'Plugin cannot be found';
+        } else if (stage.error) {
+          if (stage.error === 'CAN_UPGRADE' && stage.upgrade || stage.error !== 'CAN_UPGRADE') {
+            updatedStageInfo.plugin.artifact = stage.suggestion;
+          }
+        }
+
+        return updatedStageInfo;
+      });
+    };
+
+    this.fixAll = function () {
+      var newConfig = HydratorUpgradeService.upgradePipelineArtifactVersion(rPipelineConfig); // Making a copy here so that the information in the modal does not change when
+      // we modify the artifact information
+
+      var copyAllStages = angular.copy(allStages);
+      var copyPostActions = angular.copy(allPostActions);
+      var stages = fix(copyAllStages);
+      var postActions = fix(copyPostActions);
+      var draftId;
+      newConfig.config.stages = stages;
+      newConfig.config.postActions = postActions;
+
+      if (newConfig.__ui__) {
+        draftId = newConfig.__ui__.draftId;
+        delete newConfig.__ui__;
+      }
+
+      if (draftId) {
+        newConfig.__ui__ = {
+          draftId: draftId
+        };
+      }
+
+      HydratorPlusPlusConfigStore.setState(HydratorPlusPlusConfigStore.getDefaults());
+      $state.go('hydrator.create', {
+        data: newConfig
+      });
+    };
+
+    $scope.$on('$destroy', function () {
+      sub();
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/partials/reference-tab-ctrl.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var HydratorPlusPlusReferenceTabCtrl = /*#__PURE__*/function () {
+    HydratorPlusPlusReferenceTabCtrl.$inject = ["HydratorPlusPlusPluginConfigFactory", "GLOBALS", "myHelpers", "$scope"];
+    function HydratorPlusPlusReferenceTabCtrl(HydratorPlusPlusPluginConfigFactory, GLOBALS, myHelpers, $scope) {
+      _classCallCheck(this, HydratorPlusPlusReferenceTabCtrl);
+
+      this.GLOBALS = GLOBALS;
+      this.HydratorPlusPlusPluginConfigFactory = HydratorPlusPlusPluginConfigFactory;
+      this.myHelpers = myHelpers;
+      this.state = {};
+      this.showContents($scope.node);
+    }
+
+    _createClass(HydratorPlusPlusReferenceTabCtrl, [{
+      key: "showContents",
+      value: function showContents(node) {
+        var _this = this;
+
+        if (!node.plugin) {
+          this.state.docReference = this.GLOBALS.en.hydrator.studio.info['DEFAULT-REFERENCE'];
+        } else {
+          var key = "doc.".concat(node.plugin.name, "-").concat(node.type || node.plugin.type);
+          this.HydratorPlusPlusPluginConfigFactory.fetchDocJson(this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'name'), this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'version'), this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'scope'), key).then(function (res) {
+            if (res[key]) {
+              _this.state.docReference = res[key];
+            } else {
+              _this.state.docReference = _this.GLOBALS.en.hydrator.studio.info['NO-REFERENCE'];
+            }
+          }, function () {
+            return _this.state.docReference = _this.GLOBALS.en.hydrator.studio.info['NO-REFERENCE'];
+          });
+        }
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return HydratorPlusPlusReferenceTabCtrl;
+  }();
+
+  HydratorPlusPlusReferenceTabCtrl.$inject = ['HydratorPlusPlusPluginConfigFactory', 'GLOBALS', 'myHelpers', '$scope'];
+  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('HydratorPlusPlusReferenceTabCtrl', HydratorPlusPlusReferenceTabCtrl);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/partials/settings-ctrl.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var HydratorPlusPlusSettingsCtrl = /*#__PURE__*/function () {
+    HydratorPlusPlusSettingsCtrl.$inject = ["GLOBALS", "HydratorPlusPlusConfigStore", "HydratorPlusPlusConfigActions", "$scope"];
+    function HydratorPlusPlusSettingsCtrl(GLOBALS, HydratorPlusPlusConfigStore, HydratorPlusPlusConfigActions, $scope) {
+      var _this = this;
+
+      _classCallCheck(this, HydratorPlusPlusSettingsCtrl);
+
+      this.GLOBALS = GLOBALS;
+      this.HydratorPlusPlusConfigActions = HydratorPlusPlusConfigActions;
+      this.templateType = HydratorPlusPlusConfigStore.getArtifact().name;
+      this.activeTab = 0; // If ETL Batch
+
+      if (GLOBALS.etlBatchPipelines.includes(this.templateType)) {
+        // Initialiting ETL Batch Schedule
+        this.initialCron = HydratorPlusPlusConfigStore.getSchedule();
+        this.cron = this.initialCron;
+        this.engine = HydratorPlusPlusConfigStore.getEngine();
+        this.isBasic = this.checkCron(this.initialCron);
+        this.activeTab = this.isBasic ? 0 : 1; // Debounce method for setting schedule
+
+        var setSchedule = _.debounce(function () {
+          HydratorPlusPlusConfigActions.setSchedule(_this.cron);
+        }, 1000);
+
+        $scope.$watch(function () {
+          return _this.cron;
+        }, setSchedule);
+      } // If ETL Realtime
+      else if (this.templateType === GLOBALS.etlRealtime) {
+          // Initializing ETL Realtime Instance
+          this.instance = HydratorPlusPlusConfigStore.getInstance(); // Debounce method for setting instance
+
+          var setInstance = _.debounce(function () {
+            HydratorPlusPlusConfigActions.setInstance(_this.instance);
+          }, 1000);
+
+          $scope.$watch(function () {
+            return _this.instance;
+          }, setInstance);
+        }
+    }
+
+    _createClass(HydratorPlusPlusSettingsCtrl, [{
+      key: "checkCron",
+      value: function checkCron(cron) {
+        var pattern = /^[0-9\*\s]*$/g;
+        var parse = cron.split('');
+
+        for (var i = 0; i < parse.length; i++) {
+          if (!parse[i].match(pattern)) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+    }, {
+      key: "onEngineChange",
+      value: function onEngineChange() {
+        this.HydratorPlusPlusConfigActions.setEngine(this.engine);
+      }
+    }, {
+      key: "changeScheduler",
+      value: function changeScheduler(type) {
+        if (type === 'BASIC') {
+          this.activeTab = 0;
+          this.initialCron = this.cron;
+          var check = true;
+
+          if (!this.checkCron(this.initialCron)) {
+            check = confirm('You have advanced configuration that is not available in basic mode. Are you sure you want to go to basic scheduler?');
+          }
+
+          if (check) {
+            this.isBasic = true;
+          }
+        } else {
+          this.activeTab = 1;
+          this.isBasic = false;
+        }
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return HydratorPlusPlusSettingsCtrl;
+  }();
+
+  HydratorPlusPlusSettingsCtrl.$inject = ['GLOBALS', 'HydratorPlusPlusConfigStore', 'HydratorPlusPlusConfigActions', '$scope'];
+  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusSettingsCtrl', HydratorPlusPlusSettingsCtrl);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/popovers/plugin-templates-create-edit-ctrl.js */
+
+  /*
+   * Copyright © 2016 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('PluginTemplatesCreateEditCtrl', ["$scope", "PluginTemplatesDirStore", "PluginTemplatesDirActions", "HydratorPlusPlusPluginActions", "$stateParams", "myAlertOnValium", "rTemplateType", "HydratorPlusPlusLeftPanelStore", function ($scope, PluginTemplatesDirStore, PluginTemplatesDirActions, HydratorPlusPlusPluginActions, $stateParams, myAlertOnValium, rTemplateType, HydratorPlusPlusLeftPanelStore) {
+    $scope.closeTemplateCreationModal = function () {
+      PluginTemplatesDirActions.reset();
+      $scope.$close();
+    };
+
+    $scope.pluginTemplateSaveError = null;
+    PluginTemplatesDirStore.registerOnChangeListener(function () {
+      var getIsSaveSuccessfull = PluginTemplatesDirStore.getIsSaveSuccessfull();
+      var getIsCloseCommand = PluginTemplatesDirStore.getIsCloseCommand();
+
+      if (getIsSaveSuccessfull) {
+        PluginTemplatesDirActions.reset();
+        HydratorPlusPlusLeftPanelStore.dispatch(HydratorPlusPlusPluginActions.fetchTemplates({
+          namespace: $stateParams.namespace
+        }, {
+          namespace: $stateParams.namespace,
+          pipelineType: rTemplateType
+        }));
+        myAlertOnValium.show({
+          type: 'success',
+          content: 'Plugin template saved successfully'
+        });
+        $scope.$close();
+      }
+
+      if (getIsCloseCommand) {
+        PluginTemplatesDirActions.reset();
+        $scope.$close();
+      }
+    });
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/popovers/plugin-templates-delete-ctrl.js */
+
+  /*
+   * Copyright © 2016 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('PluginTemplatesDeleteCtrl', ["rNode", "$scope", "mySettings", "$stateParams", "myAlertOnValium", "HydratorPlusPlusPluginActions", "HydratorPlusPlusLeftPanelStore", "rTemplateType", function (rNode, $scope, mySettings, $stateParams, myAlertOnValium, HydratorPlusPlusPluginActions, HydratorPlusPlusLeftPanelStore, rTemplateType) {
+    var node = rNode;
+    $scope.templateName = node.pluginTemplate;
+
+    $scope.ok = function () {
+      $scope.disableOKButton = true;
+      mySettings.get('pluginTemplates', true).then(function (res) {
+        delete res[$stateParams.namespace][node.templateType][node.pluginType][node.pluginTemplate];
+        return mySettings.set('pluginTemplates', res);
+      }).then(function () {
+        $scope.disableOKButton = false;
+        myAlertOnValium.show({
+          type: 'success',
+          content: 'Successfully deleted template ' + node.pluginTemplate
+        });
+        HydratorPlusPlusLeftPanelStore.dispatch(HydratorPlusPlusPluginActions.fetchTemplates({
+          namespace: $stateParams.namespace
+        }, {
+          namespace: $stateParams.namespace,
+          pipelineType: rTemplateType
+        }));
+        $scope.$close();
+      }, function (err) {
+        $scope.disableButtons = false;
+        $scope.error = err;
+      });
+    };
+  }]);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /controllers/create/popovers/pre-configured-ctrl.js */
+
+  /*
+   * Copyright © 2016 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var HydratorPlusPlusPreConfiguredCtrl = /*#__PURE__*/function () {
+    HydratorPlusPlusPreConfiguredCtrl.$inject = ["rTemplateType", "GLOBALS", "myPipelineTemplatesApi", "HydratorPlusPlusHydratorService", "HydratorPlusPlusCanvasFactory", "DAGPlusPlusNodesActionsFactory", "$state", "HydratorPlusPlusConfigStore", "myAlertOnValium"];
+    function HydratorPlusPlusPreConfiguredCtrl(rTemplateType, GLOBALS, myPipelineTemplatesApi, HydratorPlusPlusHydratorService, HydratorPlusPlusCanvasFactory, DAGPlusPlusNodesActionsFactory, $state, HydratorPlusPlusConfigStore, myAlertOnValium) {
+      var _this = this;
+
+      _classCallCheck(this, HydratorPlusPlusPreConfiguredCtrl);
+
+      this.currentPage = 1;
+      this.templates = [];
+      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
+      this.HydratorPlusPlusCanvasFactory = HydratorPlusPlusCanvasFactory;
+      this.myPipelineTemplatesApi = myPipelineTemplatesApi;
+      this.DAGPlusPlusNodesActionsFactory = DAGPlusPlusNodesActionsFactory;
+      this.HydratorPlusPlusConfigStore = HydratorPlusPlusConfigStore;
+      this.GLOBALS = GLOBALS;
+      this.$state = $state;
+      this.myAlertOnValium = myAlertOnValium;
+      this.typeFilter = rTemplateType;
+      this.templateContext = this.GLOBALS.artifactConvert[rTemplateType];
+      this.fetchTemplates().then(function (plugins) {
+        _this.templates = plugins;
+      });
+    }
+
+    _createClass(HydratorPlusPlusPreConfiguredCtrl, [{
+      key: "selectTemplate",
+      value: function selectTemplate(template) {
+        this.HydratorPlusPlusConfigStore.setState(this.HydratorPlusPlusConfigStore.getDefaults());
+        this.$state.go('hydrator.create', {
+          data: template._properties,
+          draftId: null
+        });
+      }
+    }, {
+      key: "fetchTemplates",
+      value: function fetchTemplates() {
+        var _this2 = this;
+
+        return this.myPipelineTemplatesApi.list({
+          apptype: this.typeFilter
+        }).$promise.then(function (res) {
+          var plugins = res.map(function (plugin) {
+            return {
+              name: plugin.name,
+              description: plugin.description,
+              type: _this2.typeFilter
+            };
+          });
+          angular.forEach(plugins, function (plugin) {
+            _this2.myPipelineTemplatesApi.get({
+              apptype: _this2.typeFilter,
+              appname: plugin.name
+            }).$promise.then(function (res) {
+              plugin._properties = res;
+              delete plugin._properties.$promise;
+              delete plugin._properties.$resolved;
+              plugin._source = res.config.stages.filter(function (stage) {
+                return _this2.GLOBALS.pluginConvert[stage.plugin.type] === 'source';
+              });
+              plugin._sinks = res.config.stages.filter(function (stage) {
+                return _this2.GLOBALS.pluginConvert[stage.plugin.type] === 'sink';
+              });
+            });
+          });
+          return plugins;
+        });
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return HydratorPlusPlusPreConfiguredCtrl;
+  }();
+
+  HydratorPlusPlusPreConfiguredCtrl.$inject = ['rTemplateType', 'GLOBALS', 'myPipelineTemplatesApi', 'HydratorPlusPlusHydratorService', 'HydratorPlusPlusCanvasFactory', 'DAGPlusPlusNodesActionsFactory', '$state', 'HydratorPlusPlusConfigStore', 'myAlertOnValium'];
+  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('HydratorPlusPlusPreConfiguredCtrl', HydratorPlusPlusPreConfiguredCtrl);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -18605,1672 +20271,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
     'SET_PREVIEW_DATA': 'SET_PREVIEW_DATA',
     'RESET_PREVIEW_DATA': 'RESET_PREVIEW_DATA'
   }).factory('HydratorPlusPlusPreviewStore', PreviewStore);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/partials/console-tab-ctrl.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var HydratorPlusPlusConsoleTabService = /*#__PURE__*/function () {
-    HydratorPlusPlusConsoleTabService.$inject = ["HydratorPlusPlusConsoleStore", "myAlertOnValium"];
-    function HydratorPlusPlusConsoleTabService(HydratorPlusPlusConsoleStore, myAlertOnValium) {
-      _classCallCheck(this, HydratorPlusPlusConsoleTabService);
-
-      this.HydratorPlusPlusConsoleStore = HydratorPlusPlusConsoleStore;
-      this.myAlertOnValium = myAlertOnValium;
-      this.setMessages();
-    }
-
-    _createClass(HydratorPlusPlusConsoleTabService, [{
-      key: "listen",
-      value: function listen() {
-        this.unsub = this.HydratorPlusPlusConsoleStore.registerOnChangeListener(this.setMessages.bind(this));
-      }
-    }, {
-      key: "unsubscribe",
-      value: function unsubscribe() {
-        this.unsub();
-      }
-    }, {
-      key: "setMessages",
-      value: function setMessages() {
-        var messages = this.HydratorPlusPlusConsoleStore.getMessages();
-
-        if (Array.isArray(messages) && !messages.length) {
-          return;
-        }
-
-        var missingNodesList = [];
-        var errorMessage = [];
-        var successMessage = [];
-        messages.forEach(function (message) {
-          switch (message.type) {
-            case 'NO-SINK-FOUND':
-              missingNodesList.push('sinks(s)');
-              break;
-
-            case 'NO-SOURCE-FOUND':
-              missingNodesList.push('source(s)');
-              break;
-
-            case 'STRAY-NODES':
-              errorMessage.push(message.payload.nodes.map(function (node) {
-                return node.plugin.label;
-              }).join(', ') + ' - nodes missing connections');
-              break;
-
-            case 'INVALID-CONNECTIONS':
-              errorMessage.push(message.payload.connections.join(', ') + ' - invalid connection');
-              break;
-
-            case 'NO-BACKEND-PROPS':
-              {
-                var multiplePlugins = message.payload.nodes.length > 1;
-                var suffix = multiplePlugins ? 's' : '';
-                var pluginNames = message.payload.nodes.join(', ');
-                var messageStr = "Artifact".concat(suffix, " ").concat(pluginNames, " ").concat(multiplePlugins ? 'are' : 'is', " not available.");
-                errorMessage.push(messageStr);
-                break;
-              }
-
-            case 'success':
-              successMessage.push(message.content);
-              break;
-
-            case 'error':
-              errorMessage.push(message.content);
-              break;
-          }
-        });
-
-        if (missingNodesList.length === 2) {
-          errorMessage.push("Missing ".concat(missingNodesList.join(', '), " or actions in the pipeline."));
-        } else if (missingNodesList.length) {
-          errorMessage.push("Missing ".concat(missingNodesList.join(', '), " in the pipeline."));
-        }
-
-        if (successMessage.length) {
-          this.myAlertOnValium.show({
-            type: 'success',
-            content: successMessage.join(', ')
-          });
-        } else if (errorMessage.length) {
-          this.myAlertOnValium.show({
-            type: 'danger',
-            templateUrl: '/assets/features/hydrator/templates/partial/error-template.html',
-            templateScope: {
-              content: errorMessage,
-              currentIndex: 0,
-              moveToNextIndex: function moveToNextIndex() {
-                if (errorMessage.length > this.currentIndex) {
-                  this.currentIndex += 1;
-                }
-              },
-              moveToPrevIndex: function moveToPrevIndex() {
-                if (this.currentIndex > 0) {
-                  this.currentIndex -= 1;
-                }
-              }
-            }
-          });
-        }
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return HydratorPlusPlusConsoleTabService;
-  }();
-
-  HydratorPlusPlusConsoleTabService.$inject = ['HydratorPlusPlusConsoleStore', 'myAlertOnValium'];
-  angular.module(PKG.name + '.feature.hydrator').service('HydratorPlusPlusConsoleTabService', HydratorPlusPlusConsoleTabService);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/partials/nodeconfig-ctrl.js */
-
-  /*
-   * Copyright © 2015-2019 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var HydratorPlusPlusNodeConfigCtrl = /*#__PURE__*/function () {
-    HydratorPlusPlusNodeConfigCtrl.$inject = ["$scope", "$timeout", "$state", "HydratorPlusPlusPluginConfigFactory", "EventPipe", "GLOBALS", "HydratorPlusPlusConfigActions", "myHelpers", "NonStorePipelineErrorFactory", "$uibModal", "HydratorPlusPlusConfigStore", "rPlugin", "rDisabled", "HydratorPlusPlusHydratorService", "myPipelineApi", "HydratorPlusPlusPreviewStore", "rIsStudioMode", "HydratorPlusPlusOrderingFactory", "avsc", "DAGPlusPlusNodesActionsFactory", "rNodeMetricsContext", "HydratorPlusPlusNodeService", "HydratorPlusPlusPreviewActions", "myAlertOnValium", "HydratorPlusPlusCanvasFactory"];
-    function HydratorPlusPlusNodeConfigCtrl($scope, $timeout, $state, HydratorPlusPlusPluginConfigFactory, EventPipe, GLOBALS, HydratorPlusPlusConfigActions, myHelpers, NonStorePipelineErrorFactory, $uibModal, HydratorPlusPlusConfigStore, rPlugin, rDisabled, HydratorPlusPlusHydratorService, myPipelineApi, HydratorPlusPlusPreviewStore, rIsStudioMode, HydratorPlusPlusOrderingFactory, avsc, DAGPlusPlusNodesActionsFactory, rNodeMetricsContext, HydratorPlusPlusNodeService, HydratorPlusPlusPreviewActions, myAlertOnValium, HydratorPlusPlusCanvasFactory) {
-      'ngInject';
-
-      var _this = this;
-
-      _classCallCheck(this, HydratorPlusPlusNodeConfigCtrl);
-
-      this.$scope = $scope;
-      this.$timeout = $timeout;
-      this.$state = $state;
-      this.EventPipe = EventPipe;
-      this.HydratorPlusPlusPluginConfigFactory = HydratorPlusPlusPluginConfigFactory;
-      this.GLOBALS = GLOBALS;
-      this.myHelpers = myHelpers;
-      this.HydratorPlusPlusConfigActions = HydratorPlusPlusConfigActions;
-      this.NonStorePipelineErrorFactory = NonStorePipelineErrorFactory;
-      this.requiredPropertyError = this.GLOBALS.en.hydrator.studio.error['GENERIC-MISSING-REQUIRED-FIELDS'];
-      this.showPropagateConfirm = false; // confirmation dialog in node config for schema propagation.
-
-      this.$uibModal = $uibModal;
-      this.ConfigStore = HydratorPlusPlusConfigStore;
-      this.$scope.isDisabled = rDisabled;
-      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
-      this.myPipelineApi = myPipelineApi;
-      this.previewStore = HydratorPlusPlusPreviewStore;
-      this.HydratorPlusPlusPreviewActions = HydratorPlusPlusPreviewActions;
-      this.HydratorPlusPlusOrderingFactory = HydratorPlusPlusOrderingFactory;
-      this.DAGPlusPlusNodesActionsFactory = DAGPlusPlusNodesActionsFactory;
-      this.avsc = avsc;
-      this.PipelineMetricsStore = window.CaskCommon.PipelineMetricsStore;
-      this.HydratorPlusPlusNodeService = HydratorPlusPlusNodeService;
-      this.eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
-      this.configurationGroupUtilities = window.CaskCommon.ConfigurationGroupUtilities;
-      this.dynamicFiltersUtilities = window.CaskCommon.DynamicFiltersUtilities;
-      this.showNewSchemaEditor = window.localStorage['schema-editor'] === 'true';
-      this.myAlertOnValium = myAlertOnValium;
-      this.metricsContext = rNodeMetricsContext;
-      this.isStudioMode = rIsStudioMode;
-      this.rPlugin = rPlugin;
-      this.HydratorPlusPlusCanvasFactory = HydratorPlusPlusCanvasFactory;
-      this.validatePluginProperties = this.validatePluginProperties.bind(this);
-      this.getPreviewId = this.getPreviewId.bind(this);
-      this.previewId = this.getPreviewId();
-      this.previewStatus = null;
-      this.getStagesAndConnections = this.getStagesAndConnections.bind(this);
-      this.getIsMacroEnabled = this.getIsMacroEnabled.bind(this);
-      this.onImportSchema = this.onImportSchema.bind(this);
-      this.onClearSchema = this.onClearSchema.bind(this);
-      this.onPropagateSchema = this.onPropagateSchema.bind(this);
-      this.onMacroEnabled = this.onMacroEnabled.bind(this);
-      this.onSchemaChange = this.onSchemaChange.bind(this);
-      this.onSchemaImportLinkClick = this.onSchemaImportLinkClick.bind(this);
-      this.isSchemaMacro = this.isSchemaMacro.bind(this);
-      this.onPropertiesChange = this.onPropertiesChange.bind(this);
-      this.handleLabelChange = this.handleLabelChange.bind(this);
-      this.initializeMetrics = this.initializeMetrics.bind(this);
-      this.showContents = this.showContents.bind(this);
-      this.initializePreview = this.initializePreview.bind(this);
-      this.setComments = this.setComments.bind(this);
-      this.tabs = [{
-        label: 'Properties',
-        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/configuration-tab.html'
-      }, {
-        label: 'Preview',
-        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/preview-tab.html'
-      }, {
-        label: 'Documentation',
-        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/reference-tab.html'
-      }, {
-        label: 'Metrics',
-        templateUrl: '/assets/features/hydrator/templates/partial/node-config-modal/metrics-tab.html'
-      }];
-      this.setDefaults();
-      this.fetchPluginInfo(rPlugin).then(this.initializeMetrics).then(this.showContents).then(this.initializePreview);
-      this.portMetricsToShow = this.PipelineMetricsStore.getState().portsToShow;
-      this.$scope.$on('modal.closing', function () {
-        _this.updateNodeStateIfDirty();
-
-        _this.previewStore.dispatch(_this.HydratorPlusPlusPreviewActions.resetPreviewData());
-      }); // Timeouts
-
-      this.setStateTimeout = null;
-      this.eventEmitter.on('dataset.selected', this.handleDatasetSelected.bind(this));
-      this.$scope.$on('$destroy', function () {
-        _this.$timeout.cancel(_this.setStateTimeout);
-
-        _this.eventEmitter.off('dataset.selected', _this.handleDatasetSelected.bind(_this));
-      });
-      this.labelConfig = {
-        widgetProperty: {
-          label: 'Label',
-          'widget-type': 'textbox'
-        },
-        pluginProperty: {
-          required: true
-        }
-      };
-    }
-
-    _createClass(HydratorPlusPlusNodeConfigCtrl, [{
-      key: "fetchPluginInfo",
-      value: function fetchPluginInfo(rPlugin) {
-        var _this2 = this;
-
-        var pluginNode = rPlugin.pluginNode;
-        var appType = rPlugin.appType;
-        var sourceConnections = rPlugin.sourceConnections;
-        var sourceNodes = rPlugin.sourceNodes;
-        var artifactVersion = rPlugin.artifactVersion;
-        return this.HydratorPlusPlusNodeService.getPluginInfo(pluginNode, appType, sourceConnections, sourceNodes, artifactVersion).then(function (nodeWithInfo) {
-          var pluginType = nodeWithInfo.type || nodeWithInfo.plugin.type;
-          return _this2.setDefaults({
-            node: nodeWithInfo,
-            isValidPlugin: true,
-            type: appType,
-            isSource: _this2.GLOBALS.pluginConvert[pluginType] === 'source',
-            isSink: _this2.GLOBALS.pluginConvert[pluginType] === 'sink',
-            isTransform: _this2.GLOBALS.pluginConvert[pluginType] === 'transform',
-            isAction: _this2.GLOBALS.pluginConvert[pluginType] === 'action',
-            isCondition: _this2.GLOBALS.pluginConvert[pluginType] === 'condition'
-          });
-        }, function (err) {
-          if (err && err.statusCode === 404) {
-            // This is when plugin artifact is unavailable. Show appropriate message.
-            _this2.state.configfetched = true;
-            _this2.state.noproperty = 0;
-            _this2.state.isValidPlugin = false;
-          }
-        });
-      }
-    }, {
-      key: "setDefaults",
-      value: function setDefaults() {
-        var _this3 = this;
-
-        var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        this.state = {
-          configfetched: false,
-          properties: [],
-          noconfig: null,
-          noproperty: true,
-          config: {},
-          groupsConfig: {},
-          isValidPlugin: config.isValidPlugin || false,
-          node: angular.copy(config.node) || {},
-          isSource: config.isSource || false,
-          isSink: config.isSink || false,
-          isTransform: config.isTransform || false,
-          isAction: config.isAction || false,
-          isCondition: config.isCondition || false,
-          type: config.appType || null,
-          watchers: [],
-          outputSchemaUpdate: 0,
-          schemaAdvance: false
-        };
-        this.isPreviewMode = this.previewStore.getState().preview.isPreviewModeEnabled;
-        this.isPreviewData = this.previewStore.getState().preview.previewData;
-        this.activeTab = 1;
-
-        if (this.isPreviewMode && this.isPreviewData && !this.rPlugin.isAction) {
-          this.activeTab = 2;
-        } else if (this.PipelineMetricsStore.getState().metricsTabActive) {
-          this.activeTab = 4;
-        }
-
-        this.defaultState = angular.copy(this.state);
-        var propertiesSchema = this.myHelpers.objectQuery(this.state.node, 'plugin', 'properties', 'schema');
-        var schemaArr = propertiesSchema || this.state.node.outputSchema;
-
-        if (schemaArr) {
-          if (Array.isArray(schemaArr)) {
-            angular.forEach(schemaArr, function (schemaObj) {
-              if (schemaObj.schema) {
-                try {
-                  _this3.avsc.parse(schemaObj.schema, {
-                    wrapUnions: true
-                  });
-                } catch (e) {
-                  // If its old schema editor by default set it to advance
-                  if (!_this3.showNewSchemaEditor) {
-                    _this3.state.schemaAdvance = true;
-                  } else {
-                    // else if its a new schema editor set advance only if the schema is a macro.
-                    if (schemaArr.indexOf('${') !== -1) {
-                      _this3.state.schemaAdvance = true;
-                    }
-                  }
-                }
-              }
-            });
-          } else {
-            try {
-              this.avsc.parse(schemaArr, {
-                wrapUnions: true
-              });
-            } catch (e) {
-              // If its old schema editor by default set it to advance
-              if (!this.showNewSchemaEditor) {
-                this.state.schemaAdvance = true;
-              } else {
-                // else if its a new schema editor set advance only if the schema is a macro.
-                if (schemaArr.indexOf('${') !== -1) {
-                  this.state.schemaAdvance = true;
-                }
-              }
-            }
-          }
-        }
-
-        this.showPropagateConfirm = false;
-      }
-    }, {
-      key: "initializeMetrics",
-      value: function initializeMetrics() {
-        var _this4 = this;
-
-        this.isMetricsEnabled = this.$scope.isDisabled && Array.isArray(this.metricsContext.runs) && this.metricsContext.runs.length;
-
-        if (this.metricsContext) {
-          this.nodeMetrics = ["user.".concat(this.state.node.name, ".records.in"), "user.".concat(this.state.node.name, ".records.error"), "user.".concat(this.state.node.name, ".process.time.total"), "user.".concat(this.state.node.name, ".process.time.avg"), "user.".concat(this.state.node.name, ".process.time.max"), "user.".concat(this.state.node.name, ".process.time.min"), "user.".concat(this.state.node.name, ".process.time.stddev")];
-          var nodeType = this.state.node.type || this.state.node.plugin.type;
-
-          if (nodeType === 'splittertransform') {
-            if (this.state.node.outputSchema && Array.isArray(this.state.node.outputSchema)) {
-              angular.forEach(this.state.node.outputSchema, function (port) {
-                _this4.nodeMetrics.push("user.".concat(_this4.state.node.name, ".records.out.").concat(port.name));
-              });
-            }
-          } else {
-            this.nodeMetrics.push("user.".concat(this.state.node.name, ".records.out"));
-          }
-        } else {
-          this.nodeMetrics = [];
-        }
-      }
-    }, {
-      key: "initializePreview",
-      value: function initializePreview() {
-        if (this.isStudioMode && this.isPreviewMode && this.previewId) {
-          this.previewData = null;
-          this.updatePreviewStatus();
-          this.selectedNode = {
-            nodeType: this.state.node.type,
-            name: this.state.node.plugin.label,
-            plugin: this.state.node.plugin,
-            isSource: this.state.isSource,
-            isSink: this.state.isSink,
-            isCondition: this.state.isCondition
-          };
-        }
-      }
-    }, {
-      key: "handleDatasetSelected",
-      value: function handleDatasetSelected(schema, format, datasetAlreadyExists, datasetId) {
-        if (datasetAlreadyExists) {
-          this.datasetAlreadyExists = datasetAlreadyExists;
-        } else {
-          this.datasetAlreadyExists = false;
-        } // if this plugin is having an existing dataset with a macro, then don't change anything.
-        // else if the user is changing to another existing dataset, then show basic mode.
-
-
-        if (this.myHelpers.objectQuery(this, 'defaultState', 'node', 'plugin', 'properties', 'name') && this.defaultState.node.plugin.properties.name !== datasetId) {
-          this.state.schemaAdvance = false;
-        }
-
-        if (datasetId) {
-          this.datasetId = datasetId;
-        }
-      }
-    }, {
-      key: "onPropertiesChange",
-      value: function onPropertiesChange() {
-        var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        this.state.node.plugin.properties = values;
-      }
-    }, {
-      key: "handleLabelChange",
-      value: function handleLabelChange(value) {
-        this.state.node.plugin.label = value;
-      }
-    }, {
-      key: "showContents",
-      value: function showContents() {
-        var _this5 = this;
-
-        if (angular.isArray(this.state.watchers)) {
-          this.state.watchers.forEach(function (watcher) {
-            return watcher();
-          });
-          this.state.watchers = [];
-        }
-
-        if (Object.keys(this.state.node).length) {
-          this.configfetched = false;
-          this.$timeout.cancel(this.setStateTimeout);
-          this.setStateTimeout = this.$timeout(function () {
-            _this5.loadNewPlugin();
-
-            _this5.validateNodeLabel();
-          });
-        }
-      }
-    }, {
-      key: "validateNodeLabel",
-      value: function validateNodeLabel() {
-        var _this6 = this;
-
-        var nodes = this.ConfigStore.getNodes();
-        var nodeName = this.myHelpers.objectQuery(this.state, 'node', 'plugin', 'label');
-
-        if (!nodeName) {
-          return;
-        }
-
-        this.NonStorePipelineErrorFactory.isNodeNameUnique(nodeName, nodes, function (err) {
-          if (err) {
-            _this6.state.nodeLabelError = _this6.GLOBALS.en.hydrator.studio.error[err];
-          } else {
-            _this6.state.nodeLabelError = '';
-          }
-        });
-      }
-    }, {
-      key: "propagateSchemaDownStream",
-      value: function propagateSchemaDownStream() {
-        this.HydratorPlusPlusConfigActions.propagateSchemaDownStream(this.state.node.name);
-      }
-    }, {
-      key: "loadNewPlugin",
-      value: function loadNewPlugin() {
-        var _this7 = this;
-
-        var noJsonErrorHandler = function noJsonErrorHandler(err) {
-          var propertiesFromBackend = Object.keys(_this7.state.node._backendProperties); // Didn't receive a configuration from the backend. Fallback to all textboxes.
-
-          switch (err) {
-            case 'NO_JSON_FOUND':
-              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.info['NO-CONFIG'];
-              break;
-
-            case 'CONFIG_SYNTAX_JSON_ERROR':
-              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.error['SYNTAX-CONFIG-JSON'];
-              break;
-
-            case 'CONFIG_SEMANTICS_JSON_ERROR':
-              _this7.state.noConfigMessage = _this7.GLOBALS.en.hydrator.studio.error['SEMANTIC-CONFIG-JSON'];
-              break;
-          }
-
-          _this7.state.noconfig = true;
-          _this7.state.configfetched = true;
-          propertiesFromBackend.forEach(function (property) {
-            _this7.state.node.plugin.properties[property] = _this7.state.node.plugin.properties[property] || '';
-          });
-          _this7.defaultState = angular.copy(_this7.state);
-
-          _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node', function () {
-            _this7.validateNodeLabel(_this7);
-
-            _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
-          }, true));
-        };
-
-        this.state.noproperty = Object.keys(this.state.node._backendProperties || {}).length;
-
-        if (this.state.noproperty) {
-          var artifactName = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'name');
-          var artifactVersion = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'version');
-          var artifactScope = this.myHelpers.objectQuery(this.state.node, 'plugin', 'artifact', 'scope');
-          this.HydratorPlusPlusPluginConfigFactory.fetchWidgetJson(artifactName, artifactVersion, artifactScope, "widgets.".concat(this.state.node.plugin.name, "-").concat(this.state.node.type || this.state.node.plugin.type)).then(function (res) {
-            _this7.widgetJson = res; // Not going to eliminate the groupsConfig just yet, because there are still other things depending on it
-            // such as output schema.
-
-            try {
-              _this7.state.groupsConfig = _this7.HydratorPlusPlusPluginConfigFactory.generateNodeConfig(_this7.state.node._backendProperties, res);
-            } catch (e) {
-              noJsonErrorHandler();
-              return;
-            }
-
-            var generateJumpConfig = function generateJumpConfig(jumpConfig, properties) {
-              var datasets = [];
-              var jumpConfigDatasets = jumpConfig.datasets || [];
-              datasets = jumpConfigDatasets.map(function (dataset) {
-                return {
-                  datasetId: properties[dataset['ref-property-name']],
-                  entityType: 'datasets'
-                };
-              });
-              return {
-                datasets: datasets
-              };
-            };
-
-            if (res.errorDataset || _this7.state.node.errorDatasetName) {
-              _this7.state.showErrorDataset = true;
-              _this7.state.errorDatasetTooltip = res.errorDataset && res.errorDataset.errorDatasetTooltip || false;
-              _this7.state.node.errorDatasetName = _this7.state.node.errorDatasetName || '';
-            }
-
-            if (_this7.$scope.isDisabled && _this7.state.groupsConfig.jumpConfig && Object.keys(_this7.state.groupsConfig.jumpConfig).length) {
-              var _generateJumpConfig = generateJumpConfig(_this7.state.groupsConfig.jumpConfig, _this7.state.node.plugin.properties),
-                  datasets = _generateJumpConfig.datasets;
-
-              _this7.state.groupsConfig.jumpConfig.datasets = datasets;
-            } else {
-              // If we isDisabled is set to false then we are in studio mode & hence remove jump config.
-              // Jumpconfig is only for published view where everything is disabled.
-              delete _this7.state.groupsConfig.jumpConfig;
-            }
-
-            var configOutputSchema = _this7.state.groupsConfig.outputSchema; // If its an implicit schema, set the output schema to the implicit schema and inform ConfigActionFactory
-
-            if (configOutputSchema.implicitSchema) {
-              _this7.state.node.outputSchema = [_this7.HydratorPlusPlusNodeService.getOutputSchemaObj(_this7.HydratorPlusPlusHydratorService.formatSchemaToAvro(configOutputSchema.implicitSchema))];
-
-              _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
-            } else {
-              // If not an implcit schema check if a schema property exists in the node config.
-              // What this means is, has the plugin developer specified a plugin property in 'outputs' array of node config.
-              // If yes then set it as output schema and everytime when a user edits the output schema the value has to
-              // be transitioned to the respective plugin property.
-              if (configOutputSchema.isOutputSchemaExists) {
-                var schemaProperty = configOutputSchema.outputSchemaProperty[0];
-                var pluginProperties = _this7.state.node.plugin.properties;
-
-                if (pluginProperties[schemaProperty]) {
-                  _this7.state.node.outputSchema = pluginProperties[schemaProperty];
-                } else if (pluginProperties[schemaProperty] !== _this7.state.node.outputSchema) {
-                  _this7.state.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = _this7.state.node.outputSchema[0].schema;
-                }
-
-                _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node.outputSchema', function () {
-                  if (_this7.validateSchema()) {
-                    _this7.state.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = _this7.state.node.outputSchema[0].schema;
-                  }
-                }));
-              }
-            }
-
-            if (!_this7.$scope.isDisabled) {
-              _this7.state.watchers.push(_this7.$scope.$watch('HydratorPlusPlusNodeConfigCtrl.state.node', function () {
-                _this7.validateNodeLabel(_this7);
-
-                _this7.HydratorPlusPlusConfigActions.editPlugin(_this7.state.node.name, _this7.state.node);
-              }, true));
-            }
-
-            if (!_this7.state.node.outputSchema || _this7.state.node.type === 'condition') {
-              var inputSchema = _this7.myHelpers.objectQuery(_this7.state.node, 'inputSchema', 0, 'schema') || '';
-
-              if (typeof inputSchema !== 'string') {
-                inputSchema = JSON.stringify(inputSchema);
-              }
-
-              _this7.state.node.outputSchema = [_this7.HydratorPlusPlusNodeService.getOutputSchemaObj(inputSchema)];
-            }
-
-            if (!_this7.state.node.plugin.label) {
-              _this7.state.node.plugin.label = _this7.state.node.name;
-            } // Mark the configfetched to show that configurations have been received.
-
-
-            _this7.state.configfetched = true;
-            _this7.state.config = res;
-            _this7.state.noconfig = false;
-            _this7.defaultState = angular.copy(_this7.state);
-          }, noJsonErrorHandler);
-        } else {
-          this.state.configfetched = true;
-        }
-      }
-    }, {
-      key: "schemaClear",
-      value: function schemaClear() {
-        this.eventEmitter.emit('schema.clear');
-      }
-    }, {
-      key: "importFiles",
-      value: function importFiles(files) {
-        var _this8 = this;
-
-        var reader = new FileReader();
-        reader.readAsText(files[0], 'UTF-8');
-
-        reader.onload = function (evt) {
-          var data = evt.target.result;
-
-          _this8.eventEmitter.emit('schema.import', data);
-        };
-      }
-    }, {
-      key: "onSchemaImportLinkClick",
-      value: function onSchemaImportLinkClick() {
-        this.$timeout(function () {
-          return document.getElementById('schema-import-link').click();
-        });
-      }
-    }, {
-      key: "exportSchema",
-      value: function exportSchema() {
-        this.eventEmitter.emit('schema.export');
-      }
-    }, {
-      key: "validateSchema",
-      value: function validateSchema() {
-        var _this9 = this;
-
-        this.state.errors = [];
-
-        if (!Array.isArray(this.state.node.outputSchema)) {
-          this.state.node.outputSchema = [this.HydratorPlusPlusNodeService.getOutputSchemaObj(this.state.node.outputSchema)];
-        }
-
-        angular.forEach(this.state.node.outputSchema, function (schemaObj) {
-          var schema;
-
-          try {
-            schema = JSON.parse(schemaObj.schema);
-            schema = schema.fields;
-          } catch (e) {
-            schema = null;
-          }
-
-          var validationRules = [_this9.hasUniqueFields];
-          var error = [];
-          validationRules.forEach(function (rule) {
-            rule.call(this, schema, error);
-          });
-
-          if (error.length > 0) {
-            _this9.state.errors.push(error);
-          }
-        });
-
-        if (this.state.errors.length) {
-          return false;
-        }
-
-        return true;
-      }
-    }, {
-      key: "validatePluginProperties",
-      value: function validatePluginProperties(callback, validationFromGetSchema) {
-        var nodeInfo = this.HydratorPlusPlusCanvasFactory.pruneProperties({
-          stages: [angular.copy(this.state.node)]
-        }).stages[0];
-        var vm = this;
-        vm.propertyErrors = {};
-        vm.inputSchemaErrors = {};
-        vm.outputSchemaErrors = {};
-
-        if (!validationFromGetSchema) {
-          vm.validating = true;
-          vm.errorCount = undefined;
-        }
-
-        var errorCb = function errorCb(_ref) {
-          var errorCount = _ref.errorCount,
-              propertyErrors = _ref.propertyErrors,
-              inputSchemaErrors = _ref.inputSchemaErrors,
-              outputSchemaErrors = _ref.outputSchemaErrors;
-          // errorCount can be 0, a positive integer, or undefined (in case of an error thrown)
-          vm.validating = false;
-          vm.errorCount = errorCount;
-
-          if (errorCount > 0) {
-            vm.propertyErrors = propertyErrors;
-            vm.inputSchemaErrors = inputSchemaErrors;
-            vm.outputSchemaErrors = outputSchemaErrors;
-          } else if (errorCount === 0) {
-            // Empty existing errors
-            vm.propertyErrors = {};
-            vm.inputSchemaErrors = {};
-            vm.outputSchemaErrors = {}; // Do not show success validation message for validation via get schema.
-
-            if (validationFromGetSchema === true) {
-              vm.errorCount = undefined;
-            }
-          } else {
-            vm.propertyErrors = propertyErrors;
-          }
-
-          if (callback && typeof callback === 'function') {
-            callback();
-          }
-        };
-
-        this.HydratorPlusPlusPluginConfigFactory.validatePluginProperties(nodeInfo, this.state.config, errorCb, validationFromGetSchema);
-      } // MACRO ENABLED SCHEMA
-
-    }, {
-      key: "toggleAdvance",
-      value: function toggleAdvance() {
-        if (this.state.node.outputSchema.length > 0) {
-          try {
-            this.avsc.parse(this.state.node.outputSchema[0].schema, {
-              wrapUnions: true
-            });
-          } catch (e) {
-            this.state.node.outputSchema = [this.HydratorPlusPlusNodeService.getOutputSchemaObj('')];
-          }
-        }
-
-        this.state.schemaAdvance = !this.state.schemaAdvance;
-      }
-    }, {
-      key: "hasUniqueFields",
-      value: function hasUniqueFields(schema, error) {
-        if (!schema) {
-          return true;
-        }
-
-        var fields = schema.map(function (field) {
-          return field.name;
-        });
-
-        var unique = _.uniq(fields);
-
-        if (fields.length !== unique.length) {
-          error.push('There are two or more fields with the same name.');
-        }
-      }
-    }, {
-      key: "updateNodeStateIfDirty",
-      value: function updateNodeStateIfDirty() {
-        var stateIsDirty = this.stateIsDirty(); // because we are adding state to history before we open a node config, so if the config wasn't changed at all,
-        // then we should remove that state from history
-
-        if (!stateIsDirty) {
-          this.DAGPlusPlusNodesActionsFactory.removePreviousState(); // if it was changed, then reset future states so user can't redo
-        } else {
-          this.DAGPlusPlusNodesActionsFactory.resetFutureStates();
-        }
-      }
-    }, {
-      key: "stateIsDirty",
-      value: function stateIsDirty() {
-        var defaults = this.defaultState.node;
-        var state = this.state.node;
-        return !angular.equals(defaults, state);
-      }
-    }, {
-      key: "updateDefaultOutputSchema",
-      value: function updateDefaultOutputSchema(outputSchema) {
-        if (typeof outputSchema !== 'string') {
-          outputSchema = JSON.stringify(outputSchema);
-        }
-
-        var configOutputSchema = this.state.groupsConfig.outputSchema;
-
-        if (!configOutputSchema.implicitSchema && configOutputSchema.isOutputSchemaExists) {
-          this.defaultState.node.outputSchema = outputSchema;
-          this.defaultState.node.plugin.properties[configOutputSchema.outputSchemaProperty[0]] = this.defaultState.node.outputSchema;
-        }
-      }
-    }, {
-      key: "updatePreviewDataAndStatus",
-      value: function updatePreviewDataAndStatus(newPreviewData) {
-        this.updatePreviewStatus();
-        this.previewData = newPreviewData;
-      }
-    }, {
-      key: "updatePreviewStatus",
-      value: function updatePreviewStatus() {
-        var previewState = this.previewStore.getState().preview;
-
-        if (previewState.status) {
-          this.previewStatus = previewState.status;
-        }
-      }
-    }, {
-      key: "getPreviewId",
-      value: function getPreviewId() {
-        return this.previewStore.getState().preview.previewId;
-      }
-    }, {
-      key: "getStagesAndConnections",
-      value: function getStagesAndConnections() {
-        return this.ConfigStore.getConfigForExport().config;
-      } // TOOLTIPS FOR DISABLED SCHEMA ACTIONS
-
-    }, {
-      key: "getImportDisabledTooltip",
-      value: function getImportDisabledTooltip() {
-        if (this.datasetAlreadyExists) {
-          return "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be modified.");
-        } else if (this.state.schemaAdvance) {
-          return 'Importing a schema in Advanced mode is not supported';
-        }
-
-        return '';
-      }
-    }, {
-      key: "getPropagateDisabledTooltip",
-      value: function getPropagateDisabledTooltip() {
-        if (this.state.node.type === 'splittertransform') {
-          return 'Propagating a schema with Splitter plugins is currently not supported';
-        } else if (this.state.schemaAdvance) {
-          return 'Propagating a schema in Advanced mode is not supported';
-        }
-
-        return '';
-      }
-    }, {
-      key: "getClearDisabledTooltip",
-      value: function getClearDisabledTooltip() {
-        if (this.datasetAlreadyExists) {
-          return "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be cleared.");
-        } else if (this.state.schemaAdvance) {
-          return 'Clearing a schema in Advanced mode is not supported';
-        }
-
-        return '';
-      }
-    }, {
-      key: "getIsMacroEnabled",
-      value: function getIsMacroEnabled() {
-        return !this.$scope.isDisabled && this.state.node._backendProperties['schema'] && this.state.node._backendProperties['schema'].macroSupported;
-      }
-    }, {
-      key: "onClearSchema",
-      value: function onClearSchema() {
-        this.state.node['outputSchema'] = [{
-          name: 'etlSchemaBody',
-          schema: ''
-        }];
-        this.updateAngularPostSchemaUpdate();
-      }
-    }, {
-      key: "onPropagateSchema",
-      value: function onPropagateSchema() {
-        this.showPropagateConfirm = true;
-        this.updateAngularPostSchemaUpdate();
-      }
-    }, {
-      key: "onMacroEnabled",
-      value: function onMacroEnabled() {
-        this.state.schemaAdvance = !this.state.schemaAdvance;
-        this.updateAngularPostSchemaUpdate();
-      }
-    }, {
-      key: "onSchemaChange",
-      value: function onSchemaChange(outputSchemas) {
-        this.state.node.outputSchema = outputSchemas;
-        this.updateAngularPostSchemaUpdate();
-      }
-    }, {
-      key: "onImportSchema",
-      value: function onImportSchema(stringifiedSchema) {
-        try {
-          this.state.node.outputSchema = JSON.parse(stringifiedSchema);
-
-          if (!Array.isArray(this.state.node.outputSchema)) {
-            this.state.node.outputSchema = [this.state.node.outputSchema];
-            this.updateAngularPostSchemaUpdate();
-          }
-        } catch (e) {
-          this.state.node.outputSchema = [{
-            name: 'etlSchemaBody',
-            schema: ''
-          }];
-          this.updateAngularPostSchemaUpdate();
-        }
-      }
-    }, {
-      key: "updateAngularPostSchemaUpdate",
-      value: function updateAngularPostSchemaUpdate() {
-        try {
-          this.$scope.$digest();
-        } catch (e) {
-          return;
-        }
-      }
-    }, {
-      key: "isSchemaMacro",
-      value: function isSchemaMacro() {
-        return this.state.schemaAdvance;
-      }
-    }, {
-      key: "getActionsDropdownMap",
-      value: function getActionsDropdownMap(isInputSchema) {
-        var actionsMap = {};
-
-        if (isInputSchema) {
-          return {};
-        }
-
-        if (this.$scope.isDisabled) {
-          return {
-            "export": {
-              value: 'export',
-              label: 'Export',
-              disabled: this.state.schemaAdvance,
-              tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
-              onClick: this.exportSchema.bind(this)
-            }
-          };
-        }
-
-        if (this.state.groupsConfig.outputSchema.implicitSchema) {
-          return {
-            "export": {
-              value: 'export',
-              label: 'Export',
-              disabled: this.state.schemaAdvance,
-              tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
-              onClick: this.exportSchema.bind(this)
-            },
-            propagate: {
-              value: 'propagate',
-              label: 'Propagate',
-              disabled: this.state.schemaAdvance || this.state.node.type === 'splittertransform',
-              tooltip: this.getPropagateDisabledTooltip(),
-              onClick: this.onPropagateSchema.bind(this)
-            }
-          };
-        }
-
-        if (this.getIsMacroEnabled()) {
-          actionsMap['macro'] = {
-            value: 'macro',
-            label: this.state.schemaAdvance ? 'Editor' : 'Macro',
-            disabled: this.datasetAlreadyExists,
-            tooltip: this.datasetAlreadyExists ? "The dataset '".concat(this.datasetId, "' already exists. Its schema cannot be modified.") : '',
-            onClick: this.onMacroEnabled.bind(this)
-          };
-        }
-
-        actionsMap = Object.assign({}, actionsMap, {
-          "import": {
-            value: 'import',
-            label: 'Import',
-            disabled: this.datasetAlreadyExists || this.state.schemaAdvance,
-            tooltip: this.getImportDisabledTooltip(),
-            onClick: this.onSchemaImportLinkClick.bind(this)
-          },
-          "export": {
-            value: 'export',
-            label: 'Export',
-            disabled: this.state.schemaAdvance,
-            tooltip: this.state.schemaAdvance ? 'Exporting a schema in Advanced mode is not supported' : '',
-            onClick: this.exportSchema.bind(this)
-          },
-          propagate: {
-            value: 'propagate',
-            label: 'Propagate',
-            disabled: this.state.schemaAdvance || this.state.node.type === 'splittertransform',
-            tooltip: this.getPropagateDisabledTooltip(),
-            onClick: this.onPropagateSchema.bind(this)
-          },
-          clear: {
-            value: 'clear',
-            label: 'Clear',
-            disabled: this.datasetAlreadyExists || this.state.schemaAdvance,
-            tooltip: this.getClearDisabledTooltip(),
-            onClick: this.onClearSchema.bind(this)
-          }
-        });
-        return actionsMap;
-      }
-    }, {
-      key: "setComments",
-      value: function setComments(nodeId, comments) {
-        this.state.node.information = this.state.node.information || {};
-        this.state.node.information.comments = {
-          list: comments
-        };
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return HydratorPlusPlusNodeConfigCtrl;
-  }();
-
-  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusNodeConfigCtrl', HydratorPlusPlusNodeConfigCtrl);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/partials/pipelineupgrade-modal-ctrl.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.feature.hydrator').controller('PipelineUpgradeModalController', ["$scope", "rPipelineConfig", "HydratorUpgradeService", "$rootScope", "HydratorPlusPlusConfigStore", "$state", "DAGPlusPlusFactory", "GLOBALS", "HydratorPlusPlusLeftPanelStore", "rIsImport", function ($scope, rPipelineConfig, HydratorUpgradeService, $rootScope, HydratorPlusPlusConfigStore, $state, DAGPlusPlusFactory, GLOBALS, HydratorPlusPlusLeftPanelStore, rIsImport) {
-    var _this = this;
-
-    var eventEmitter = window.CaskCommon.ee(window.CaskCommon.ee);
-    var globalEvents = window.CaskCommon.globalEvents;
-    this.pipelineConfig = rPipelineConfig;
-    this.cdapVersion = $rootScope.cdapVersion;
-    this.pipelineArtifact = HydratorUpgradeService.checkPipelineArtifactVersion(rPipelineConfig);
-    this.problematicStages = [];
-    this.canUpgradeStages = [];
-    var allStages = [];
-    var allPostActions = [];
-    this.problematicPostRunActions = [];
-    this.fixAllDisabled = true;
-    this.isImport = rIsImport; // missing artifacts map
-
-    this.missingArtifactsMap = {};
-    this.loading = false;
-
-    var checkStages = function checkStages() {
-      if (_this.loading) {
-        return;
-      }
-
-      _this.loading = true;
-      HydratorUpgradeService.getErrorStages(rPipelineConfig).then(function (transformedStages) {
-        allStages = transformedStages.stages.map(function (stage) {
-          stage.icon = DAGPlusPlusFactory.getIcon(stage.stageInfo.plugin.name.toLowerCase());
-          stage.type = GLOBALS.pluginConvert[stage.stageInfo.plugin.type];
-          return stage;
-        });
-        allPostActions = transformedStages.postActions.map(function (stage) {
-          stage.icon = DAGPlusPlusFactory.getIcon(stage.stageInfo.plugin.name.toLowerCase());
-          stage.type = 'postaction';
-          return stage;
-        });
-        _this.problematicStages = [];
-        _this.canUpgradeStages = [];
-        _this.problematicPostRunActions = [];
-        _this.missingArtifactsMap = {};
-        transformedStages.stages.forEach(function (artifact) {
-          if (artifact.error === 'NOTFOUND') {
-            var plugin = artifact.stageInfo.plugin;
-            var mapKey = "".concat(plugin.name, "-").concat(plugin.type, "-").concat(plugin.artifact.name, "-").concat(plugin.artifact.version);
-            _this.missingArtifactsMap[mapKey] = artifact;
-          } else if (artifact.error === 'CAN_UPGRADE') {
-            artifact.upgrade = true;
-
-            _this.canUpgradeStages.push(artifact);
-          } else if (artifact.error) {
-            _this.problematicStages.push(artifact);
-          }
-        });
-        transformedStages.postActions.forEach(function (artifact) {
-          if (artifact.error === 'NOTFOUND') {
-            var plugin = artifact.stageInfo.plugin;
-            var mapKey = "".concat(plugin.name, "-").concat(plugin.type, "-").concat(plugin.artifact.name, "-").concat(plugin.artifact.version);
-            _this.missingArtifactsMap[mapKey] = artifact;
-          } else if (artifact.error) {
-            _this.problematicPostRunActions.push(artifact);
-          }
-        });
-        _this.fixAllDisabled = Object.keys(_this.missingArtifactsMap).length > 0;
-
-        if (_this.problematicStages.length === 0 && _this.pipelineArtifact && _this.canUpgradeStages.length === 0 && _this.problematicPostRunActions.length === 0 && !_this.fixAllDisabled) {
-          HydratorPlusPlusConfigStore.setState(HydratorPlusPlusConfigStore.getDefaults());
-          var sanitize = window.CaskCommon.CDAPHelpers.santizeStringForHTMLID;
-          rPipelineConfig.config.stages = rPipelineConfig.config.stages.map(function (stage) {
-            return Object.assign({}, stage, {
-              id: sanitize(stage.name)
-            });
-          });
-          $state.go('hydrator.create', {
-            data: rPipelineConfig
-          });
-        } else {
-          _this.loading = false;
-        }
-      });
-    };
-
-    checkStages(); // This store subscription can cause the fetching of the plugins list to happen twice.
-    // The reason is because in LeftPanelController, we fetch the default version map
-    // with a 10 seconds timeout. So if user import before 10 seconds, it will make another
-    // call to fetch list of plugins
-
-    var sub = HydratorPlusPlusLeftPanelStore.subscribe(checkStages);
-
-    this.openMarket = function () {
-      eventEmitter.emit(globalEvents.OPENMARKET);
-    };
-
-    var fix = function fix(stagesList) {
-      return stagesList.map(function (stage) {
-        var updatedStageInfo = stage.stageInfo;
-
-        if (stage.error && stage.error === 'NOTFOUND') {
-          updatedStageInfo.error = true;
-          updatedStageInfo.errorCount = 1;
-          updatedStageInfo.errorMessage = 'Plugin cannot be found';
-        } else if (stage.error) {
-          if (stage.error === 'CAN_UPGRADE' && stage.upgrade || stage.error !== 'CAN_UPGRADE') {
-            updatedStageInfo.plugin.artifact = stage.suggestion;
-          }
-        }
-
-        return updatedStageInfo;
-      });
-    };
-
-    this.fixAll = function () {
-      var newConfig = HydratorUpgradeService.upgradePipelineArtifactVersion(rPipelineConfig); // Making a copy here so that the information in the modal does not change when
-      // we modify the artifact information
-
-      var copyAllStages = angular.copy(allStages);
-      var copyPostActions = angular.copy(allPostActions);
-      var stages = fix(copyAllStages);
-      var postActions = fix(copyPostActions);
-      var draftId;
-      newConfig.config.stages = stages;
-      newConfig.config.postActions = postActions;
-
-      if (newConfig.__ui__) {
-        draftId = newConfig.__ui__.draftId;
-        delete newConfig.__ui__;
-      }
-
-      if (draftId) {
-        newConfig.__ui__ = {
-          draftId: draftId
-        };
-      }
-
-      HydratorPlusPlusConfigStore.setState(HydratorPlusPlusConfigStore.getDefaults());
-      $state.go('hydrator.create', {
-        data: newConfig
-      });
-    };
-
-    $scope.$on('$destroy', function () {
-      sub();
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/partials/reference-tab-ctrl.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var HydratorPlusPlusReferenceTabCtrl = /*#__PURE__*/function () {
-    HydratorPlusPlusReferenceTabCtrl.$inject = ["HydratorPlusPlusPluginConfigFactory", "GLOBALS", "myHelpers", "$scope"];
-    function HydratorPlusPlusReferenceTabCtrl(HydratorPlusPlusPluginConfigFactory, GLOBALS, myHelpers, $scope) {
-      _classCallCheck(this, HydratorPlusPlusReferenceTabCtrl);
-
-      this.GLOBALS = GLOBALS;
-      this.HydratorPlusPlusPluginConfigFactory = HydratorPlusPlusPluginConfigFactory;
-      this.myHelpers = myHelpers;
-      this.state = {};
-      this.showContents($scope.node);
-    }
-
-    _createClass(HydratorPlusPlusReferenceTabCtrl, [{
-      key: "showContents",
-      value: function showContents(node) {
-        var _this = this;
-
-        if (!node.plugin) {
-          this.state.docReference = this.GLOBALS.en.hydrator.studio.info['DEFAULT-REFERENCE'];
-        } else {
-          var key = "doc.".concat(node.plugin.name, "-").concat(node.type || node.plugin.type);
-          this.HydratorPlusPlusPluginConfigFactory.fetchDocJson(this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'name'), this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'version'), this.myHelpers.objectQuery(node, 'plugin', 'artifact', 'scope'), key).then(function (res) {
-            if (res[key]) {
-              _this.state.docReference = res[key];
-            } else {
-              _this.state.docReference = _this.GLOBALS.en.hydrator.studio.info['NO-REFERENCE'];
-            }
-          }, function () {
-            return _this.state.docReference = _this.GLOBALS.en.hydrator.studio.info['NO-REFERENCE'];
-          });
-        }
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return HydratorPlusPlusReferenceTabCtrl;
-  }();
-
-  HydratorPlusPlusReferenceTabCtrl.$inject = ['HydratorPlusPlusPluginConfigFactory', 'GLOBALS', 'myHelpers', '$scope'];
-  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('HydratorPlusPlusReferenceTabCtrl', HydratorPlusPlusReferenceTabCtrl);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/partials/settings-ctrl.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var HydratorPlusPlusSettingsCtrl = /*#__PURE__*/function () {
-    HydratorPlusPlusSettingsCtrl.$inject = ["GLOBALS", "HydratorPlusPlusConfigStore", "HydratorPlusPlusConfigActions", "$scope"];
-    function HydratorPlusPlusSettingsCtrl(GLOBALS, HydratorPlusPlusConfigStore, HydratorPlusPlusConfigActions, $scope) {
-      var _this = this;
-
-      _classCallCheck(this, HydratorPlusPlusSettingsCtrl);
-
-      this.GLOBALS = GLOBALS;
-      this.HydratorPlusPlusConfigActions = HydratorPlusPlusConfigActions;
-      this.templateType = HydratorPlusPlusConfigStore.getArtifact().name;
-      this.activeTab = 0; // If ETL Batch
-
-      if (GLOBALS.etlBatchPipelines.includes(this.templateType)) {
-        // Initialiting ETL Batch Schedule
-        this.initialCron = HydratorPlusPlusConfigStore.getSchedule();
-        this.cron = this.initialCron;
-        this.engine = HydratorPlusPlusConfigStore.getEngine();
-        this.isBasic = this.checkCron(this.initialCron);
-        this.activeTab = this.isBasic ? 0 : 1; // Debounce method for setting schedule
-
-        var setSchedule = _.debounce(function () {
-          HydratorPlusPlusConfigActions.setSchedule(_this.cron);
-        }, 1000);
-
-        $scope.$watch(function () {
-          return _this.cron;
-        }, setSchedule);
-      } // If ETL Realtime
-      else if (this.templateType === GLOBALS.etlRealtime) {
-          // Initializing ETL Realtime Instance
-          this.instance = HydratorPlusPlusConfigStore.getInstance(); // Debounce method for setting instance
-
-          var setInstance = _.debounce(function () {
-            HydratorPlusPlusConfigActions.setInstance(_this.instance);
-          }, 1000);
-
-          $scope.$watch(function () {
-            return _this.instance;
-          }, setInstance);
-        }
-    }
-
-    _createClass(HydratorPlusPlusSettingsCtrl, [{
-      key: "checkCron",
-      value: function checkCron(cron) {
-        var pattern = /^[0-9\*\s]*$/g;
-        var parse = cron.split('');
-
-        for (var i = 0; i < parse.length; i++) {
-          if (!parse[i].match(pattern)) {
-            return false;
-          }
-        }
-
-        return true;
-      }
-    }, {
-      key: "onEngineChange",
-      value: function onEngineChange() {
-        this.HydratorPlusPlusConfigActions.setEngine(this.engine);
-      }
-    }, {
-      key: "changeScheduler",
-      value: function changeScheduler(type) {
-        if (type === 'BASIC') {
-          this.activeTab = 0;
-          this.initialCron = this.cron;
-          var check = true;
-
-          if (!this.checkCron(this.initialCron)) {
-            check = confirm('You have advanced configuration that is not available in basic mode. Are you sure you want to go to basic scheduler?');
-          }
-
-          if (check) {
-            this.isBasic = true;
-          }
-        } else {
-          this.activeTab = 1;
-          this.isBasic = false;
-        }
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return HydratorPlusPlusSettingsCtrl;
-  }();
-
-  HydratorPlusPlusSettingsCtrl.$inject = ['GLOBALS', 'HydratorPlusPlusConfigStore', 'HydratorPlusPlusConfigActions', '$scope'];
-  angular.module(PKG.name + '.feature.hydrator').controller('HydratorPlusPlusSettingsCtrl', HydratorPlusPlusSettingsCtrl);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/popovers/plugin-templates-create-edit-ctrl.js */
-
-  /*
-   * Copyright © 2016 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('PluginTemplatesCreateEditCtrl', ["$scope", "PluginTemplatesDirStore", "PluginTemplatesDirActions", "HydratorPlusPlusPluginActions", "$stateParams", "myAlertOnValium", "rTemplateType", "HydratorPlusPlusLeftPanelStore", function ($scope, PluginTemplatesDirStore, PluginTemplatesDirActions, HydratorPlusPlusPluginActions, $stateParams, myAlertOnValium, rTemplateType, HydratorPlusPlusLeftPanelStore) {
-    $scope.closeTemplateCreationModal = function () {
-      PluginTemplatesDirActions.reset();
-      $scope.$close();
-    };
-
-    $scope.pluginTemplateSaveError = null;
-    PluginTemplatesDirStore.registerOnChangeListener(function () {
-      var getIsSaveSuccessfull = PluginTemplatesDirStore.getIsSaveSuccessfull();
-      var getIsCloseCommand = PluginTemplatesDirStore.getIsCloseCommand();
-
-      if (getIsSaveSuccessfull) {
-        PluginTemplatesDirActions.reset();
-        HydratorPlusPlusLeftPanelStore.dispatch(HydratorPlusPlusPluginActions.fetchTemplates({
-          namespace: $stateParams.namespace
-        }, {
-          namespace: $stateParams.namespace,
-          pipelineType: rTemplateType
-        }));
-        myAlertOnValium.show({
-          type: 'success',
-          content: 'Plugin template saved successfully'
-        });
-        $scope.$close();
-      }
-
-      if (getIsCloseCommand) {
-        PluginTemplatesDirActions.reset();
-        $scope.$close();
-      }
-    });
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/popovers/plugin-templates-delete-ctrl.js */
-
-  /*
-   * Copyright © 2016 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('PluginTemplatesDeleteCtrl', ["rNode", "$scope", "mySettings", "$stateParams", "myAlertOnValium", "HydratorPlusPlusPluginActions", "HydratorPlusPlusLeftPanelStore", "rTemplateType", function (rNode, $scope, mySettings, $stateParams, myAlertOnValium, HydratorPlusPlusPluginActions, HydratorPlusPlusLeftPanelStore, rTemplateType) {
-    var node = rNode;
-    $scope.templateName = node.pluginTemplate;
-
-    $scope.ok = function () {
-      $scope.disableOKButton = true;
-      mySettings.get('pluginTemplates', true).then(function (res) {
-        delete res[$stateParams.namespace][node.templateType][node.pluginType][node.pluginTemplate];
-        return mySettings.set('pluginTemplates', res);
-      }).then(function () {
-        $scope.disableOKButton = false;
-        myAlertOnValium.show({
-          type: 'success',
-          content: 'Successfully deleted template ' + node.pluginTemplate
-        });
-        HydratorPlusPlusLeftPanelStore.dispatch(HydratorPlusPlusPluginActions.fetchTemplates({
-          namespace: $stateParams.namespace
-        }, {
-          namespace: $stateParams.namespace,
-          pipelineType: rTemplateType
-        }));
-        $scope.$close();
-      }, function (err) {
-        $scope.disableButtons = false;
-        $scope.error = err;
-      });
-    };
-  }]);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /controllers/create/popovers/pre-configured-ctrl.js */
-
-  /*
-   * Copyright © 2016 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var HydratorPlusPlusPreConfiguredCtrl = /*#__PURE__*/function () {
-    HydratorPlusPlusPreConfiguredCtrl.$inject = ["rTemplateType", "GLOBALS", "myPipelineTemplatesApi", "HydratorPlusPlusHydratorService", "HydratorPlusPlusCanvasFactory", "DAGPlusPlusNodesActionsFactory", "$state", "HydratorPlusPlusConfigStore", "myAlertOnValium"];
-    function HydratorPlusPlusPreConfiguredCtrl(rTemplateType, GLOBALS, myPipelineTemplatesApi, HydratorPlusPlusHydratorService, HydratorPlusPlusCanvasFactory, DAGPlusPlusNodesActionsFactory, $state, HydratorPlusPlusConfigStore, myAlertOnValium) {
-      var _this = this;
-
-      _classCallCheck(this, HydratorPlusPlusPreConfiguredCtrl);
-
-      this.currentPage = 1;
-      this.templates = [];
-      this.HydratorPlusPlusHydratorService = HydratorPlusPlusHydratorService;
-      this.HydratorPlusPlusCanvasFactory = HydratorPlusPlusCanvasFactory;
-      this.myPipelineTemplatesApi = myPipelineTemplatesApi;
-      this.DAGPlusPlusNodesActionsFactory = DAGPlusPlusNodesActionsFactory;
-      this.HydratorPlusPlusConfigStore = HydratorPlusPlusConfigStore;
-      this.GLOBALS = GLOBALS;
-      this.$state = $state;
-      this.myAlertOnValium = myAlertOnValium;
-      this.typeFilter = rTemplateType;
-      this.templateContext = this.GLOBALS.artifactConvert[rTemplateType];
-      this.fetchTemplates().then(function (plugins) {
-        _this.templates = plugins;
-      });
-    }
-
-    _createClass(HydratorPlusPlusPreConfiguredCtrl, [{
-      key: "selectTemplate",
-      value: function selectTemplate(template) {
-        this.HydratorPlusPlusConfigStore.setState(this.HydratorPlusPlusConfigStore.getDefaults());
-        this.$state.go('hydrator.create', {
-          data: template._properties,
-          draftId: null
-        });
-      }
-    }, {
-      key: "fetchTemplates",
-      value: function fetchTemplates() {
-        var _this2 = this;
-
-        return this.myPipelineTemplatesApi.list({
-          apptype: this.typeFilter
-        }).$promise.then(function (res) {
-          var plugins = res.map(function (plugin) {
-            return {
-              name: plugin.name,
-              description: plugin.description,
-              type: _this2.typeFilter
-            };
-          });
-          angular.forEach(plugins, function (plugin) {
-            _this2.myPipelineTemplatesApi.get({
-              apptype: _this2.typeFilter,
-              appname: plugin.name
-            }).$promise.then(function (res) {
-              plugin._properties = res;
-              delete plugin._properties.$promise;
-              delete plugin._properties.$resolved;
-              plugin._source = res.config.stages.filter(function (stage) {
-                return _this2.GLOBALS.pluginConvert[stage.plugin.type] === 'source';
-              });
-              plugin._sinks = res.config.stages.filter(function (stage) {
-                return _this2.GLOBALS.pluginConvert[stage.plugin.type] === 'sink';
-              });
-            });
-          });
-          return plugins;
-        });
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return HydratorPlusPlusPreConfiguredCtrl;
-  }();
-
-  HydratorPlusPlusPreConfiguredCtrl.$inject = ['rTemplateType', 'GLOBALS', 'myPipelineTemplatesApi', 'HydratorPlusPlusHydratorService', 'HydratorPlusPlusCanvasFactory', 'DAGPlusPlusNodesActionsFactory', '$state', 'HydratorPlusPlusConfigStore', 'myAlertOnValium'];
-  angular.module("".concat(PKG.name, ".feature.hydrator")).controller('HydratorPlusPlusPreConfiguredCtrl', HydratorPlusPlusPreConfiguredCtrl);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"

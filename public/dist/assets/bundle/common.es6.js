@@ -2532,75 +2532,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /services/dispatchers/nodes-dispatcher.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  var DAGPlusPlusNodesDispatcher = /*#__PURE__*/function () {
-    DAGPlusPlusNodesDispatcher.$inject = ["CaskAngularDispatcher"];
-    function DAGPlusPlusNodesDispatcher(CaskAngularDispatcher) {
-      _classCallCheck(this, DAGPlusPlusNodesDispatcher);
-
-      this.baseDispatcher = CaskAngularDispatcher;
-      this.__dispatcher__ = null;
-    }
-
-    _createClass(DAGPlusPlusNodesDispatcher, [{
-      key: "getDispatcher",
-      value: function getDispatcher() {
-        if (!this.__dispatcher__) {
-          this.__dispatcher__ = new this.baseDispatcher();
-        }
-
-        return this.__dispatcher__;
-      }
-    }, {
-      key: "destroyDispatcher",
-      value: function destroyDispatcher() {
-        delete this.__dispatcher__;
-      }
-    }, {
-      key: "__reactstandin__regenerateByEval",
-      value: // @ts-ignore
-      function __reactstandin__regenerateByEval(key, code) {
-        // @ts-ignore
-        this[key] = eval(code);
-      }
-    }]);
-
-    return DAGPlusPlusNodesDispatcher;
-  }();
-
-  DAGPlusPlusNodesDispatcher.$inject = ['CaskAngularDispatcher'];
-  angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesDispatcher', DAGPlusPlusNodesDispatcher);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /services/actions/nodes-actions.js */
 
   /*
@@ -2776,6 +2707,75 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 
   DAGPlusPlusNodesActionsFactory.$inject = ['DAGPlusPlusNodesDispatcher', 'GLOBALS', 'DAGPlusPlusFactory', 'DAGPlusPlusNodesStore'];
   angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesActionsFactory', DAGPlusPlusNodesActionsFactory);
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /services/dispatchers/nodes-dispatcher.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  var DAGPlusPlusNodesDispatcher = /*#__PURE__*/function () {
+    DAGPlusPlusNodesDispatcher.$inject = ["CaskAngularDispatcher"];
+    function DAGPlusPlusNodesDispatcher(CaskAngularDispatcher) {
+      _classCallCheck(this, DAGPlusPlusNodesDispatcher);
+
+      this.baseDispatcher = CaskAngularDispatcher;
+      this.__dispatcher__ = null;
+    }
+
+    _createClass(DAGPlusPlusNodesDispatcher, [{
+      key: "getDispatcher",
+      value: function getDispatcher() {
+        if (!this.__dispatcher__) {
+          this.__dispatcher__ = new this.baseDispatcher();
+        }
+
+        return this.__dispatcher__;
+      }
+    }, {
+      key: "destroyDispatcher",
+      value: function destroyDispatcher() {
+        delete this.__dispatcher__;
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      value: // @ts-ignore
+      function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return DAGPlusPlusNodesDispatcher;
+  }();
+
+  DAGPlusPlusNodesDispatcher.$inject = ['CaskAngularDispatcher'];
+  angular.module("".concat(PKG.name, ".commons")).service('DAGPlusPlusNodesDispatcher', DAGPlusPlusNodesDispatcher);
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
@@ -4896,7 +4896,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /map-schema/map-schema.js */
+  /* /enum-schema/enum-schema.js */
 
   /*
    * Copyright © 2016 Cask Data, Inc.
@@ -4913,63 +4913,55 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
    * License for the specific language governing permissions and limitations under
    * the License.
    */
-  MapSchemaController.$inject = ["avsc", "SCHEMA_TYPES", "SchemaHelper", "$scope", "$timeout"];
-  function MapSchemaController(avsc, SCHEMA_TYPES, SchemaHelper, $scope, $timeout) {
+  EnumSchemaController.$inject = ["avsc", "$timeout", "$scope", "uuid"];
+  function EnumSchemaController(avsc, $timeout, $scope, uuid) {
     'ngInject';
 
     var vm = this;
+    vm.symbols = [];
     var timeout;
-    vm.SCHEMA_TYPES = SCHEMA_TYPES.types;
-    vm.fields = {
-      keys: null,
-      values: null
-    };
+    var addSymbolTimeout;
 
-    vm.changeType = function (field) {
-      if (SCHEMA_TYPES.simpleTypes.indexOf(field.displayType) !== -1) {
-        field.type = field.displayType;
-        vm.formatOutput();
-      } else {
-        field.type = null;
-      }
-
-      field.nested = SchemaHelper.checkComplexType(field.displayType);
-    };
-
-    function init(strJson) {
-      if (!strJson || strJson === 'map') {
-        vm.fields.keys = {
-          type: 'string',
-          displayType: 'string',
-          nullable: false,
-          nested: false
-        };
-        vm.fields.values = {
-          type: 'string',
-          displayType: 'string',
-          nullable: false,
-          nested: false
-        };
-        vm.formatOutput();
-        return;
-      }
-
-      var parsed = avsc.parse(strJson, {
-        wrapUnions: true
+    vm.addSymbol = function (index) {
+      var placement = index === undefined ? 0 : index + 1;
+      var newSymbol = {
+        name: '',
+        id: uuid.v4()
+      };
+      vm.symbols.splice(placement, 0, newSymbol);
+      $timeout.cancel(addSymbolTimeout);
+      addSymbolTimeout = $timeout(function () {
+        var elem = document.getElementById(newSymbol.id);
+        angular.element(elem)[0].focus();
       });
-      vm.fields.keys = SchemaHelper.parseType(parsed.getKeysType());
-      vm.fields.values = SchemaHelper.parseType(parsed.getValuesType());
+    };
+
+    vm.removeSymbol = function (index) {
+      vm.symbols.splice(index, 1);
+
+      if (vm.symbols.length === 0) {
+        vm.addSymbol();
+      }
+
       vm.formatOutput();
-    }
+    };
 
     vm.formatOutput = function () {
       vm.error = '';
-      var keysType = avsc.formatType(vm.fields.keys.type);
-      var valuesType = avsc.formatType(vm.fields.values.type);
+      var symbols = vm.symbols.filter(function (symbol) {
+        return symbol.name ? true : false;
+      }).map(function (symbol) {
+        return symbol.name;
+      });
+
+      if (symbols.length === 0) {
+        vm.model = '';
+        return;
+      }
+
       var obj = {
-        type: 'map',
-        keys: vm.fields.keys.nullable ? [keysType, 'null'] : keysType,
-        values: vm.fields.values.nullable ? [valuesType, 'null'] : valuesType
+        type: 'enum',
+        symbols: symbols
       }; // Validate
 
       try {
@@ -4977,9 +4969,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
           wrapUnions: true
         });
       } catch (e) {
-        var err = '' + e;
-        err = err.split(':');
-        vm.error = err[0] + ': ' + err[1];
+        vm.error = '' + e;
         return;
       }
 
@@ -4991,17 +4981,38 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
     };
 
     init(vm.model);
+
+    function init(strJson) {
+      if (!strJson || strJson === 'enum') {
+        vm.addSymbol();
+        vm.formatOutput();
+        return;
+      }
+
+      var parsed = avsc.parse(strJson, {
+        wrapUnions: true
+      });
+      vm.symbols = parsed.getSymbols().map(function (symbol) {
+        return {
+          name: symbol,
+          id: uuid.v4()
+        };
+      });
+      vm.formatOutput();
+    }
+
     $scope.$on('$destroy', function () {
       $timeout.cancel(timeout);
+      $timeout.cancel(addSymbolTimeout);
     });
   }
 
-  angular.module(PKG.name + '.commons').directive('myMapSchema', function () {
+  angular.module(PKG.name + '.commons').directive('myEnumSchema', function () {
     return {
       restrict: 'E',
-      templateUrl: 'complex-schema/map-schema/map-schema.html',
-      controller: MapSchemaController,
-      controllerAs: 'MapSchema',
+      templateUrl: 'complex-schema/enum-schema/enum-schema.html',
+      controller: EnumSchemaController,
+      controllerAs: 'EnumSchema',
       bindToController: true,
       scope: {
         model: '=ngModel',
@@ -5009,7 +5020,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         isDisabled: '='
       }
     };
-  }).directive('myMapSchemaWrapper', ["$compile", function ($compile) {
+  }).directive('myEnumSchemaWrapper', ["$compile", function ($compile) {
     return {
       restrict: 'E',
       replace: true,
@@ -5019,7 +5030,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         isDisabled: '='
       },
       link: function link(scope, element) {
-        var elemString = "<my-map-schema\n                          ng-model=\"model\"\n                          parent-format-output=\"parentFormatOutput()\"\n                          is-disabled=\"isDisabled\">\n                        </my-map-schema>";
+        var elemString = "<my-enum-schema\n                          ng-model=\"model\"\n                          parent-format-output=\"parentFormatOutput()\"\n                          is-disabled=\"isDisabled\">\n                        </my-enum-schema>";
         $compile(elemString)(scope, function (cloned) {
           element.append(cloned);
         });
@@ -5205,7 +5216,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /enum-schema/enum-schema.js */
+  /* /map-schema/map-schema.js */
 
   /*
    * Copyright © 2016 Cask Data, Inc.
@@ -5222,55 +5233,63 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
    * License for the specific language governing permissions and limitations under
    * the License.
    */
-  EnumSchemaController.$inject = ["avsc", "$timeout", "$scope", "uuid"];
-  function EnumSchemaController(avsc, $timeout, $scope, uuid) {
+  MapSchemaController.$inject = ["avsc", "SCHEMA_TYPES", "SchemaHelper", "$scope", "$timeout"];
+  function MapSchemaController(avsc, SCHEMA_TYPES, SchemaHelper, $scope, $timeout) {
     'ngInject';
 
     var vm = this;
-    vm.symbols = [];
     var timeout;
-    var addSymbolTimeout;
-
-    vm.addSymbol = function (index) {
-      var placement = index === undefined ? 0 : index + 1;
-      var newSymbol = {
-        name: '',
-        id: uuid.v4()
-      };
-      vm.symbols.splice(placement, 0, newSymbol);
-      $timeout.cancel(addSymbolTimeout);
-      addSymbolTimeout = $timeout(function () {
-        var elem = document.getElementById(newSymbol.id);
-        angular.element(elem)[0].focus();
-      });
+    vm.SCHEMA_TYPES = SCHEMA_TYPES.types;
+    vm.fields = {
+      keys: null,
+      values: null
     };
 
-    vm.removeSymbol = function (index) {
-      vm.symbols.splice(index, 1);
-
-      if (vm.symbols.length === 0) {
-        vm.addSymbol();
+    vm.changeType = function (field) {
+      if (SCHEMA_TYPES.simpleTypes.indexOf(field.displayType) !== -1) {
+        field.type = field.displayType;
+        vm.formatOutput();
+      } else {
+        field.type = null;
       }
 
-      vm.formatOutput();
+      field.nested = SchemaHelper.checkComplexType(field.displayType);
     };
 
-    vm.formatOutput = function () {
-      vm.error = '';
-      var symbols = vm.symbols.filter(function (symbol) {
-        return symbol.name ? true : false;
-      }).map(function (symbol) {
-        return symbol.name;
-      });
-
-      if (symbols.length === 0) {
-        vm.model = '';
+    function init(strJson) {
+      if (!strJson || strJson === 'map') {
+        vm.fields.keys = {
+          type: 'string',
+          displayType: 'string',
+          nullable: false,
+          nested: false
+        };
+        vm.fields.values = {
+          type: 'string',
+          displayType: 'string',
+          nullable: false,
+          nested: false
+        };
+        vm.formatOutput();
         return;
       }
 
+      var parsed = avsc.parse(strJson, {
+        wrapUnions: true
+      });
+      vm.fields.keys = SchemaHelper.parseType(parsed.getKeysType());
+      vm.fields.values = SchemaHelper.parseType(parsed.getValuesType());
+      vm.formatOutput();
+    }
+
+    vm.formatOutput = function () {
+      vm.error = '';
+      var keysType = avsc.formatType(vm.fields.keys.type);
+      var valuesType = avsc.formatType(vm.fields.values.type);
       var obj = {
-        type: 'enum',
-        symbols: symbols
+        type: 'map',
+        keys: vm.fields.keys.nullable ? [keysType, 'null'] : keysType,
+        values: vm.fields.values.nullable ? [valuesType, 'null'] : valuesType
       }; // Validate
 
       try {
@@ -5278,7 +5297,9 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
           wrapUnions: true
         });
       } catch (e) {
-        vm.error = '' + e;
+        var err = '' + e;
+        err = err.split(':');
+        vm.error = err[0] + ': ' + err[1];
         return;
       }
 
@@ -5290,38 +5311,17 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
     };
 
     init(vm.model);
-
-    function init(strJson) {
-      if (!strJson || strJson === 'enum') {
-        vm.addSymbol();
-        vm.formatOutput();
-        return;
-      }
-
-      var parsed = avsc.parse(strJson, {
-        wrapUnions: true
-      });
-      vm.symbols = parsed.getSymbols().map(function (symbol) {
-        return {
-          name: symbol,
-          id: uuid.v4()
-        };
-      });
-      vm.formatOutput();
-    }
-
     $scope.$on('$destroy', function () {
       $timeout.cancel(timeout);
-      $timeout.cancel(addSymbolTimeout);
     });
   }
 
-  angular.module(PKG.name + '.commons').directive('myEnumSchema', function () {
+  angular.module(PKG.name + '.commons').directive('myMapSchema', function () {
     return {
       restrict: 'E',
-      templateUrl: 'complex-schema/enum-schema/enum-schema.html',
-      controller: EnumSchemaController,
-      controllerAs: 'EnumSchema',
+      templateUrl: 'complex-schema/map-schema/map-schema.html',
+      controller: MapSchemaController,
+      controllerAs: 'MapSchema',
       bindToController: true,
       scope: {
         model: '=ngModel',
@@ -5329,7 +5329,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         isDisabled: '='
       }
     };
-  }).directive('myEnumSchemaWrapper', ["$compile", function ($compile) {
+  }).directive('myMapSchemaWrapper', ["$compile", function ($compile) {
     return {
       restrict: 'E',
       replace: true,
@@ -5339,7 +5339,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
         isDisabled: '='
       },
       link: function link(scope, element) {
-        var elemString = "<my-enum-schema\n                          ng-model=\"model\"\n                          parent-format-output=\"parentFormatOutput()\"\n                          is-disabled=\"isDisabled\">\n                        </my-enum-schema>";
+        var elemString = "<my-map-schema\n                          ng-model=\"model\"\n                          parent-format-output=\"parentFormatOutput()\"\n                          is-disabled=\"isDisabled\">\n                        </my-map-schema>";
         $compile(elemString)(scope, function (cloned) {
           element.append(cloned);
         });
@@ -7200,110 +7200,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /widget-ds-multiplevalues/widget-ds-multiplevalues.js */
-
-  /*
-   * Copyright © 2016 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.commons').directive('myDsMultipleValues', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        model: '=ngModel',
-        config: '='
-      },
-      templateUrl: 'widget-container/widget-ds-multiplevalues/widget-ds-multiplevalues.html',
-      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
-        $scope.valuesdelimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'values-delimiter') || ':';
-        $scope.delimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'delimiter') || ',';
-        $scope.numValues = myHelpers.objectQuery($scope.config, 'widget-attributes', 'numValues') || 2;
-        $scope.placeholders = myHelpers.objectQuery($scope.config, 'widget-attributes', 'placeholders') || [];
-        $scope.numValues = parseInt($scope.numValues, 10); // initializing
-
-        function initialize() {
-          var str = $scope.model;
-          $scope.properties = [];
-
-          if (!str) {
-            //intialize to one empty property
-            $scope.properties.push({
-              values: Array($scope.numValues).join('.').split('.')
-            });
-            return;
-          }
-
-          var arr = str.split($scope.delimiter);
-          angular.forEach(arr, function (a) {
-            var split = a.split($scope.valuesdelimiter);
-            $scope.properties.push({
-              values: split
-            });
-          });
-        }
-
-        initialize();
-        $scope.$watch('properties', function () {
-          var str = '';
-          angular.forEach($scope.properties, function (p) {
-            var isAnyEmptyValue = p.values.filter(function (val) {
-              return val.length === 0;
-            });
-
-            if (isAnyEmptyValue.length) {
-              return;
-            }
-
-            str = str + p.values.join($scope.valuesdelimiter) + $scope.delimiter;
-          }); // remove last delimiter
-
-          if (str.length > 0 && str.charAt(str.length - 1) === $scope.delimiter) {
-            str = str.substring(0, str.length - 1);
-          }
-
-          $scope.model = str;
-        }, true);
-
-        $scope.addProperty = function () {
-          $scope.properties.push({
-            values: Array($scope.numValues).join('.').split('.'),
-            newField: 'add'
-          });
-        };
-
-        $scope.removeProperty = function (property) {
-          var index = $scope.properties.indexOf(property);
-          $scope.properties.splice(index, 1);
-        };
-
-        $scope.enter = function (event, last) {
-          if (last && event.keyCode === 13) {
-            $scope.addProperty();
-          }
-        };
-      }]
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /widget-dataset-selector/widget-dataset-selector.js */
 
   /*
@@ -7466,6 +7362,209 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
             debouncedPopup.cancel();
           }
         });
+      }]
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-ds-multiplevalues/widget-ds-multiplevalues.js */
+
+  /*
+   * Copyright © 2016 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('myDsMultipleValues', function () {
+    return {
+      restrict: 'E',
+      scope: {
+        model: '=ngModel',
+        config: '='
+      },
+      templateUrl: 'widget-container/widget-ds-multiplevalues/widget-ds-multiplevalues.html',
+      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
+        $scope.valuesdelimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'values-delimiter') || ':';
+        $scope.delimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'delimiter') || ',';
+        $scope.numValues = myHelpers.objectQuery($scope.config, 'widget-attributes', 'numValues') || 2;
+        $scope.placeholders = myHelpers.objectQuery($scope.config, 'widget-attributes', 'placeholders') || [];
+        $scope.numValues = parseInt($scope.numValues, 10); // initializing
+
+        function initialize() {
+          var str = $scope.model;
+          $scope.properties = [];
+
+          if (!str) {
+            //intialize to one empty property
+            $scope.properties.push({
+              values: Array($scope.numValues).join('.').split('.')
+            });
+            return;
+          }
+
+          var arr = str.split($scope.delimiter);
+          angular.forEach(arr, function (a) {
+            var split = a.split($scope.valuesdelimiter);
+            $scope.properties.push({
+              values: split
+            });
+          });
+        }
+
+        initialize();
+        $scope.$watch('properties', function () {
+          var str = '';
+          angular.forEach($scope.properties, function (p) {
+            var isAnyEmptyValue = p.values.filter(function (val) {
+              return val.length === 0;
+            });
+
+            if (isAnyEmptyValue.length) {
+              return;
+            }
+
+            str = str + p.values.join($scope.valuesdelimiter) + $scope.delimiter;
+          }); // remove last delimiter
+
+          if (str.length > 0 && str.charAt(str.length - 1) === $scope.delimiter) {
+            str = str.substring(0, str.length - 1);
+          }
+
+          $scope.model = str;
+        }, true);
+
+        $scope.addProperty = function () {
+          $scope.properties.push({
+            values: Array($scope.numValues).join('.').split('.'),
+            newField: 'add'
+          });
+        };
+
+        $scope.removeProperty = function (property) {
+          var index = $scope.properties.indexOf(property);
+          $scope.properties.splice(index, 1);
+        };
+
+        $scope.enter = function (event, last) {
+          if (last && event.keyCode === 13) {
+            $scope.addProperty();
+          }
+        };
+      }]
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-dsv/widget-dsv.js */
+
+  /*
+   * Copyright © 2015 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('myDsv', function () {
+    return {
+      restrict: 'E',
+      scope: {
+        model: '=ngModel',
+        delimiter: '@',
+        type: '@',
+        config: '='
+      },
+      templateUrl: 'widget-container/widget-dsv/widget-dsv.html',
+      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
+        $scope.placeholder = myHelpers.objectQuery($scope.config, 'widget-attributes', 'value-placeholder') || 'value';
+        var delimiter = $scope.delimiter || ','; // initializing
+
+        function initialize() {
+          var str = $scope.model;
+          $scope.properties = [];
+
+          if (!str) {
+            // initialize with empty value
+            $scope.properties.push({
+              value: ''
+            });
+            return;
+          }
+
+          var arr = str.split(delimiter);
+          angular.forEach(arr, function (a) {
+            $scope.properties.push({
+              value: a
+            });
+          });
+        }
+
+        initialize();
+        var propertyListener = $scope.$watch('properties', function () {
+          var str = '';
+          angular.forEach($scope.properties, function (p) {
+            if (p.value) {
+              str = str + p.value + delimiter;
+            }
+          }); // remove last delimiter
+
+          if (str.length > 0 && str.charAt(str.length - 1) === delimiter) {
+            str = str.substring(0, str.length - 1);
+          }
+
+          $scope.model = str;
+        }, true);
+        $scope.$on('$destroy', function () {
+          propertyListener();
+        });
+
+        $scope.addProperty = function () {
+          $scope.properties.push({
+            value: '',
+            newField: 'add'
+          });
+        };
+
+        $scope.removeProperty = function (property) {
+          var index = $scope.properties.indexOf(property);
+          $scope.properties.splice(index, 1);
+        };
+
+        $scope.enter = function (event, last) {
+          if (last && event.keyCode === 13) {
+            $scope.addProperty();
+          }
+        };
       }]
     };
   });
@@ -8244,6 +8343,96 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /widget-multi-select-dropdown/widget-multi-select-dropdown.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+  */
+  angular.module(PKG.name + '.commons').directive('myMultiSelectDropdown', function () {
+    return {
+      restrict: 'E',
+      scope: {
+        model: '=ngModel',
+        config: '='
+      },
+      templateUrl: 'widget-container/widget-multi-select-dropdown/widget-multi-select-dropdown.html',
+      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
+        $scope.extraSettings = {
+          externalProp: '',
+          checkBoxes: true
+        };
+        $scope.selectedOptions = [];
+        $scope.delimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'delimiter') || ',';
+        $scope.options = myHelpers.objectQuery($scope.config, 'widget-attributes', 'options') || [];
+        $scope.options = $scope.options.map(function (option) {
+          return {
+            id: option.id,
+            label: option.label || option.id
+          };
+        });
+        var defaultValue = myHelpers.objectQuery($scope.config, 'widget-attributes', 'defaultValue') || [];
+
+        if ($scope.model) {
+          $scope.model.split($scope.delimiter).forEach(function (value) {
+            var valueInOption = $scope.options.find(function (op) {
+              return op.id === value;
+            });
+
+            if (valueInOption) {
+              $scope.selectedOptions.push(valueInOption);
+            } else {
+              var unknownValue = {
+                id: value,
+                label: 'UnKnown Value (' + value + '). Not part of options'
+              };
+              $scope.options.push(unknownValue);
+              $scope.selectedOptions.push(unknownValue);
+            }
+          });
+        } else {
+          var defaultOption;
+          defaultOption = defaultValue.map(function (value) {
+            return $scope.options.find(function (op) {
+              return op.id === value;
+            });
+          }).filter(function (value) {
+            return value;
+          });
+
+          if (defaultOption.length) {
+            $scope.selectedOptions = $scope.selectedOptions.concat(defaultOption);
+          }
+        }
+
+        $scope.$watch('selectedOptions', function () {
+          $scope.model = $scope.selectedOptions.map(function (o) {
+            return o.id;
+          }).join($scope.delimiter);
+        }, true);
+      }]
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /widget-number/widget-number.js */
 
   /*
@@ -8358,96 +8547,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
           $scope.internalModel = parseInt($scope.model, 10);
           checkForBounds($scope.internalModel);
         });
-      }]
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /widget-multi-select-dropdown/widget-multi-select-dropdown.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-  */
-  angular.module(PKG.name + '.commons').directive('myMultiSelectDropdown', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        model: '=ngModel',
-        config: '='
-      },
-      templateUrl: 'widget-container/widget-multi-select-dropdown/widget-multi-select-dropdown.html',
-      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
-        $scope.extraSettings = {
-          externalProp: '',
-          checkBoxes: true
-        };
-        $scope.selectedOptions = [];
-        $scope.delimiter = myHelpers.objectQuery($scope.config, 'widget-attributes', 'delimiter') || ',';
-        $scope.options = myHelpers.objectQuery($scope.config, 'widget-attributes', 'options') || [];
-        $scope.options = $scope.options.map(function (option) {
-          return {
-            id: option.id,
-            label: option.label || option.id
-          };
-        });
-        var defaultValue = myHelpers.objectQuery($scope.config, 'widget-attributes', 'defaultValue') || [];
-
-        if ($scope.model) {
-          $scope.model.split($scope.delimiter).forEach(function (value) {
-            var valueInOption = $scope.options.find(function (op) {
-              return op.id === value;
-            });
-
-            if (valueInOption) {
-              $scope.selectedOptions.push(valueInOption);
-            } else {
-              var unknownValue = {
-                id: value,
-                label: 'UnKnown Value (' + value + '). Not part of options'
-              };
-              $scope.options.push(unknownValue);
-              $scope.selectedOptions.push(unknownValue);
-            }
-          });
-        } else {
-          var defaultOption;
-          defaultOption = defaultValue.map(function (value) {
-            return $scope.options.find(function (op) {
-              return op.id === value;
-            });
-          }).filter(function (value) {
-            return value;
-          });
-
-          if (defaultOption.length) {
-            $scope.selectedOptions = $scope.selectedOptions.concat(defaultOption);
-          }
-        }
-
-        $scope.$watch('selectedOptions', function () {
-          $scope.model = $scope.selectedOptions.map(function (o) {
-            return o.id;
-          }).join($scope.delimiter);
-        }, true);
       }]
     };
   });
@@ -8607,6 +8706,48 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
+  /* /widget-password/widget-password.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  angular.module(PKG.name + '.commons').directive('myPassword', function () {
+    return {
+      restrict: 'E',
+      scope: {
+        model: '=ngModel'
+      },
+      templateUrl: 'widget-container/widget-password/widget-password.html',
+      controller: ["$scope", function controller($scope) {
+        $scope.elementType = 'password';
+
+        $scope.togglePassword = function () {
+          $scope.elementType = $scope.elementType === 'text' ? 'password' : 'text';
+        };
+      }]
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
   /* /widget-radio-group/widget-radio-group.js */
 
   /*
@@ -8668,48 +8809,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
             label: option.label || option.id
           };
         });
-      }]
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /widget-password/widget-password.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.commons').directive('myPassword', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        model: '=ngModel'
-      },
-      templateUrl: 'widget-container/widget-password/widget-password.html',
-      controller: ["$scope", function controller($scope) {
-        $scope.elementType = 'password';
-
-        $scope.togglePassword = function () {
-          $scope.elementType = $scope.elementType === 'text' ? 'password' : 'text';
-        };
       }]
     };
   });
@@ -8877,6 +8976,205 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
           $scope.model = schedule;
         }, true);
       }]
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-sql-conditions/widget-sql-conditions.js */
+
+  /*
+   * Copyright © 2016 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  function SqlConditionsController() {
+    'ngInject';
+
+    var vm = this;
+    vm.rules = [];
+    vm.mapInputSchema = {};
+    vm.stageList = [];
+    vm.error = null;
+    /**
+     * FIXME: CDAP-14999
+     * This exists as a stopgap solution when user clicks on generate schema on joiner plugin
+     * where the input stages have either & or . or = in their name.
+     * The right fix is to fix it in backend.
+     */
+
+    vm.checkRulesForValidStageNames = function () {
+      var invalidRule = /[&\.=]/g;
+      var invalidStageNames = [];
+      angular.forEach(vm.rules, function (rule) {
+        var invalidStageName = rule.filter(function (field) {
+          return invalidRule.test(field.stageName);
+        });
+
+        if (invalidStageName.length) {
+          invalidStageNames = invalidStageNames.concat(invalidStageName.map(function (stage) {
+            return stage.stageName;
+          }));
+        }
+      });
+
+      if (invalidStageNames.length) {
+        vm.error = 'Invalid name for input ' + (invalidStageNames.length > 1 ? 'nodes' : 'node') + ': ' + invalidStageNames.map(function (sn) {
+          return JSON.stringify(sn);
+        }).join(', ') + '. \n Node names cannot contain "&" "=" "."';
+      }
+
+      return vm.error && vm.error.length;
+    };
+
+    vm.formatOutput = function () {
+      vm.checkRulesForValidStageNames();
+
+      if (vm.stageList.length < 2) {
+        vm.model = '';
+        return;
+      }
+
+      var outputArr = [];
+      angular.forEach(vm.rules, function (rule) {
+        var ruleCheck = rule.filter(function (field) {
+          return !field.fieldName;
+        });
+
+        if (ruleCheck.length > 0) {
+          return;
+        }
+
+        var ruleArr = rule.map(function (field) {
+          return field.stageName + '.' + field.fieldName;
+        });
+        var output = ruleArr.join(' = ');
+        outputArr.push(output);
+      });
+      vm.model = outputArr.join(' & ');
+    };
+
+    vm.addRule = function () {
+      if (vm.stageList.length === 0) {
+        return;
+      }
+
+      var arr = [];
+      angular.forEach(vm.stageList, function (stage) {
+        arr.push({
+          stageName: stage,
+          fieldName: vm.mapInputSchema[stage][0]
+        });
+      });
+      vm.rules.push(arr);
+      vm.formatOutput();
+    };
+
+    vm.deleteRule = function (index) {
+      vm.rules.splice(index, 1);
+      vm.formatOutput();
+    };
+
+    function initializeOptions() {
+      angular.forEach(vm.inputSchema, function (input) {
+        vm.stageList.push(input.name);
+
+        try {
+          vm.mapInputSchema[input.name] = JSON.parse(input.schema).fields.map(function (field) {
+            return field.name;
+          });
+        } catch (e) {
+          console.log('ERROR: ', e);
+          vm.error = 'Error parsing input schemas.';
+          vm.mapInputSchema[input.name] = [];
+        }
+      });
+
+      if (vm.stageList.length < 2) {
+        vm.error = 'Please connect 2 or more stages.';
+      }
+    }
+
+    function init() {
+      initializeOptions();
+
+      if (!vm.model) {
+        vm.addRule();
+        return;
+      }
+
+      var modelSplit = vm.model.split('&').map(function (rule) {
+        return rule.trim();
+      });
+      angular.forEach(modelSplit, function (rule) {
+        var rulesArr = [];
+        angular.forEach(rule.split('='), function (field) {
+          var splitField = field.trim().split('.'); // Not including rule if stage has been disconnected
+
+          if (vm.stageList.indexOf(splitField[0]) === -1) {
+            return;
+          }
+
+          rulesArr.push({
+            stageName: splitField[0],
+            fieldName: splitField[1]
+          });
+        }); // Missed fields scenario will happen if the user connects more stages into the join node
+        // after they have configured join conditions previously
+
+        var missedFields = vm.stageList.filter(function (stage) {
+          var filteredRule = rulesArr.filter(function (field) {
+            return field.stageName === stage;
+          });
+          return filteredRule.length === 0 ? true : false;
+        });
+
+        if (missedFields.length > 0) {
+          angular.forEach(missedFields, function (field) {
+            rulesArr.push({
+              stageName: field,
+              fieldName: vm.mapInputSchema[field][0]
+            });
+          });
+          vm.warning = 'Input stages have changed since the last time you edit this node\'s configuration. Please verify the condition is still valid.';
+        }
+
+        vm.rules.push(rulesArr);
+      });
+      vm.formatOutput();
+    }
+
+    init();
+  }
+
+  angular.module(PKG.name + '.commons').directive('mySqlConditions', function () {
+    return {
+      restrict: 'E',
+      templateUrl: 'widget-container/widget-sql-conditions/widget-sql-conditions.html',
+      bindToController: true,
+      scope: {
+        model: '=ngModel',
+        inputSchema: '=',
+        disabled: '='
+      },
+      controller: SqlConditionsController,
+      controllerAs: 'SqlConditions'
     };
   });
 })({
@@ -9295,276 +9593,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 };
 
 (function (PKG) {
-  /* /widget-sql-conditions/widget-sql-conditions.js */
-
-  /*
-   * Copyright © 2016 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  function SqlConditionsController() {
-    'ngInject';
-
-    var vm = this;
-    vm.rules = [];
-    vm.mapInputSchema = {};
-    vm.stageList = [];
-    vm.error = null;
-    /**
-     * FIXME: CDAP-14999
-     * This exists as a stopgap solution when user clicks on generate schema on joiner plugin
-     * where the input stages have either & or . or = in their name.
-     * The right fix is to fix it in backend.
-     */
-
-    vm.checkRulesForValidStageNames = function () {
-      var invalidRule = /[&\.=]/g;
-      var invalidStageNames = [];
-      angular.forEach(vm.rules, function (rule) {
-        var invalidStageName = rule.filter(function (field) {
-          return invalidRule.test(field.stageName);
-        });
-
-        if (invalidStageName.length) {
-          invalidStageNames = invalidStageNames.concat(invalidStageName.map(function (stage) {
-            return stage.stageName;
-          }));
-        }
-      });
-
-      if (invalidStageNames.length) {
-        vm.error = 'Invalid name for input ' + (invalidStageNames.length > 1 ? 'nodes' : 'node') + ': ' + invalidStageNames.map(function (sn) {
-          return JSON.stringify(sn);
-        }).join(', ') + '. \n Node names cannot contain "&" "=" "."';
-      }
-
-      return vm.error && vm.error.length;
-    };
-
-    vm.formatOutput = function () {
-      vm.checkRulesForValidStageNames();
-
-      if (vm.stageList.length < 2) {
-        vm.model = '';
-        return;
-      }
-
-      var outputArr = [];
-      angular.forEach(vm.rules, function (rule) {
-        var ruleCheck = rule.filter(function (field) {
-          return !field.fieldName;
-        });
-
-        if (ruleCheck.length > 0) {
-          return;
-        }
-
-        var ruleArr = rule.map(function (field) {
-          return field.stageName + '.' + field.fieldName;
-        });
-        var output = ruleArr.join(' = ');
-        outputArr.push(output);
-      });
-      vm.model = outputArr.join(' & ');
-    };
-
-    vm.addRule = function () {
-      if (vm.stageList.length === 0) {
-        return;
-      }
-
-      var arr = [];
-      angular.forEach(vm.stageList, function (stage) {
-        arr.push({
-          stageName: stage,
-          fieldName: vm.mapInputSchema[stage][0]
-        });
-      });
-      vm.rules.push(arr);
-      vm.formatOutput();
-    };
-
-    vm.deleteRule = function (index) {
-      vm.rules.splice(index, 1);
-      vm.formatOutput();
-    };
-
-    function initializeOptions() {
-      angular.forEach(vm.inputSchema, function (input) {
-        vm.stageList.push(input.name);
-
-        try {
-          vm.mapInputSchema[input.name] = JSON.parse(input.schema).fields.map(function (field) {
-            return field.name;
-          });
-        } catch (e) {
-          console.log('ERROR: ', e);
-          vm.error = 'Error parsing input schemas.';
-          vm.mapInputSchema[input.name] = [];
-        }
-      });
-
-      if (vm.stageList.length < 2) {
-        vm.error = 'Please connect 2 or more stages.';
-      }
-    }
-
-    function init() {
-      initializeOptions();
-
-      if (!vm.model) {
-        vm.addRule();
-        return;
-      }
-
-      var modelSplit = vm.model.split('&').map(function (rule) {
-        return rule.trim();
-      });
-      angular.forEach(modelSplit, function (rule) {
-        var rulesArr = [];
-        angular.forEach(rule.split('='), function (field) {
-          var splitField = field.trim().split('.'); // Not including rule if stage has been disconnected
-
-          if (vm.stageList.indexOf(splitField[0]) === -1) {
-            return;
-          }
-
-          rulesArr.push({
-            stageName: splitField[0],
-            fieldName: splitField[1]
-          });
-        }); // Missed fields scenario will happen if the user connects more stages into the join node
-        // after they have configured join conditions previously
-
-        var missedFields = vm.stageList.filter(function (stage) {
-          var filteredRule = rulesArr.filter(function (field) {
-            return field.stageName === stage;
-          });
-          return filteredRule.length === 0 ? true : false;
-        });
-
-        if (missedFields.length > 0) {
-          angular.forEach(missedFields, function (field) {
-            rulesArr.push({
-              stageName: field,
-              fieldName: vm.mapInputSchema[field][0]
-            });
-          });
-          vm.warning = 'Input stages have changed since the last time you edit this node\'s configuration. Please verify the condition is still valid.';
-        }
-
-        vm.rules.push(rulesArr);
-      });
-      vm.formatOutput();
-    }
-
-    init();
-  }
-
-  angular.module(PKG.name + '.commons').directive('mySqlConditions', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'widget-container/widget-sql-conditions/widget-sql-conditions.html',
-      bindToController: true,
-      scope: {
-        model: '=ngModel',
-        inputSchema: '=',
-        disabled: '='
-      },
-      controller: SqlConditionsController,
-      controllerAs: 'SqlConditions'
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /widget-textarea-validate/widget-textarea-validate.js */
-
-  /*
-   * Copyright © 2017 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  TextareaValidateController.$inject = ["$state", "myPipelineApi", "myHelpers"];
-  function TextareaValidateController($state, myPipelineApi, myHelpers) {
-    var vm = this;
-    var methodName = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-endpoint');
-    vm.placeholder = myHelpers.objectQuery(vm.config, 'widget-attributes', 'placeholder');
-    vm.buttonText = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-button-text') || 'Validate';
-    var successMessage = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-success-message') || 'Valid';
-    vm.warning = '';
-    vm.success = '';
-
-    vm.validate = function () {
-      var params = {
-        namespace: $state.params.namespace,
-        artifactName: vm.node.plugin.artifact.name,
-        version: vm.node.plugin.artifact.version,
-        pluginType: vm.node.type,
-        pluginName: vm.node.plugin.name,
-        methodName: methodName,
-        scope: vm.node.plugin.artifact.scope
-      }; // May need to be more specific to the api method
-
-      myPipelineApi.postPluginMethod(params, vm.node.plugin.properties).$promise.then(function () {
-        vm.warning = '';
-        vm.success = successMessage;
-      }, function (err) {
-        vm.warning = err.data || err;
-        vm.success = '';
-      });
-    };
-  }
-
-  angular.module(PKG.name + '.commons').directive('myTextareaValidate', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'widget-container/widget-textarea-validate/widget-textarea-validate.html',
-      bindToController: true,
-      scope: {
-        model: '=ngModel',
-        config: '=',
-        node: '='
-      },
-      controller: TextareaValidateController,
-      controllerAs: 'TextareaValidate'
-    };
-  });
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
   /* /widget-sql-select-fields/widget-sql-select-fields.js */
 
   /*
@@ -9723,6 +9751,77 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
       },
       controller: SqlSelectorController,
       controllerAs: 'SqlSelector'
+    };
+  });
+})({
+  "name": "cdap-ui",
+  "v": "6.2.0"
+});
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
+  return a;
+};
+
+(function (PKG) {
+  /* /widget-textarea-validate/widget-textarea-validate.js */
+
+  /*
+   * Copyright © 2017 Cask Data, Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   * use this file except in compliance with the License. You may obtain a copy of
+   * the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   * License for the specific language governing permissions and limitations under
+   * the License.
+   */
+  TextareaValidateController.$inject = ["$state", "myPipelineApi", "myHelpers"];
+  function TextareaValidateController($state, myPipelineApi, myHelpers) {
+    var vm = this;
+    var methodName = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-endpoint');
+    vm.placeholder = myHelpers.objectQuery(vm.config, 'widget-attributes', 'placeholder');
+    vm.buttonText = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-button-text') || 'Validate';
+    var successMessage = myHelpers.objectQuery(vm.config, 'widget-attributes', 'validate-success-message') || 'Valid';
+    vm.warning = '';
+    vm.success = '';
+
+    vm.validate = function () {
+      var params = {
+        namespace: $state.params.namespace,
+        artifactName: vm.node.plugin.artifact.name,
+        version: vm.node.plugin.artifact.version,
+        pluginType: vm.node.type,
+        pluginName: vm.node.plugin.name,
+        methodName: methodName,
+        scope: vm.node.plugin.artifact.scope
+      }; // May need to be more specific to the api method
+
+      myPipelineApi.postPluginMethod(params, vm.node.plugin.properties).$promise.then(function () {
+        vm.warning = '';
+        vm.success = successMessage;
+      }, function (err) {
+        vm.warning = err.data || err;
+        vm.success = '';
+      });
+    };
+  }
+
+  angular.module(PKG.name + '.commons').directive('myTextareaValidate', function () {
+    return {
+      restrict: 'E',
+      templateUrl: 'widget-container/widget-textarea-validate/widget-textarea-validate.html',
+      bindToController: true,
+      scope: {
+        model: '=ngModel',
+        config: '=',
+        node: '='
+      },
+      controller: TextareaValidateController,
+      controllerAs: 'TextareaValidate'
     };
   });
 })({
@@ -9939,105 +10038,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
   }();
 
   angular.module(PKG.name + '.commons').controller('WranglerModalController', WranglerModalController);
-})({
-  "name": "cdap-ui",
-  "v": "6.2.0"
-});
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal["default"].signature : function (a) {
-  return a;
-};
-
-(function (PKG) {
-  /* /widget-dsv/widget-dsv.js */
-
-  /*
-   * Copyright © 2015 Cask Data, Inc.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-   * use this file except in compliance with the License. You may obtain a copy of
-   * the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-   * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-   * License for the specific language governing permissions and limitations under
-   * the License.
-   */
-  angular.module(PKG.name + '.commons').directive('myDsv', function () {
-    return {
-      restrict: 'E',
-      scope: {
-        model: '=ngModel',
-        delimiter: '@',
-        type: '@',
-        config: '='
-      },
-      templateUrl: 'widget-container/widget-dsv/widget-dsv.html',
-      controller: ["$scope", "myHelpers", function controller($scope, myHelpers) {
-        $scope.placeholder = myHelpers.objectQuery($scope.config, 'widget-attributes', 'value-placeholder') || 'value';
-        var delimiter = $scope.delimiter || ','; // initializing
-
-        function initialize() {
-          var str = $scope.model;
-          $scope.properties = [];
-
-          if (!str) {
-            // initialize with empty value
-            $scope.properties.push({
-              value: ''
-            });
-            return;
-          }
-
-          var arr = str.split(delimiter);
-          angular.forEach(arr, function (a) {
-            $scope.properties.push({
-              value: a
-            });
-          });
-        }
-
-        initialize();
-        var propertyListener = $scope.$watch('properties', function () {
-          var str = '';
-          angular.forEach($scope.properties, function (p) {
-            if (p.value) {
-              str = str + p.value + delimiter;
-            }
-          }); // remove last delimiter
-
-          if (str.length > 0 && str.charAt(str.length - 1) === delimiter) {
-            str = str.substring(0, str.length - 1);
-          }
-
-          $scope.model = str;
-        }, true);
-        $scope.$on('$destroy', function () {
-          propertyListener();
-        });
-
-        $scope.addProperty = function () {
-          $scope.properties.push({
-            value: '',
-            newField: 'add'
-          });
-        };
-
-        $scope.removeProperty = function (property) {
-          var index = $scope.properties.indexOf(property);
-          $scope.properties.splice(index, 1);
-        };
-
-        $scope.enter = function (event, last) {
-          if (last && event.keyCode === 13) {
-            $scope.addProperty();
-          }
-        };
-      }]
-    };
-  });
 })({
   "name": "cdap-ui",
   "v": "6.2.0"
